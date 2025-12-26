@@ -132,10 +132,12 @@ export default function StaffAdmin() {
     return players.find(p => p.id === playerId);
   };
 
-  const filteredPlayers = players.filter(player =>
-    player.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    player.robloxId?.toString().includes(searchQuery)
-  );
+  const filteredPlayers = players.filter(player => {
+    if (!searchQuery) return true;
+    const nameMatch = player.name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ?? false;
+    const idMatch = player.robloxId?.toString()?.includes(searchQuery) ?? false;
+    return nameMatch || idMatch;
+  });
 
   const groupedStaff = staff.reduce((acc: any, member) => {
     if (!acc[member.role]) {
