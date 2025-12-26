@@ -12,8 +12,8 @@ interface StaffMember {
 
 interface Player {
   id: string;
-  name: string;
-  robloxId: number;
+  displayName: string;
+  robloxUserId: number;
 }
 
 const ALL_ROLES = [
@@ -134,8 +134,8 @@ export default function StaffAdmin() {
 
   const filteredPlayers = players.filter(player => {
     if (!searchQuery) return true;
-    const nameMatch = player.name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ?? false;
-    const idMatch = player.robloxId?.toString()?.includes(searchQuery) ?? false;
+    const nameMatch = player.displayName?.toLowerCase()?.includes(searchQuery.toLowerCase()) ?? false;
+    const idMatch = player.robloxUserId?.toString()?.includes(searchQuery) ?? false;
     return nameMatch || idMatch;
   });
 
@@ -206,21 +206,21 @@ export default function StaffAdmin() {
                         selectedPlayerId === player.id ? 'bg-blue-50 dark:bg-blue-900' : ''
                       }`}
                     >
-                      {player.robloxId ? (
+                      {player.robloxUserId ? (
                         <img
-                          src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=48x48&format=Png&isCircular=true`}
-                          alt={player.name || 'Player'}
+                          src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxUserId}&size=48x48&format=Png&isCircular=true`}
+                          alt={player.displayName || 'Player'}
                           className="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-600"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full mr-3 bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
-                          {player.name?.charAt(0) || '?'}
+                          {player.displayName?.charAt(0) || '?'}
                         </div>
                       )}
                       <div className="flex flex-col">
-                        <span className="text-gray-900 dark:text-white font-medium">{player.name || 'Unknown'}</span>
-                        {player.robloxId && (
-                          <span className="text-xs text-gray-500 dark:text-gray-400">ID: {player.robloxId}</span>
+                        <span className="text-gray-900 dark:text-white font-medium">{player.displayName || 'Unknown'}</span>
+                        {player.robloxUserId && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400">ID: {player.robloxUserId}</span>
                         )}
                       </div>
                     </div>
@@ -290,12 +290,12 @@ export default function StaffAdmin() {
                   >
                     <div className="flex items-center space-x-3">
                       <img
-                        src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=48x48&format=Png&isCircular=true`}
-                        alt={player.name}
+                        src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxUserId}&size=48x48&format=Png&isCircular=true`}
+                        alt={player.displayName}
                         className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600"
                       />
                       <span className="text-gray-900 dark:text-white font-medium">
-                        {player.name}
+                        {player.displayName}
                       </span>
                     </div>
                     <button
