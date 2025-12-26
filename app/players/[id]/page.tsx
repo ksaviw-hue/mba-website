@@ -293,9 +293,9 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
           <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Recent Games</h2>
           <div className="space-y-3">
             {player.gameStats
-              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
               .slice(0, 10)
-              .map((game) => (
+              .map((game: any) => (
                 <div
                   key={game.id}
                   className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
