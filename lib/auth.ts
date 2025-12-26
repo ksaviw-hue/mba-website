@@ -2,11 +2,15 @@ import { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
 // List of Discord user IDs that have admin access
-const ADMIN_DISCORD_IDS = (process.env.ADMIN_DISCORD_IDS || "").split(",").filter(Boolean);
+const ADMIN_DISCORD_IDS = (process.env.ADMIN_DISCORD_IDS || "")
+  .split(",")
+  .map(id => id.trim())
+  .filter(Boolean);
 
 // Debug: Log environment variables (remove this after debugging)
 console.log("Discord Client ID:", process.env.DISCORD_CLIENT_ID);
 console.log("Admin IDs:", ADMIN_DISCORD_IDS);
+console.log("Raw Admin IDs env:", process.env.ADMIN_DISCORD_IDS);
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -21,6 +25,8 @@ export const authOptions: NextAuthOptions = {
       // Only allow sign in if the user's Discord ID is in the admin list
       if (account?.provider === "discord") {
         const discordId = account.providerAccountId;
+        console.log("Attempting sign in with Discord ID:", discordId);
+        console.log("Is admin?", ADMIN_DISCORD_IDS.includes(discordId));
         return ADMIN_DISCORD_IDS.includes(discordId);
       }
       return false;
