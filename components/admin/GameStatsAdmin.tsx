@@ -696,7 +696,7 @@ export default function GameStatsAdmin() {
                   {isExpanded && (
                     <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                       <div className="p-4 space-y-3">
-                        {gameStatsForGame.map((stat) => {
+                        {gameStatsForGame.map((stat: any) => {
                           const player = players.find(p => p.id === stat.playerId);
                           return (
                             <div
@@ -829,7 +829,7 @@ export default function GameStatsAdmin() {
               {expandedGames.has('no-game') && (
                 <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                   <div className="p-4 space-y-3">
-                    {statsByGame['no-game'].map((stat) => {
+                    {statsByGame['no-game'].map((stat: any) => {
                       const player = players.find(p => p.id === stat.playerId);
                       return (
                         <div
