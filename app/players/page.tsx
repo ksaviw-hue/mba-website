@@ -118,7 +118,7 @@ export default function PlayersPage() {
                 {/* Roles */}
                 {player.roles.length > 0 && (
                   <div className="flex flex-wrap gap-1 mb-3">
-                    {player.roles.map((role) => (
+                    {player.roles.map((role: string) => (
                       <span
                         key={role}
                         className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-gray-700 dark:text-gray-300"

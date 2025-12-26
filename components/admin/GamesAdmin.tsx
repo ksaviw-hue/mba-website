@@ -16,8 +16,8 @@ export default function GamesAdmin() {
   const [awayTeamId, setAwayTeamId] = useState('');
   const [scheduledDate, setScheduledDate] = useState('');
   const [status, setStatus] = useState<'scheduled' | 'completed'>('scheduled');
-  const [homeScore, setHomeScore] = useState(0);
-  const [awayScore, setAwayScore] = useState(0);
+  const [homeScore, setHomeScore] = useState<number | string>(0);
+  const [awayScore, setAwayScore] = useState<number | string>(0);
   const [season, setSeason] = useState(LEAGUE_CONFIG.CURRENT_SEASON.toString());
 
   // Fetch games and teams on mount
@@ -73,8 +73,8 @@ export default function GamesAdmin() {
           awayTeamId,
           scheduledDate,
           status,
-          homeScore: homeScore ? parseInt(homeScore) : undefined,
-          awayScore: awayScore ? parseInt(awayScore) : undefined,
+          homeScore: homeScore ? parseInt(homeScore.toString()) : undefined,
+          awayScore: awayScore ? parseInt(awayScore.toString()) : undefined,
           season,
         }),
       });
