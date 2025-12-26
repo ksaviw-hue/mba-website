@@ -10,6 +10,30 @@ export const metadata: Metadata = {
   icons: {
     icon: '/logo.png',
   },
+  metadataBase: new URL('https://www.ebassociation.com'),
+  openGraph: {
+    title: "Elite Basketball Association",
+    description: "Official website of the Elite Basketball Association - Premier Roblox basketball league",
+    url: 'https://www.ebassociation.com',
+    siteName: 'Elite Basketball Association',
+    images: [
+      {
+        url: '/logo.png',
+        width: 512,
+        height: 512,
+        alt: 'EBA Logo',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: "Elite Basketball Association",
+    description: "Official website of the Elite Basketball Association - Premier Roblox basketball league",
+    images: ['/logo.png'],
+  },
+  themeColor: '#3B82F6',
 };
 
 export default function RootLayout({
