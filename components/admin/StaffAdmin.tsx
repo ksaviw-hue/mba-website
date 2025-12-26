@@ -204,10 +204,7 @@ export default function StaffAdmin() {
                     <img
                       src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=48x48&format=Png&isCircular=true`}
                       alt={player.name}
-                      className="w-10 h-10 rounded-full mr-3"
-                      onError={(e) => {
-                        e.currentTarget.src = '/default-avatar.png';
-                      }}
+                      className="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-600"
                     />
                     <span className="text-gray-900 dark:text-white">{player.name}</span>
                   </div>
@@ -278,10 +275,7 @@ export default function StaffAdmin() {
                       <img
                         src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=48x48&format=Png&isCircular=true`}
                         alt={player.name}
-                        className="w-10 h-10 rounded-full"
-                        onError={(e) => {
-                          e.currentTarget.src = '/default-avatar.png';
-                        }}
+                        className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600"
                       />
                       <span className="text-gray-900 dark:text-white font-medium">
                         {player.name}
