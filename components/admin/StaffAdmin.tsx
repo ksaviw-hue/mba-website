@@ -193,22 +193,39 @@ export default function StaffAdmin() {
                 Select Player
               </label>
               <div className="max-h-48 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg">
-                {filteredPlayers.map(player => (
-                  <div
-                    key={player.id}
-                    onClick={() => setSelectedPlayerId(player.id)}
-                    className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                      selectedPlayerId === player.id ? 'bg-blue-50 dark:bg-blue-900' : ''
-                    }`}
-                  >
-                    <img
-                      src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=48x48&format=Png&isCircular=true`}
-                      alt={player.name}
-                      className="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-600"
-                    />
-                    <span className="text-gray-900 dark:text-white">{player.name}</span>
+                {filteredPlayers.length === 0 ? (
+                  <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                    {players.length === 0 ? 'Loading players...' : 'No players found'}
                   </div>
-                ))}
+                ) : (
+                  filteredPlayers.map(player => (
+                    <div
+                      key={player.id}
+                      onClick={() => setSelectedPlayerId(player.id)}
+                      className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                        selectedPlayerId === player.id ? 'bg-blue-50 dark:bg-blue-900' : ''
+                      }`}
+                    >
+                      {player.robloxId ? (
+                        <img
+                          src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=48x48&format=Png&isCircular=true`}
+                          alt={player.name || 'Player'}
+                          className="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-600"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full mr-3 bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
+                          {player.name?.charAt(0) || '?'}
+                        </div>
+                      )}
+                      <div className="flex flex-col">
+                        <span className="text-gray-900 dark:text-white font-medium">{player.name || 'Unknown'}</span>
+                        {player.robloxId && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400">ID: {player.robloxId}</span>
+                        )}
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
