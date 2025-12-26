@@ -13,7 +13,9 @@ interface StaffMember {
 interface Player {
   id: string;
   displayName: string;
+  robloxUsername: string;
   robloxUserId: number;
+  profilePicture: string;
 }
 
 const ALL_ROLES = [
@@ -206,11 +208,11 @@ export default function StaffAdmin() {
                         selectedPlayerId === player.id ? 'bg-blue-50 dark:bg-blue-900' : ''
                       }`}
                     >
-                      {player.robloxUserId ? (
+                      {player.profilePicture ? (
                         <img
-                          src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxUserId}&size=48x48&format=Png&isCircular=true`}
+                          src={player.profilePicture}
                           alt={player.displayName || 'Player'}
-                          className="w-10 h-10 rounded-full mr-3 bg-gray-200 dark:bg-gray-600"
+                          className="w-10 h-10 rounded-full mr-3 object-cover"
                         />
                       ) : (
                         <div className="w-10 h-10 rounded-full mr-3 bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
@@ -219,9 +221,7 @@ export default function StaffAdmin() {
                       )}
                       <div className="flex flex-col">
                         <span className="text-gray-900 dark:text-white font-medium">{player.displayName || 'Unknown'}</span>
-                        {player.robloxUserId && (
-                          <span className="text-xs text-gray-500 dark:text-gray-400">ID: {player.robloxUserId}</span>
-                        )}
+                        <span className="text-xs text-gray-500 dark:text-gray-400">@{player.robloxUsername}</span>
                       </div>
                     </div>
                   ))
@@ -289,11 +289,17 @@ export default function StaffAdmin() {
                     className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
                   >
                     <div className="flex items-center space-x-3">
-                      <img
-                        src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxUserId}&size=48x48&format=Png&isCircular=true`}
-                        alt={player.displayName}
-                        className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600"
-                      />
+                      {player.profilePicture ? (
+                        <img
+                          src={player.profilePicture}
+                          alt={player.displayName}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
+                          {player.displayName?.charAt(0) || '?'}
+                        </div>
+                      )}
                       <span className="text-gray-900 dark:text-white font-medium">
                         {player.displayName}
                       </span>
