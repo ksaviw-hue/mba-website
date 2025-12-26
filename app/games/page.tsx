@@ -136,7 +136,8 @@ export default function GamesPage() {
                           {gameDate.toLocaleTimeString('en-US', {
                             hour: 'numeric',
                             minute: '2-digit',
-                          })}
+                            timeZone: 'America/New_York',
+                          })} EST
                         </span>
                       </>
                     )}

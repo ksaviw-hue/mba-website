@@ -215,7 +215,7 @@ export default function GamesAdmin() {
 
             <div>
               <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Date & Time *
+                Date & Time (EST) *
               </label>
               <input
                 type="datetime-local"
@@ -223,6 +223,7 @@ export default function GamesAdmin() {
                 onChange={(e) => setScheduledDate(e.target.value)}
                 className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
               />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Enter time in Eastern Standard Time</p>
             </div>
 
             <div>
