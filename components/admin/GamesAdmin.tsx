@@ -15,7 +15,7 @@ export default function GamesAdmin() {
   const [homeTeamId, setHomeTeamId] = useState('');
   const [awayTeamId, setAwayTeamId] = useState('');
   const [scheduledDate, setScheduledDate] = useState('');
-  const [status, setStatus] = useState<'scheduled' | 'completed'>('scheduled');
+  const [status, setStatus] = useState<'scheduled' | 'completed' | 'live'>('scheduled');
   const [homeScore, setHomeScore] = useState<number | string>(0);
   const [awayScore, setAwayScore] = useState<number | string>(0);
   const [season, setSeason] = useState(LEAGUE_CONFIG.CURRENT_SEASON.toString());
