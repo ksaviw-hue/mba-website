@@ -6,15 +6,15 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Elite Basketball Association",
-  description: "Official website of the Elite Basketball Association - Premier Roblox basketball league",
+  description: "Official website of the Elite Basketball Association - The Most Competitive Roblox basketball league",
   icons: {
     icon: '/logo.png',
   },
-  metadataBase: new URL('https://www.ebassociation.com'),
+  metadataBase: new URL('https://ebassociation.com'),
   openGraph: {
     title: "Elite Basketball Association",
-    description: "Official website of the Elite Basketball Association - Premier Roblox basketball league",
-    url: 'https://www.ebassociation.com',
+    description: "Official website of the Elite Basketball Association - The Most Competitive Roblox basketball league",
+    url: 'https://ebassociation.com',
     siteName: 'Elite Basketball Association',
     images: [
       {
