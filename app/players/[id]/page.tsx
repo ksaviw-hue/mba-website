@@ -126,7 +126,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
 
             {/* Roles */}
             <div className="flex flex-wrap gap-2 justify-center md:justify-start mt-3">
-              {player.roles.map((role) => (
+              {player.roles.map((role: string) => (
                 <div
                   key={role}
                   className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300"
