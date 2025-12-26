@@ -1,0 +1,351 @@
+'use client';
+
+import { User, Shield, Award, Users as UsersIcon } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+export default function PlayerProfilePage({ params }: { params: { id: string } }) {
+  const [player, setPlayer] = useState<any>(null);
+  const [team, setTeam] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, [params.id]);
+
+  const fetchData = async () => {
+    try {
+      const [playersRes, teamsRes] = await Promise.all([
+        fetch('/api/players'),
+        fetch('/api/teams')
+      ]);
+      const [playersData, teamsData] = await Promise.all([
+        playersRes.json(),
+        teamsRes.json()
+      ]);
+      
+      const currentPlayer = playersData.find((p: any) => p.id === params.id);
+      if (!currentPlayer) {
+        notFound();
+      }
+      
+      setPlayer(currentPlayer);
+      setTeam(teamsData.find((t: any) => t.id === currentPlayer.teamId));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center text-gray-600 dark:text-gray-400">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!player) {
+    notFound();
+  }
+
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case 'Franchise Owner':
+        return <Shield className="w-4 h-4 text-eba-blue" />;
+      case 'General Manager':
+        return <Award className="w-4 h-4 text-eba-blue" />;
+      case 'Head Coach':
+      case 'Assistant Coach':
+        return <UsersIcon className="w-4 h-4 text-eba-blue" />;
+      default:
+        return <User className="w-4 h-4 text-gray-500" />;
+    }
+  };
+
+  const stats = player.stats;
+
+  // Calculate wins and losses from game stats
+  const wins = player.gameStats?.filter((g: any) => g.result === 'W').length || 0;
+  const losses = player.gameStats?.filter((g: any) => g.result === 'L').length || 0;
+  const winPercentage = stats.gamesPlayed > 0 ? (wins / stats.gamesPlayed * 100).toFixed(1) : '0.0';
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Team-colored Banner */}
+      {team && (
+        <div 
+          className="rounded-t-lg h-32 mb-[-4rem] relative z-0"
+          style={{ 
+            background: `linear-gradient(135deg, ${team.colors.primary} 0%, ${team.colors.secondary} 100%)` 
+          }}
+        />
+      )}
+      
+      {/* Header */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-8 border border-gray-200 dark:border-gray-700 mb-6 shadow-sm relative z-10">
+        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
+          {/* Profile Picture */}
+          <div className="w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0 border-4 border-white dark:border-gray-800">
+            {player.profilePicture ? (
+              <img
+                src={player.profilePicture}
+                alt={player.displayName}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <User className="w-16 h-16 text-gray-400" />
+            )}
+          </div>
+
+          {/* Player Info */}
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">{player.displayName}</h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-3">@{player.robloxUsername}</p>
+            
+            {player.description && (
+              <p className="text-gray-700 dark:text-gray-300 mb-4">{player.description}</p>
+            )}
+
+            {/* Team */}
+            {team && (
+              <Link
+                href="/branding"
+                className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg mb-4"
+                style={{
+                  backgroundColor: `${team.colors.primary}20`,
+                  color: team.colors.primary,
+                }}
+              >
+                <span className="font-semibold">{team.name}</span>
+              </Link>
+            )}
+
+            {/* Roles */}
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start mt-3">
+              {player.roles.map((role) => (
+                <div
+                  key={role}
+                  className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300"
+                >
+                  {getRoleIcon(role)}
+                  <span>{role}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Discord */}
+            {player.discordUsername && (
+              <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                Discord: <span className="text-gray-900 dark:text-white">{player.discordUsername}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Record */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Record</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-3xl font-bold text-eba-blue">{stats.gamesPlayed}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Games Played</div>
+          </div>
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-3xl font-bold text-green-500">{wins}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Wins</div>
+          </div>
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-3xl font-bold text-red-500">{losses}</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Losses</div>
+          </div>
+          <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-3xl font-bold text-eba-blue">{winPercentage}%</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Win %</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Averages */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Averages</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.points.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">PTS</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.rebounds.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">REB</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.assists.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">AST</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.steals.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">STL</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.blocks.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">BLK</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.turnovers.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">TOV</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Shooting Stats */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6 shadow-sm">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Shooting Statistics</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Field Goals */}
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-3 text-center text-gray-900 dark:text-white">Field Goals</h3>
+            <div className="text-center mb-2">
+              <div className="text-3xl font-bold text-eba-blue">
+                {stats.fieldGoalPercentage.toFixed(1)}%
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">FG%</div>
+            </div>
+            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+              {stats.fieldGoalsMade} / {stats.fieldGoalsAttempted}
+              <div className="text-xs">FGM / FGA</div>
+            </div>
+          </div>
+
+          {/* Three Pointers */}
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-3 text-center text-gray-900 dark:text-white">Three Pointers</h3>
+            <div className="text-center mb-2">
+              <div className="text-3xl font-bold text-eba-blue">
+                {stats.threePointPercentage.toFixed(1)}%
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">3P%</div>
+            </div>
+            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+              {stats.threePointersMade} / {stats.threePointersAttempted}
+              <div className="text-xs">3PM / 3PA</div>
+            </div>
+          </div>
+
+          {/* Free Throws */}
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <h3 className="text-lg font-semibold mb-3 text-center text-gray-900 dark:text-white">Free Throws</h3>
+            <div className="text-center mb-2">
+              <div className="text-3xl font-bold text-eba-blue">
+                {stats.freeThrowPercentage.toFixed(1)}%
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">FT%</div>
+            </div>
+            <div className="text-center text-sm text-gray-600 dark:text-gray-400">
+              {stats.freeThrowsMade} / {stats.freeThrowsAttempted}
+              <div className="text-xs">FTM / FTA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Advanced Stats */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+        <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Advanced Statistics</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.fouls.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">FLS (Fouls)</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              {stats.turnovers > 0 ? (stats.assists / stats.turnovers).toFixed(1) : stats.assists.toFixed(1)}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">ATOr</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              {/* AST% = Assists / (Team FGM - Player FGM) - requires team data */}
+              {stats.assistPercentage.toFixed(1)}%
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">AST%</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+              {(() => {
+                const missedFG = stats.fieldGoalsAttempted - stats.fieldGoalsMade;
+                const missedFT = stats.freeThrowsAttempted - stats.freeThrowsMade;
+                const eff = (stats.points + stats.rebounds + stats.assists + stats.steals + stats.blocks - missedFG - missedFT - stats.turnovers) / (stats.gamesPlayed || 1);
+                return eff.toFixed(1);
+              })()}
+            </div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">EFF</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Games */}
+      {player.gameStats && player.gameStats.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
+          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Recent Games</h2>
+          <div className="space-y-3">
+            {player.gameStats
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              .slice(0, 10)
+              .map((game) => (
+                <div
+                  key={game.id}
+                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className={`px-3 py-1 rounded font-bold ${
+                      game.result === 'W' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                    }`}>
+                      {game.result}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 dark:text-white">vs {game.opponent}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                        {new Date(game.date).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-6 gap-3 text-center">
+                    <div>
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{game.points}</div>
+                      <div className="text-xs text-gray-500">PTS</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{game.rebounds}</div>
+                      <div className="text-xs text-gray-500">REB</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{game.assists}</div>
+                      <div className="text-xs text-gray-500">AST</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{game.steals}</div>
+                      <div className="text-xs text-gray-500">STL</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">{game.blocks}</div>
+                      <div className="text-xs text-gray-500">BLK</div>
+                    </div>
+                    <div>
+                      <div className="text-sm text-gray-900 dark:text-white">
+                        {game.fieldGoalsMade}/{game.fieldGoalsAttempted}
+                      </div>
+                      <div className="text-xs text-gray-500">FG</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

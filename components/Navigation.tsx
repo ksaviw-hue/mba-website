@@ -1,0 +1,78 @@
+'use client';
+
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { Home, Users, Link2, TrendingUp, Calendar, Search, Shield, Sun, Moon, Trophy } from 'lucide-react';
+import { useTheme } from './ThemeProvider';
+
+const navItems = [
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/branding', label: 'Branding', icon: Users },
+  { href: '/links', label: 'Links', icon: Link2 },
+  { href: '/standings', label: 'Standings', icon: Trophy },
+  { href: '/stats', label: 'Stats', icon: TrendingUp },
+  { href: '/games', label: 'Games', icon: Calendar },
+  { href: '/players', label: 'Players', icon: Search },
+  { href: '/admin', label: 'Admin', icon: Shield },
+];
+
+export default function Navigation() {
+  const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <nav className="bg-white dark:bg-eba-dark border-b border-gray-200 dark:border-gray-800 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center space-x-3">
+              <div className="relative w-10 h-10">
+                <Image
+                  src="/logo.png"
+                  alt="EBA Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              </div>
+              <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">Elite Basketball Association</span>
+            </Link>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <div className="flex space-x-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href;
+                
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-eba-blue text-white'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+            
+            <button
+              onClick={toggleTheme}
+              className="ml-2 p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
