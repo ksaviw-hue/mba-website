@@ -12,8 +12,10 @@ interface StaffMember {
 
 interface Player {
   id: string;
-  name: string;
-  robloxId: number;
+  displayName: string;
+  robloxUsername: string;
+  robloxUserId: number;
+  profilePicture: string;
 }
 
 const ROLE_CATEGORIES = {
@@ -138,17 +140,25 @@ export default function StaffPage() {
                               key={member.id}
                               className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                             >
-                              <img
-                                src={`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${player.robloxId}&size=60x60&format=Png&isCircular=true`}
-                                alt={player.name}
-                                className="w-12 h-12 rounded-full border-2 border-blue-500"
-                                onError={(e) => {
-                                  e.currentTarget.src = '/default-avatar.png';
-                                }}
-                              />
+                              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500 bg-gray-200 dark:bg-gray-600 flex-shrink-0">
+                                {player.profilePicture ? (
+                                  <img
+                                    src={player.profilePicture}
+                                    alt={player.displayName}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
+                                    {player.displayName?.charAt(0).toUpperCase() || '?'}
+                                  </div>
+                                )}
+                              </div>
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                  {player.name}
+                                  {player.displayName}
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                  @{player.robloxUsername}
                                 </p>
                               </div>
                             </div>

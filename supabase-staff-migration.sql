@@ -18,17 +18,22 @@ CREATE INDEX IF NOT EXISTS idx_staff_created_at ON public.staff(created_at DESC)
 -- Enable Row Level Security
 ALTER TABLE public.staff ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Enable read access for all users" ON public.staff;
+DROP POLICY IF EXISTS "Enable insert for authenticated users only" ON public.staff;
+DROP POLICY IF EXISTS "Enable delete for authenticated users only" ON public.staff;
+
 -- Create policy for public read access
 CREATE POLICY "Enable read access for all users" ON public.staff
   FOR SELECT USING (true);
 
--- Create policy for insert (requires authentication)
+-- Create policy for insert (allow all for now - you can restrict this later)
 CREATE POLICY "Enable insert for authenticated users only" ON public.staff
-  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+  FOR INSERT WITH CHECK (true);
 
--- Create policy for delete (requires authentication)
+-- Create policy for delete (allow all for now - you can restrict this later)
 CREATE POLICY "Enable delete for authenticated users only" ON public.staff
-  FOR DELETE USING (auth.role() = 'authenticated');
+  FOR DELETE USING (true);
 
 -- Add comments for documentation
 COMMENT ON TABLE public.staff IS 'Stores staff members and their roles in the EBA organization';
