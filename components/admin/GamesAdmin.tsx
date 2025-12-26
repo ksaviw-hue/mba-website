@@ -63,6 +63,10 @@ export default function GamesAdmin() {
 
     setLoading(true);
     try {
+      // Convert datetime-local value to ISO string
+      // The input gives us local time, so we convert it to a proper ISO timestamp
+      const dateTimeISO = new Date(scheduledDate).toISOString();
+      
       const method = editingGame ? 'PUT' : 'POST';
       const response = await fetch('/api/games', {
         method,
@@ -71,7 +75,7 @@ export default function GamesAdmin() {
           ...(editingGame && { id: editingGame.id }),
           homeTeamId,
           awayTeamId,
-          scheduledDate,
+          scheduledDate: dateTimeISO,
           status,
           homeScore: homeScore ? parseInt(homeScore.toString()) : undefined,
           awayScore: awayScore ? parseInt(awayScore.toString()) : undefined,
@@ -134,7 +138,14 @@ export default function GamesAdmin() {
     setEditingGame(game);
     setHomeTeamId(game.homeTeamId);
     setAwayTeamId(game.awayTeamId);
-    setScheduledDate(game.scheduledDate.split('T')[0]);
+    // Format date for datetime-local input (yyyy-MM-ddTHH:mm)
+    const date = new Date(game.scheduledDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    setScheduledDate(`${year}-${month}-${day}T${hours}:${minutes}`);
     setStatus(game.status);
     setHomeScore(game.homeScore?.toString() || '');
     setAwayScore(game.awayScore?.toString() || '');
