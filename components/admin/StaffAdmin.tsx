@@ -133,7 +133,8 @@ export default function StaffAdmin() {
   };
 
   const filteredPlayers = players.filter(player =>
-    player.name.toLowerCase().includes(searchQuery.toLowerCase())
+    player.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    player.robloxId?.toString().includes(searchQuery)
   );
 
   const groupedStaff = staff.reduce((acc: any, member) => {
