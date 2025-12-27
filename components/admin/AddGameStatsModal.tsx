@@ -6,11 +6,12 @@ import { X } from 'lucide-react';
 interface AddGameStatsModalProps {
   playerId: string;
   playerName: string;
+  playerTeamId?: string;
   onClose: () => void;
   onSave: (gameStats: any) => void;
 }
 
-export default function AddGameStatsModal({ playerId, playerName, onClose, onSave }: AddGameStatsModalProps) {
+export default function AddGameStatsModal({ playerId, playerName, playerTeamId, onClose, onSave }: AddGameStatsModalProps) {
   const [games, setGames] = useState<any[]>([]);
   const [selectedGameId, setSelectedGameId] = useState('');
   const [opponent, setOpponent] = useState('');
@@ -40,7 +41,11 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
     try {
       const response = await fetch('/api/games');
       const data = await response.json();
-      setGames(data);
+      // Filter games to only show games where player's team participated
+      const filteredGames = playerTeamId 
+        ? data.filter((game: any) => game.homeTeamId === playerTeamId || game.awayTeamId === playerTeamId)
+        : data;
+      setGames(filteredGames);
     } catch (error) {
       console.error('Failed to fetch games:', error);
     }
