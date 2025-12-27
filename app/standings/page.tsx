@@ -78,7 +78,17 @@ export default function StandingsPage() {
         pointsFor += teamScore;
         pointsAgainst += opponentScore;
 
-        if (teamScore > opponentScore) {
+        // Check if this is a forfeit game
+        let teamWon = false;
+        if (game.isForfeit && game.forfeitWinner) {
+          // Award win/loss based on forfeit winner
+          teamWon = (isHome && game.forfeitWinner === 'home') || (!isHome && game.forfeitWinner === 'away');
+        } else {
+          // Normal game - compare scores
+          teamWon = teamScore > opponentScore;
+        }
+
+        if (teamWon) {
           wins++;
           recentResults.push(true);
         } else {
