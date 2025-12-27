@@ -177,13 +177,29 @@ export default function GamesPage() {
                   <div className="text-center">
                     {isCompleted ? (
                       <div>
-                        <div className="text-3xl font-bold text-gray-900 dark:text-white">
-                          {game.awayScore} - {game.homeScore}
-                        </div>
-                        {game.isForfeit && (
-                          <div className="text-xs text-red-600 dark:text-red-400 font-semibold mt-1">
-                            FORFEIT
+                        {game.isForfeit && game.awayScore === 0 && game.homeScore === 0 ? (
+                          // Show FFW/FFL labels when scores are 0-0
+                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                            <span className={game.forfeitWinner === 'away' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+                              {game.forfeitWinner === 'away' ? 'FFW' : 'FFL'}
+                            </span>
+                            {' - '}
+                            <span className={game.forfeitWinner === 'home' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
+                              {game.forfeitWinner === 'home' ? 'FFW' : 'FFL'}
+                            </span>
                           </div>
+                        ) : (
+                          // Show actual scores
+                          <>
+                            <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                              {game.awayScore} - {game.homeScore}
+                            </div>
+                            {game.isForfeit && (
+                              <div className="text-xs text-red-600 dark:text-red-400 font-semibold mt-1">
+                                FORFEIT
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     ) : (

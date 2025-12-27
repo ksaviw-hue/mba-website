@@ -132,10 +132,14 @@ export default function StandingsPage() {
       standings = calculateStandings(); // Overall - all games count
     }
 
-    // Sort by wins (descending), then by win percentage
+    // Sort by wins (descending), then by losses (ascending), then by point differential (descending)
     return standings.sort((a, b) => {
+      // First priority: wins (more wins = higher rank)
       if (b.wins !== a.wins) return b.wins - a.wins;
-      return b.winPercentage - a.winPercentage;
+      // Second priority: losses (fewer losses = higher rank)
+      if (a.losses !== b.losses) return a.losses - b.losses;
+      // Third priority: point differential (higher differential = higher rank)
+      return b.pointDifferential - a.pointDifferential;
     });
   };
 
