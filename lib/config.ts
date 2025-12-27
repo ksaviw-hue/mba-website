@@ -13,7 +13,7 @@ export const LEAGUE_CONFIG = {
   CURRENT_SEASON_NAME: 'Season 1',
   
   // Available Seasons (for stats filtering)
-  AVAILABLE_SEASONS: ['Season 1', 'All-Time'],
+  AVAILABLE_SEASONS: ['Preseason 1', 'Season 1', 'All-Time'],
   
   // League Info
   LEAGUE_NAME: 'Elite Basketball Association',

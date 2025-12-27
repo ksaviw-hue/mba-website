@@ -96,7 +96,7 @@ When you deploy to Vercel:
    - `DISCORD_CLIENT_ID`
    - `DISCORD_CLIENT_SECRET`
    - `NEXTAUTH_SECRET`
-   - `NEXTAUTH_URL` (set to your production URL, e.g., `https://eba-league.vercel.app`)
+   - `NEXTAUTH_URL` (set to your production URL, e.g., `https://www.ebassociation.com`)
    - `ADMIN_DISCORD_IDS`
 4. Redeploy your application
 

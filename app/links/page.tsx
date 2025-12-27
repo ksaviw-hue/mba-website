@@ -25,7 +25,7 @@ const links = [
   {
     title: 'Website',
     description: 'You are here!',
-    url: typeof window !== 'undefined' ? window.location.origin : 'https://eba-league.vercel.app',
+    url: typeof window !== 'undefined' ? window.location.origin : 'https://www.ebassociation.com',
     icon: Globe,
     color: 'bg-eba-blue hover:bg-blue-600',
   },

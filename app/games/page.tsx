@@ -176,8 +176,15 @@ export default function GamesPage() {
                   {/* Score / VS */}
                   <div className="text-center">
                     {isCompleted ? (
-                      <div className="text-3xl font-bold text-gray-900 dark:text-white">
-                        {game.awayScore} - {game.homeScore}
+                      <div>
+                        <div className="text-3xl font-bold text-gray-900 dark:text-white">
+                          {game.awayScore} - {game.homeScore}
+                        </div>
+                        {game.isForfeit && (
+                          <div className="text-xs text-red-600 dark:text-red-400 font-semibold mt-1">
+                            FORFEIT
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="text-2xl font-bold text-gray-400 dark:text-gray-500">VS</div>

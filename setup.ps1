@@ -1,7 +1,7 @@
 # EBA Basketball League Website - Setup Script
 
 Write-Host "===================================" -ForegroundColor Cyan
-Write-Host "EBA Basketball League - Setup" -ForegroundColor Cyan
+Write-Host "Elite Basketball Association - Setup" -ForegroundColor Cyan
 Write-Host "===================================" -ForegroundColor Cyan
 Write-Host ""
 

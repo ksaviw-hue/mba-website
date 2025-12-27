@@ -19,6 +19,12 @@ export default function GamesAdmin() {
   const [homeScore, setHomeScore] = useState<number | string>(0);
   const [awayScore, setAwayScore] = useState<number | string>(0);
   const [season, setSeason] = useState(LEAGUE_CONFIG.CURRENT_SEASON.toString());
+  const [isForfeit, setIsForfeit] = useState(false);
+  const [forfeitWinner, setForfeitWinner] = useState<'home' | 'away'>('home');
+  
+  // Search/filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'scheduled' | 'completed' | 'live'>('all');
 
   // Fetch games and teams on mount
   useEffect(() => {
@@ -46,9 +52,27 @@ export default function GamesAdmin() {
     }
   };
 
-  const sortedGames = [...games].sort((a, b) => 
-    new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime()
-  );
+  const filteredGames = [...games]
+    .filter(game => {
+      // Status filter
+      if (statusFilter !== 'all' && game.status !== statusFilter) return false;
+      
+      // Search filter
+      if (searchQuery) {
+        const homeTeam = teams.find(t => t.id === game.homeTeamId);
+        const awayTeam = teams.find(t => t.id === game.awayTeamId);
+        const searchLower = searchQuery.toLowerCase();
+        const matchesTeam = homeTeam?.name.toLowerCase().includes(searchLower) || 
+                           awayTeam?.name.toLowerCase().includes(searchLower);
+        const matchesDate = new Date(game.scheduledDate).toLocaleDateString().includes(searchQuery);
+        return matchesTeam || matchesDate;
+      }
+      
+      return true;
+    })
+    .sort((a, b) => 
+      new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime()
+    );
 
   const handleSaveGame = async () => {
     if (!homeTeamId || !awayTeamId || !scheduledDate) {
@@ -80,6 +104,8 @@ export default function GamesAdmin() {
           homeScore: homeScore ? parseInt(homeScore.toString()) : undefined,
           awayScore: awayScore ? parseInt(awayScore.toString()) : undefined,
           season,
+          isForfeit: status === 'completed' ? isForfeit : false,
+          forfeitWinner: isForfeit ? forfeitWinner : undefined,
         }),
       });
 
@@ -130,6 +156,8 @@ export default function GamesAdmin() {
     setHomeScore('');
     setAwayScore('');
     setSeason(LEAGUE_CONFIG.CURRENT_SEASON.toString());
+    setIsForfeit(false);
+    setForfeitWinner('home');
     setShowForm(false);
     setEditingGame(null);
   };
@@ -150,6 +178,8 @@ export default function GamesAdmin() {
     setHomeScore(game.homeScore?.toString() || '');
     setAwayScore(game.awayScore?.toString() || '');
     setSeason(game.season || '2024');
+    setIsForfeit(game.isForfeit || false);
+    setForfeitWinner(game.forfeitWinner || 'home');
     setShowForm(true);
   };
 
@@ -280,7 +310,8 @@ export default function GamesAdmin() {
                     value={homeScore}
                     onChange={(e) => setHomeScore(e.target.value)}
                     placeholder="0"
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    disabled={isForfeit}
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white disabled:opacity-50"
                   />
                 </div>
 
@@ -293,9 +324,47 @@ export default function GamesAdmin() {
                     value={awayScore}
                     onChange={(e) => setAwayScore(e.target.value)}
                     placeholder="0"
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    disabled={isForfeit}
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white disabled:opacity-50"
                   />
                 </div>
+                
+                {status === 'completed' && (
+                  <>
+                    <div className="col-span-2">
+                      <label className="flex items-center space-x-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isForfeit}
+                          onChange={(e) => setIsForfeit(e.target.checked)}
+                          className="w-4 h-4 text-eba-blue border-gray-300 rounded focus:ring-eba-blue"
+                        />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Mark as Forfeit
+                        </span>
+                      </label>
+                    </div>
+                    
+                    {isForfeit && (
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                          Forfeit Winner (Gets FFW)
+                        </label>
+                        <select
+                          value={forfeitWinner}
+                          onChange={(e) => setForfeitWinner(e.target.value as any)}
+                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                        >
+                          <option value="home">Home Team (FFW) - Away Team (FFL)</option>
+                          <option value="away">Away Team (FFW) - Home Team (FFL)</option>
+                        </select>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          FFW = Forfeit Win, FFL = Forfeit Loss. This affects team records.
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
               </>
             )}
           </div>
@@ -319,13 +388,40 @@ export default function GamesAdmin() {
       )}
 
       {/* Games List */}
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Scheduled Games</h3>
+        
+        {/* Search and Filter Bar */}
+        <div className="flex gap-3 mb-4">
+          <div className="flex-1">
+            <input
+              type="text"
+              placeholder="Search by team name or date..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            />
+          </div>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as any)}
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+          >
+            <option value="all">All Status</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="live">Live</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+      
       <div className="space-y-3">
-        {sortedGames.length === 0 ? (
+        {filteredGames.length === 0 ? (
           <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-            No games scheduled yet. Create your first game!
+            {searchQuery || statusFilter !== 'all' ? 'No games match your search criteria.' : 'No games scheduled yet. Create your first game!'}
           </div>
         ) : (
-          sortedGames.map((game) => (
+          filteredGames.map((game) => (
             <div
               key={game.id}
               className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors"

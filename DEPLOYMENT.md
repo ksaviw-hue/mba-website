@@ -19,7 +19,7 @@ git add .
 
 3. Create initial commit:
 ```bash
-git commit -m "Initial commit - EBA Basketball League website"
+git commit -m "Initial commit - Elite Basketball Association website"
 ```
 
 4. Create a new repository on GitHub:

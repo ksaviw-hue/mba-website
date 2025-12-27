@@ -20,6 +20,8 @@ export async function GET() {
     scheduledDate: game.scheduled_date,
     status: game.status,
     season: game.season,
+    isForfeit: game.is_forfeit || false,
+    forfeitWinner: game.forfeit_winner,
   })) || [];
 
   return NextResponse.json(formattedGames);
@@ -46,6 +48,8 @@ export async function POST(request: Request) {
         season: body.season || 0,
         home_score: body.homeScore,
         away_score: body.awayScore,
+        is_forfeit: body.isForfeit || false,
+        forfeit_winner: body.forfeitWinner,
       })
       .select()
       .single();
@@ -90,6 +94,8 @@ export async function PUT(request: Request) {
     if (updates.status !== undefined) updateData.status = updates.status;
     if (updates.scheduledDate !== undefined) updateData.scheduled_date = updates.scheduledDate;
     if (updates.season !== undefined) updateData.season = updates.season;
+    if (updates.isForfeit !== undefined) updateData.is_forfeit = updates.isForfeit;
+    if (updates.forfeitWinner !== undefined) updateData.forfeit_winner = updates.forfeitWinner;
 
     const { data, error } = await supabase
       .from('games')
