@@ -15,6 +15,9 @@ export default function AddGameStatsModal({ playerId, playerName, playerTeamId, 
   const [games, setGames] = useState<any[]>([]);
   const [selectedGameId, setSelectedGameId] = useState('');
   const [opponent, setOpponent] = useState('');
+
+  // Debug log on component mount
+  console.log('AddGameStatsModal opened with:', { playerId, playerName, playerTeamId });
   const [result, setResult] = useState<'W' | 'L'>('W');
   const [date, setDate] = useState('');
   
