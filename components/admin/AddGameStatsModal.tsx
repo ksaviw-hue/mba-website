@@ -35,7 +35,7 @@ export default function AddGameStatsModal({ playerId, playerName, playerTeamId, 
 
   useEffect(() => {
     fetchGames();
-  }, []);
+  }, [playerTeamId]);
 
   const fetchGames = async () => {
     try {
@@ -45,6 +45,9 @@ export default function AddGameStatsModal({ playerId, playerName, playerTeamId, 
       const filteredGames = playerTeamId 
         ? data.filter((game: any) => game.homeTeamId === playerTeamId || game.awayTeamId === playerTeamId)
         : data;
+      console.log('Player Team ID:', playerTeamId);
+      console.log('All games:', data.length);
+      console.log('Filtered games:', filteredGames.length);
       setGames(filteredGames);
     } catch (error) {
       console.error('Failed to fetch games:', error);
