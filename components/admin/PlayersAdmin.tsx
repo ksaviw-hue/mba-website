@@ -525,7 +525,6 @@ export default function PlayersAdmin() {
         <AddGameStatsModal
           playerId={gameStatsPlayer.id}
           playerName={gameStatsPlayer.displayName || gameStatsPlayer.robloxUsername}
-          playerTeamId={gameStatsPlayer.teamId}
           onClose={() => {
             setShowGameStatsModal(false);
             setGameStatsPlayer(null);

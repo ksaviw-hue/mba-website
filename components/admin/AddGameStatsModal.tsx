@@ -6,18 +6,14 @@ import { X } from 'lucide-react';
 interface AddGameStatsModalProps {
   playerId: string;
   playerName: string;
-  playerTeamId?: string;
   onClose: () => void;
   onSave: (gameStats: any) => void;
 }
 
-export default function AddGameStatsModal({ playerId, playerName, playerTeamId, onClose, onSave }: AddGameStatsModalProps) {
+export default function AddGameStatsModal({ playerId, playerName, onClose, onSave }: AddGameStatsModalProps) {
   const [games, setGames] = useState<any[]>([]);
   const [selectedGameId, setSelectedGameId] = useState('');
   const [opponent, setOpponent] = useState('');
-
-  // Debug log on component mount
-  console.log('AddGameStatsModal opened with:', { playerId, playerName, playerTeamId });
   const [result, setResult] = useState<'W' | 'L'>('W');
   const [date, setDate] = useState('');
   
@@ -38,20 +34,13 @@ export default function AddGameStatsModal({ playerId, playerName, playerTeamId, 
 
   useEffect(() => {
     fetchGames();
-  }, [playerTeamId]);
+  }, []);
 
   const fetchGames = async () => {
     try {
       const response = await fetch('/api/games');
       const data = await response.json();
-      // Filter games to only show games where player's team participated
-      const filteredGames = playerTeamId 
-        ? data.filter((game: any) => game.homeTeamId === playerTeamId || game.awayTeamId === playerTeamId)
-        : data;
-      console.log('Player Team ID:', playerTeamId);
-      console.log('All games:', data.length);
-      console.log('Filtered games:', filteredGames.length);
-      setGames(filteredGames);
+      setGames(data);
     } catch (error) {
       console.error('Failed to fetch games:', error);
     }
