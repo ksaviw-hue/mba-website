@@ -378,42 +378,100 @@ ALTER TABLE team_wall_posts ENABLE ROW LEVEL SECURITY;
 -- RLS POLICIES - Public Read Access
 -- ============================================
 
-CREATE POLICY IF NOT EXISTS "Public read teams" ON teams FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read users" ON users FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read seasons" ON seasons FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read games" ON games FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read player_season_stats" ON player_season_stats FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read player_game_stats" ON player_game_stats FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read transaction_history" ON transaction_history FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read accolades" ON accolades FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read articles" ON articles FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read staff" ON staff FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read live_stream" ON live_stream FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read article_likes" ON article_likes FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read article_comments" ON article_comments FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read comment_likes" ON comment_likes FOR SELECT USING (true);
-CREATE POLICY IF NOT EXISTS "Public read team_wall_posts" ON team_wall_posts FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Public read teams" ON teams; 
+CREATE POLICY "Public read teams" ON teams FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read users" ON users; 
+CREATE POLICY "Public read users" ON users FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read seasons" ON seasons; 
+CREATE POLICY "Public read seasons" ON seasons FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read games" ON games; 
+CREATE POLICY "Public read games" ON games FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read player_season_stats" ON player_season_stats; 
+CREATE POLICY "Public read player_season_stats" ON player_season_stats FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read player_game_stats" ON player_game_stats; 
+CREATE POLICY "Public read player_game_stats" ON player_game_stats FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read transaction_history" ON transaction_history; 
+CREATE POLICY "Public read transaction_history" ON transaction_history FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read accolades" ON accolades; 
+CREATE POLICY "Public read accolades" ON accolades FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read articles" ON articles; 
+CREATE POLICY "Public read articles" ON articles FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read staff" ON staff; 
+CREATE POLICY "Public read staff" ON staff FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read live_stream" ON live_stream; 
+CREATE POLICY "Public read live_stream" ON live_stream FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read article_likes" ON article_likes; 
+CREATE POLICY "Public read article_likes" ON article_likes FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read article_comments" ON article_comments; 
+CREATE POLICY "Public read article_comments" ON article_comments FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read comment_likes" ON comment_likes; 
+CREATE POLICY "Public read comment_likes" ON comment_likes FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public read team_wall_posts" ON team_wall_posts; 
+CREATE POLICY "Public read team_wall_posts" ON team_wall_posts FOR SELECT USING (true);
 
 -- ============================================
 -- RLS POLICIES - Service Role Write Access
 -- (Bot and website service role can write)
 -- ============================================
 
-CREATE POLICY IF NOT EXISTS "Service role teams" ON teams FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role users" ON users FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role seasons" ON seasons FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY IF NOT EXISTS "Service role games" ON games FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role player_season_stats" ON player_season_stats FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY IF NOT EXISTS "Service role player_game_stats" ON player_game_stats FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY IF NOT EXISTS "Service role transaction_history" ON transaction_history FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY IF NOT EXISTS "Service role accolades" ON accolades FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY IF NOT EXISTS "Service role articles" ON articles FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role staff" ON staff FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role live_stream" ON live_stream FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role article_likes" ON article_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role article_comments" ON article_comments FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role comment_likes" ON comment_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY IF NOT EXISTS "Service role team_wall_posts" ON team_wall_posts FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+DROP POLICY IF EXISTS "Service role teams" ON teams; 
+CREATE POLICY "Service role teams" ON teams FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role users" ON users; 
+CREATE POLICY "Service role users" ON users FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role seasons" ON seasons; 
+CREATE POLICY "Service role seasons" ON seasons FOR ALL USING (auth.role() = 'service_role');
+
+DROP POLICY IF EXISTS "Service role games" ON games; 
+CREATE POLICY "Service role games" ON games FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role player_season_stats" ON player_season_stats; 
+CREATE POLICY "Service role player_season_stats" ON player_season_stats FOR ALL USING (auth.role() = 'service_role');
+
+DROP POLICY IF EXISTS "Service role player_game_stats" ON player_game_stats; 
+CREATE POLICY "Service role player_game_stats" ON player_game_stats FOR ALL USING (auth.role() = 'service_role');
+
+DROP POLICY IF EXISTS "Service role transaction_history" ON transaction_history; 
+CREATE POLICY "Service role transaction_history" ON transaction_history FOR ALL USING (auth.role() = 'service_role');
+
+DROP POLICY IF EXISTS "Service role accolades" ON accolades; 
+CREATE POLICY "Service role accolades" ON accolades FOR ALL USING (auth.role() = 'service_role');
+
+DROP POLICY IF EXISTS "Service role articles" ON articles; 
+CREATE POLICY "Service role articles" ON articles FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role staff" ON staff; 
+CREATE POLICY "Service role staff" ON staff FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role live_stream" ON live_stream; 
+CREATE POLICY "Service role live_stream" ON live_stream FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role article_likes" ON article_likes; 
+CREATE POLICY "Service role article_likes" ON article_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role article_comments" ON article_comments; 
+CREATE POLICY "Service role article_comments" ON article_comments FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role comment_likes" ON comment_likes; 
+CREATE POLICY "Service role comment_likes" ON comment_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+
+DROP POLICY IF EXISTS "Service role team_wall_posts" ON team_wall_posts; 
+CREATE POLICY "Service role team_wall_posts" ON team_wall_posts FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
 
 -- ============================================
 -- HELPFUL VIEWS
@@ -519,5 +577,6 @@ COMMENT ON TABLE live_stream IS 'Active live streams (website feature)';
 -- 3. Have bot create a team and sign players
 -- 4. Verify data appears on website
 -- ============================================
+
 
 
