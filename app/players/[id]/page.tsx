@@ -232,6 +232,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
             <DiscordLinkButton
               player={player}
               isOwnProfile={isOwnProfile}
+              onUpdate={handleProfileUpdate}
             />
             <EditProfile
               player={player}
