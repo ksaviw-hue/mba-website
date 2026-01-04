@@ -60,6 +60,8 @@ export const authOptions: NextAuthOptions = {
         const robloxId = (profile as any).sub;
         const robloxAvatar = (profile as any).picture;
 
+        console.log("[ROBLOX AUTH] Starting sign in:", { robloxUsername, robloxId, userId: user.id });
+
         try {
           // Check if player exists with this Roblox username
           const { data: existingPlayer } = await supabaseAdmin
@@ -69,8 +71,10 @@ export const authOptions: NextAuthOptions = {
             .single();
 
           if (existingPlayer) {
+            console.log("[ROBLOX AUTH] Found existing player:", existingPlayer.id);
             // Link user to existing player if not already linked
             if (!existingPlayer.user_id) {
+              console.log("[ROBLOX AUTH] Linking user to existing player");
               await supabaseAdmin
                 .from("players")
                 .update({
@@ -79,10 +83,13 @@ export const authOptions: NextAuthOptions = {
                   profile_picture: robloxAvatar,
                 })
                 .eq("id", existingPlayer.id);
+            } else {
+              console.log("[ROBLOX AUTH] Player already linked to user:", existingPlayer.user_id);
             }
           } else {
+            console.log("[ROBLOX AUTH] Creating new Free Agent player");
             // Create new player as Free Agent
-            await supabaseAdmin.from("players").insert({
+            const { data: newPlayer, error: insertError } = await supabaseAdmin.from("players").insert({
               name: robloxUsername,
               roblox_username: robloxUsername,
               roblox_user_id: robloxId,
@@ -97,7 +104,13 @@ export const authOptions: NextAuthOptions = {
               high_school: "",
               bio: "",
               profile_picture: robloxAvatar,
-            });
+            }).select().single();
+            
+            if (insertError) {
+              console.error("[ROBLOX AUTH] Error creating player:", insertError);
+            } else {
+              console.log("[ROBLOX AUTH] Created new player:", newPlayer?.id);
+            }
           }
           return true;
         } catch (error) {
@@ -124,6 +137,9 @@ export const authOptions: NextAuthOptions = {
         session.user.teamId = token.teamId as string | null;
         session.user.playerName = token.playerName as string;
         session.user.profilePicture = token.profilePicture as string;
+        console.log("[SESSION] Player session:", { playerId: token.playerId, playerName: token.playerName });
+      } else {
+        console.log("[SESSION] No player ID in token");
       }
       
       return session;
@@ -136,21 +152,27 @@ export const authOptions: NextAuthOptions = {
       
       // Store player data in token for Roblox users
       if (account?.provider === "roblox" && user) {
+        console.log("[JWT] Fetching player data for user:", user.id);
         try {
-          const { data: player } = await supabaseAdmin
+          const { data: player, error: playerError } = await supabaseAdmin
             .from("players")
             .select("id, name, team_id, profile_picture")
             .eq("user_id", user.id)
             .single();
 
-          if (player) {
+          if (playerError) {
+            console.error("[JWT] Error fetching player:", playerError);
+          } else if (player) {
+            console.log("[JWT] Found player:", player.id, player.name);
             token.playerId = player.id;
             token.teamId = player.team_id;
             token.playerName = player.name;
             token.profilePicture = player.profile_picture;
+          } else {
+            console.log("[JWT] No player found for user");
           }
         } catch (error) {
-          console.error("Error fetching player data:", error);
+          console.error("[JWT] Error fetching player data:", error);
         }
       }
       
