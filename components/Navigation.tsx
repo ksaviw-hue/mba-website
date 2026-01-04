@@ -78,13 +78,11 @@ export default function Navigation() {
                 href={`/players/${session.user.playerId}`}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"
               >
-                {session.user.image || session.user.profilePicture ? (
-                  <Image
-                    src={session.user.image || session.user.profilePicture || ''}
+                {session.user.profilePicture ? (
+                  <img
+                    src={session.user.profilePicture}
                     alt="Profile"
-                    width={24}
-                    height={24}
-                    className="rounded-full"
+                    className="w-6 h-6 rounded-full object-cover"
                   />
                 ) : (
                   <User className="w-4 h-4" />

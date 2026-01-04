@@ -117,6 +117,19 @@ export const authOptions: NextAuthOptions = {
             }
           } else {
             console.log("[ROBLOX AUTH] Creating new Free Agent player");
+            
+            // Fetch Roblox profile description
+            let robloxDescription = "";
+            try {
+              const descResponse = await fetch(`https://users.roblox.com/v1/users/${robloxId}`);
+              if (descResponse.ok) {
+                const userData = await descResponse.json();
+                robloxDescription = userData.description || "";
+              }
+            } catch (err) {
+              console.error("[ROBLOX AUTH] Failed to fetch profile description:", err);
+            }
+            
             // Create new player as Free Agent
             const { data: newPlayer, error: insertError } = await supabaseAdmin.from("players").insert({
               display_name: robloxUsername,
@@ -126,6 +139,7 @@ export const authOptions: NextAuthOptions = {
               team_id: null, // Free Agent - not on a team
               roles: ["Player"],
               profile_picture: robloxAvatar,
+              description: robloxDescription,
             }).select().single();
             
             if (insertError) {

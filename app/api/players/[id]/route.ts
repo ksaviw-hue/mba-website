@@ -39,8 +39,8 @@ export async function PATCH(
 
     const body = await request.json();
     
-    // Only allow editing specific fields
-    const allowedFields = ['bio', 'hometown', 'high_school', 'profile_picture'];
+    // Only allow editing description field
+    const allowedFields = ['description'];
     const updates: any = {};
     
     for (const field of allowedFields) {

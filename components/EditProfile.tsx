@@ -13,10 +13,7 @@ export default function EditProfile({ player, isOwnProfile, onSave }: EditProfil
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    bio: player.bio || "",
-    hometown: player.hometown || "",
-    high_school: player.highSchool || "",
-    profile_picture: player.profilePicture || "",
+    description: player.description || "",
   });
 
   if (!isOwnProfile) return null;
@@ -36,10 +33,7 @@ export default function EditProfile({ player, isOwnProfile, onSave }: EditProfil
 
   const handleCancel = () => {
     setFormData({
-      bio: player.bio || "",
-      hometown: player.hometown || "",
-      high_school: player.highSchool || "",
-      profile_picture: player.profilePicture || "",
+      description: player.description || "",
     });
     setIsEditing(false);
   };
@@ -80,53 +74,14 @@ export default function EditProfile({ player, isOwnProfile, onSave }: EditProfil
       <div className="grid gap-4">
         <div>
           <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Bio
+            Description
           </label>
           <textarea
-            value={formData.bio}
-            onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-            rows={4}
+            value={formData.description}
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            rows={6}
             className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
             placeholder="Tell us about yourself..."
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Hometown
-          </label>
-          <input
-            type="text"
-            value={formData.hometown}
-            onChange={(e) => setFormData({ ...formData, hometown: e.target.value })}
-            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
-            placeholder="Your hometown"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            High School
-          </label>
-          <input
-            type="text"
-            value={formData.high_school}
-            onChange={(e) => setFormData({ ...formData, high_school: e.target.value })}
-            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
-            placeholder="Your high school"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-            Profile Picture URL
-          </label>
-          <input
-            type="url"
-            value={formData.profile_picture}
-            onChange={(e) => setFormData({ ...formData, profile_picture: e.target.value })}
-            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
-            placeholder="https://..."
           />
         </div>
       </div>
