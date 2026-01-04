@@ -71,28 +71,28 @@ export default function Navigation() {
             {status === "authenticated" && session.user.playerId ? (
               <Link
                 href={`/players/${session.user.playerId}`}
-                className="flex items-center space-x-2 ml-2 px-3 py-2 rounded-md text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm"
               >
                 {session.user.profilePicture ? (
                   <Image
                     src={session.user.profilePicture}
                     alt="Profile"
-                    width={24}
-                    height={24}
+                    width={20}
+                    height={20}
                     className="rounded-full"
                   />
                 ) : (
                   <User className="w-4 h-4" />
                 )}
-                <span className="hidden sm:inline">View Profile</span>
+                <span>View Profile</span>
               </Link>
             ) : status === "unauthenticated" ? (
               <button
                 onClick={() => signIn("roblox")}
-                className="flex items-center space-x-2 ml-2 px-3 py-2 rounded-md text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm"
               >
                 <User className="w-4 h-4" />
-                <span className="hidden sm:inline">Log In</span>
+                <span>Log In</span>
               </button>
             ) : null}
             

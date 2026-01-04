@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
-import { supabaseAdmin } from "./supabaseAdmin";
+import { supabaseAdmin } from "./supabase";
 
 // List of Discord user IDs that have admin access
 const ADMIN_DISCORD_IDS = (process.env.ADMIN_DISCORD_IDS || "")
