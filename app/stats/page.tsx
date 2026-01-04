@@ -66,9 +66,22 @@ export default function StatsPage() {
   const getPlayerSeasonStats = (player: any) => {
     if (selectedSeason === 'All-Time' || !player.gameStats || player.gameStats.length === 0) {
       // Return cumulative stats for All-Time
+      // Calculate efficiency from stats if not present
+      const stats = player.stats || {};
+      const efficiency = stats.gamesPlayed > 0 
+        ? ((stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - (stats.turnovers || 0)) / stats.gamesPlayed
+        : 0;
+      
       return {
-        ...player.stats,
-        gamesPlayed: player.stats.gamesPlayed
+        gamesPlayed: stats.gamesPlayed || 0,
+        points: stats.points || 0,
+        rebounds: stats.rebounds || 0,
+        assists: stats.assists || 0,
+        steals: stats.steals || 0,
+        blocks: stats.blocks || 0,
+        turnovers: stats.turnovers || 0,
+        minutesPlayed: stats.minutesPlayed || 0,
+        efficiency: stats.efficiency || efficiency
       };
     }
 
