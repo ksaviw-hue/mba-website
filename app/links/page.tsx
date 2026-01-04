@@ -1,24 +1,10 @@
-import { ExternalLink, Users, Gamepad2, MessageCircle, Globe } from 'lucide-react';
+import { ExternalLink, MessageCircle, Globe } from 'lucide-react';
 
 const links = [
   {
-    title: 'Roblox Group',
-    description: 'EBA Roblox Group',
-    url: 'https://www.roblox.com/communities/16862596/Elite-Basketball-Association#!/about',
-    icon: Users,
-    color: 'bg-mba-blue hover:bg-blue-600',
-  },
-  {
-    title: 'Roblox Game',
-    description: 'Practical Basketball',
-    url: 'https://www.roblox.com/games/80681221431821/Practical-Basketball',
-    icon: Gamepad2,
-    color: 'bg-mba-blue hover:bg-blue-600',
-  },
-  {
     title: 'Discord Server',
     description: 'Join our Discord community',
-    url: 'https://discord.gg/eba',
+    url: 'https://discord.gg/yra3gjNRpD',
     icon: MessageCircle,
     color: 'bg-mba-blue hover:bg-blue-600',
   },

@@ -18,7 +18,7 @@ export default function TeamsAdmin() {
   const [secondaryColor, setSecondaryColor] = useState('#0A0E27');
   const [owner, setOwner] = useState('');
   const [headCoach, setHeadCoach] = useState('');
-  const [conference, setConference] = useState<'Eastern' | 'Western'>('Eastern');
+  const [conference, setConference] = useState<'Desert' | 'Plains'>('Desert');
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string>('');
 
@@ -135,7 +135,7 @@ export default function TeamsAdmin() {
     setSecondaryColor('#0A0E27');
     setOwner('');
     setHeadCoach('');
-    setConference('Eastern');
+    setConference('Desert');
     setLogoFile(null);
     setLogoPreview('');
     setShowForm(false);
@@ -150,7 +150,7 @@ export default function TeamsAdmin() {
     setSecondaryColor(team.secondaryColor || team.colors?.secondary || '#0A0E27');
     setOwner(team.owner);
     setHeadCoach(team.headCoach);
-    setConference(team.conference || 'Eastern');
+    setConference(team.conference || 'Desert');
     setLogoPreview(team.logo || '');
     setShowForm(true);
   };
@@ -325,11 +325,11 @@ export default function TeamsAdmin() {
               </label>
               <select
                 value={conference}
-                onChange={(e) => setConference(e.target.value as 'Eastern' | 'Western')}
+                onChange={(e) => setConference(e.target.value as 'Desert' | 'Plains')}
                 className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
-                <option value="Eastern">Eastern Conference</option>
-                <option value="Western">Western Conference</option>
+                <option value="Desert">Desert Conference</option>
+                <option value="Plains">Plains Conference</option>
               </select>
             </div>
           </div>

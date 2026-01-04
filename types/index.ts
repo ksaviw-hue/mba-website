@@ -140,7 +140,7 @@ export interface Team {
   generalManager?: string;
   headCoach?: string;
   assistantCoaches: string[];
-  conference: 'Eastern' | 'Western' | 'Desert' | 'Plains'; // Bot uses Desert/Plains
+  conference: 'Desert' | 'Plains'; // Desert and Plains conferences
   wins?: number; // Bot integration
   losses?: number; // Bot integration
   colors: {

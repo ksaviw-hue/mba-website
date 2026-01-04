@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
+import { Press_Start_2P } from 'next/font/google';
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+
+const minecraftFont = Press_Start_2P({ 
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-minecraft',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Minecraft Basketball Association",
@@ -43,7 +51,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className={minecraftFont.variable}>
         <ThemeProvider>
           <AuthProvider>
             <Navigation />

@@ -22,7 +22,7 @@ export const teams: Team[] = [
     generalManager: 'GM Name',
     headCoach: 'Coach Name',
     assistantCoaches: ['Assistant 1'],
-    conference: 'Western',
+    conference: 'Plains',
     colors: {
       primary: '#1D428A',
       secondary: '#FFC72C',

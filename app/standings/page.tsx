@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
 
-type ViewMode = 'overall' | 'eastern' | 'western';
+type ViewMode = 'overall' | 'desert' | 'plains';
 type RecordType = 'overall' | 'conference';
 
 interface TeamStanding {
@@ -78,7 +78,7 @@ export default function StandingsPage() {
   };
 
   // Calculate standings for each team
-  const calculateStandings = (conferenceFilter?: 'Eastern' | 'Western', seasonFilter?: string, recordTypeFilter?: RecordType): TeamStanding[] => {
+  const calculateStandings = (conferenceFilter?: 'Desert' | 'Plains', seasonFilter?: string, recordTypeFilter?: RecordType): TeamStanding[] => {
     return teams.map(team => {
       // Get all completed games for this team
       let teamGames = games.filter(
@@ -173,10 +173,10 @@ export default function StandingsPage() {
     standings = calculateStandings(undefined, selectedSeason, recordType);
     
     // Filter teams by conference for display only
-    if (viewMode === 'eastern') {
-      standings = standings.filter(s => s.team.conference === 'Eastern');
-    } else if (viewMode === 'western') {
-      standings = standings.filter(s => s.team.conference === 'Western');
+    if (viewMode === 'desert') {
+      standings = standings.filter(s => s.team.conference === 'Desert');
+    } else if (viewMode === 'plains') {
+      standings = standings.filter(s => s.team.conference === 'Plains');
     }
 
     // Sort by wins (descending), then by losses (ascending), then by point differential (descending)
@@ -265,24 +265,24 @@ export default function StandingsPage() {
               Overall
             </button>
             <button
-              onClick={() => setViewMode('eastern')}
+              onClick={() => setViewMode('desert')}
               className={`px-6 py-2 rounded-md font-medium transition-colors ${
-                viewMode === 'eastern'
+                viewMode === 'desert'
                   ? 'bg-mba-blue text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
-              Eastern
+              Desert
             </button>
             <button
-              onClick={() => setViewMode('western')}
+              onClick={() => setViewMode('plains')}
               className={`px-6 py-2 rounded-md font-medium transition-colors ${
-                viewMode === 'western'
+                viewMode === 'plains'
                   ? 'bg-mba-blue text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
-              Western
+              Plains
             </button>
           </div>
         </div>

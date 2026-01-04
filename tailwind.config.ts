@@ -9,6 +9,9 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'minecraft': ['var(--font-minecraft)', 'monospace'],
+      },
       colors: {
         // MBA Brand Colors (from logo)
         'mba-blue': '#00A8E8',

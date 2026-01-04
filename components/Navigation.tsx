@@ -39,10 +39,11 @@ export default function Navigation() {
               <div className="relative w-10 h-10">
                 <Image
                   src="/logo.png"
-                  alt="EBA Logo"
+                  alt="MBA Logo"
                   width={40}
                   height={40}
                   className="object-contain"
+                  priority
                 />
               </div>
               <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">Minecraft Basketball Association</span>

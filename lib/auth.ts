@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { supabaseAdmin } from "./supabase";
+import { getMinecraftHeadshot } from "./minecraft";
 
 // List of Discord user IDs that have admin access
 const ADMIN_DISCORD_IDS = (process.env.ADMIN_DISCORD_IDS || "")
@@ -199,7 +200,8 @@ export const authOptions: NextAuthOptions = {
             token.playerId = userData.id;
             token.teamId = userData.team_id;
             token.playerName = userData.username;
-            token.profilePicture = userData.avatar_url;
+            // Use Minecraft headshot instead of Discord avatar
+            token.profilePicture = getMinecraftHeadshot(userData.minecraft_username, 128);
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
