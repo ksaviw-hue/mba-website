@@ -309,25 +309,25 @@ export default function StatsPage() {
                   GP
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  PPG
+                  {statMode === 'totals' ? 'PTS' : 'PPG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  RPG
+                  {statMode === 'totals' ? 'REB' : 'RPG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  APG
+                  {statMode === 'totals' ? 'AST' : 'APG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  SPG
+                  {statMode === 'totals' ? 'STL' : 'SPG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  BPG
+                  {statMode === 'totals' ? 'BLK' : 'BPG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  TPG
+                  {statMode === 'totals' ? 'TOV' : 'TPG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                  MPG
+                  {statMode === 'totals' ? 'MIN' : 'MPG'}
                 </th>
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                   EFF
