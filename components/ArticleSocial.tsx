@@ -15,6 +15,7 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [comments, setComments] = useState<any[]>([]);
+  const [commentLikes, setCommentLikes] = useState<Record<string, { count: number; isLiked: boolean }>>({});
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -50,10 +51,70 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
       const res = await fetch(`/api/articles/${articleId}/comments`);
       if (res.ok) {
         const data = await res.json();
-        setComments(data.comments || []);
+        const fetchedComments = data.comments || [];
+        setComments(fetchedComments);
+        
+        // Fetch likes for each comment
+        for (const comment of fetchedComments) {
+          fetchCommentLikes(comment.id);
+        }
       }
     } catch (error) {
       console.error("Error fetching comments:", error);
+    }
+  };
+
+  const fetchCommentLikes = async (commentId: string) => {
+    try {
+      const res = await fetch(`/api/articles/${articleId}/comments/${commentId}/likes`);
+      if (res.ok) {
+        const data = await res.json();
+        const isLiked = session?.user?.playerId 
+          ? data.likes?.some((like: any) => like.player_id === session.user.playerId)
+          : false;
+        
+        setCommentLikes(prev => ({
+          ...prev,
+          [commentId]: { count: data.likeCount || 0, isLiked }
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching comment likes:", error);
+    }
+  };
+
+  const handleCommentLike = async (commentId: string) => {
+    if (!session?.user?.playerId) {
+      alert("Please log in to like comments");
+      return;
+    }
+
+    const currentState = commentLikes[commentId] || { count: 0, isLiked: false };
+    
+    try {
+      if (currentState.isLiked) {
+        const res = await fetch(`/api/articles/${articleId}/comments/${commentId}/likes`, {
+          method: "DELETE",
+        });
+        if (res.ok) {
+          setCommentLikes(prev => ({
+            ...prev,
+            [commentId]: { count: currentState.count - 1, isLiked: false }
+          }));
+        }
+      } else {
+        const res = await fetch(`/api/articles/${articleId}/comments/${commentId}/likes`, {
+          method: "POST",
+        });
+        if (res.ok) {
+          setCommentLikes(prev => ({
+            ...prev,
+            [commentId]: { count: currentState.count + 1, isLiked: true }
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling comment like:", error);
     }
   };
 
@@ -110,6 +171,8 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
         const data = await res.json();
         setComments(prev => [data, ...prev]);
         setNewComment("");
+        // Fetch likes for the new comment
+        fetchCommentLikes(data.id);
       }
     } catch (error) {
       console.error("Error posting comment:", error);
@@ -229,6 +292,22 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
               <p className="mt-2 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
                 {comment.content}
               </p>
+              
+              {/* Comment Like Button */}
+              <div className="mt-3 flex items-center gap-4">
+                <button
+                  onClick={() => handleCommentLike(comment.id)}
+                  disabled={status === "loading"}
+                  className={`flex items-center gap-1 text-sm transition-colors ${
+                    commentLikes[comment.id]?.isLiked
+                      ? "text-red-600 dark:text-red-400"
+                      : "text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
+                  }`}
+                >
+                  <Heart className={`w-4 h-4 ${commentLikes[comment.id]?.isLiked ? "fill-current" : ""}`} />
+                  <span>{commentLikes[comment.id]?.count || 0}</span>
+                </button>
+              </div>
             </div>
           </div>
         ))}
