@@ -45,7 +45,7 @@ export async function POST(request: Request) {
         away_team_id: body.awayTeamId,
         scheduled_date: body.scheduledDate,
         status: body.status || 'scheduled',
-        season: body.season || 0,
+        season: body.season || 'Preseason 1',
         home_score: body.homeScore,
         away_score: body.awayScore,
         is_forfeit: body.isForfeit || false,
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
+      console.error('Game creation error:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -105,8 +106,9 @@ export async function PUT(request: Request) {
       .single();
     
     if (error || !data) {
+      console.error('Game update error:', error);
       return NextResponse.json(
-        { error: 'Game not found' },
+        { error: error?.message || 'Game not found' },
         { status: 404 }
       );
     }
@@ -116,9 +118,11 @@ export async function PUT(request: Request) {
       message: 'Game updated successfully',
       game: { id: data.id }
     });
-  } catch (error) {
+    });
+  } catch (error: any) {
+    console.error('Game update exception:', error);
     return NextResponse.json(
-      { error: 'Failed to update game' },
+      { error: error?.message || 'Failed to update game' },
       { status: 500 }
     );
   }
