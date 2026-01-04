@@ -5,11 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import EditProfile from '@/components/EditProfile';
 
 export default function PlayerProfilePage({ params }: { params: { id: string } }) {
   const [player, setPlayer] = useState<any>(null);
   const [team, setTeam] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { data: session } = useSession();
 
   useEffect(() => {
     fetchData();
@@ -39,6 +42,29 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
       setLoading(false);
     }
   };
+
+  const handleProfileUpdate = async (updates: any) => {
+    try {
+      const response = await fetch(`/api/players/${params.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to update profile');
+      }
+
+      // Refresh player data
+      await fetchData();
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      throw error;
+    }
+  };
+
+  const isOwnProfile = session?.user.playerId === params.id;
 
   if (loading) {
     return (
@@ -198,6 +224,17 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
             )}
           </div>
         </div>
+
+        {/* Edit Profile Button */}
+        {isOwnProfile && (
+          <div className="mt-6 flex justify-center md:justify-end">
+            <EditProfile
+              player={player}
+              isOwnProfile={isOwnProfile}
+              onSave={handleProfileUpdate}
+            />
+          </div>
+        )}
       </div>
 
       {/* Record */}

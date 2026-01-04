@@ -110,6 +110,23 @@ export default function TeamPage({ params }: { params: { id: string } }) {
     return diff + (teamScore - opponentScore);
   }, 0);
 
+  // Calculate scoring averages
+  const gamesPlayed = wins + losses;
+  const totalPointsFor = filteredGamesBySeason.reduce((total, game) => {
+    const isHome = game.homeTeamId === team.id;
+    const teamScore = isHome ? (game.homeScore || 0) : (game.awayScore || 0);
+    return total + teamScore;
+  }, 0);
+  
+  const totalPointsAgainst = filteredGamesBySeason.reduce((total, game) => {
+    const isHome = game.homeTeamId === team.id;
+    const opponentScore = isHome ? (game.awayScore || 0) : (game.homeScore || 0);
+    return total + opponentScore;
+  }, 0);
+
+  const avgPointsFor = gamesPlayed > 0 ? (totalPointsFor / gamesPlayed).toFixed(1) : '0.0';
+  const avgPointsAgainst = gamesPlayed > 0 ? (totalPointsAgainst / gamesPlayed).toFixed(1) : '0.0';
+
   // Get stat leaders
   const getStatLeader = (stat: keyof typeof teamPlayers[0]['stats']) => {
     if (teamPlayers.length === 0) return null;
@@ -250,7 +267,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                 Team Statistics
               </h2>
               
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
                   <div className="text-3xl font-bold text-green-600 dark:text-green-400">{wins}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Wins</div>
@@ -258,6 +275,14 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
                   <div className="text-3xl font-bold text-red-600 dark:text-red-400">{losses}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Losses</div>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{avgPointsFor}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">PPG</div>
+                </div>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+                  <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">{avgPointsAgainst}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Opp PPG</div>
                 </div>
                 <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
                   <div className={`text-3xl font-bold ${pointDifferential >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>

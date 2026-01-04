@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Link2, TrendingUp, Calendar, Search, Shield, Sun, Moon, Trophy, Briefcase, Award } from 'lucide-react';
+import { Home, Users, Link2, TrendingUp, Calendar, Search, Shield, Sun, Moon, Trophy, Briefcase, Award, User } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
+import { useSession, signIn } from 'next-auth/react';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -22,6 +23,7 @@ const navItems = [
 export default function Navigation() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { data: session, status } = useSession();
 
   return (
     <nav className="bg-white dark:bg-eba-dark border-b border-gray-200 dark:border-gray-800 shadow-sm">
@@ -64,6 +66,35 @@ export default function Navigation() {
                 );
               })}
             </div>
+            
+            {/* Profile Button */}
+            {status === "authenticated" && session.user.playerId ? (
+              <Link
+                href={`/players/${session.user.playerId}`}
+                className="flex items-center space-x-2 ml-2 px-3 py-2 rounded-md text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors"
+              >
+                {session.user.profilePicture ? (
+                  <Image
+                    src={session.user.profilePicture}
+                    alt="Profile"
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <User className="w-4 h-4" />
+                )}
+                <span className="hidden sm:inline">View Profile</span>
+              </Link>
+            ) : status === "unauthenticated" ? (
+              <button
+                onClick={() => signIn("roblox")}
+                className="flex items-center space-x-2 ml-2 px-3 py-2 rounded-md text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors"
+              >
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline">Log In</span>
+              </button>
+            ) : null}
             
             <button
               onClick={toggleTheme}
