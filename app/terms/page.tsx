@@ -7,7 +7,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-2xl font-bold mb-4">Acceptance of Terms</h2>
           <p>
-            By accessing and using the Elite Basketball Association (EBA) website and services,
+            By accessing and using the Minecraft Basketball Association (MBA) website and services,
             you agree to be bound by these Terms of Service.
           </p>
         </section>
@@ -67,7 +67,7 @@ export default function TermsPage() {
         <section>
           <h2 className="text-2xl font-bold mb-4">Contact</h2>
           <p>
-            For questions about these terms, please contact the EBA administration team.
+            For questions about these terms, please contact the MBA administration team.
           </p>
         </section>
 
@@ -78,3 +78,4 @@ export default function TermsPage() {
     </div>
   );
 }
+

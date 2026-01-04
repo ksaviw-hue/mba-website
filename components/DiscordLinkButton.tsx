@@ -109,3 +109,4 @@ export default function DiscordLinkButton({ player, isOwnProfile, onUpdate }: Di
 
   return null;
 }
+

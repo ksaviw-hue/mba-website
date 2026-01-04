@@ -225,7 +225,7 @@ export default function StandingsPage() {
             <select
               value={selectedSeason}
               onChange={(e) => setSelectedSeason(e.target.value)}
-              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white shadow-sm"
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white shadow-sm"
             >
               {availableSeasons.map((season) => (
                 <option key={season} value={season}>
@@ -243,7 +243,7 @@ export default function StandingsPage() {
             <select
               value={recordType}
               onChange={(e) => setRecordType(e.target.value as RecordType)}
-              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white shadow-sm"
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white shadow-sm"
             >
               <option value="overall">Overall</option>
               <option value="conference">Conference</option>
@@ -258,7 +258,7 @@ export default function StandingsPage() {
               onClick={() => setViewMode('overall')}
               className={`px-6 py-2 rounded-md font-medium transition-colors ${
                 viewMode === 'overall'
-                  ? 'bg-eba-blue text-white'
+                  ? 'bg-mba-blue text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -268,7 +268,7 @@ export default function StandingsPage() {
               onClick={() => setViewMode('eastern')}
               className={`px-6 py-2 rounded-md font-medium transition-colors ${
                 viewMode === 'eastern'
-                  ? 'bg-eba-blue text-white'
+                  ? 'bg-mba-blue text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -278,7 +278,7 @@ export default function StandingsPage() {
               onClick={() => setViewMode('western')}
               className={`px-6 py-2 rounded-md font-medium transition-colors ${
                 viewMode === 'western'
-                  ? 'bg-eba-blue text-white'
+                  ? 'bg-mba-blue text-white'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -360,7 +360,7 @@ export default function StandingsPage() {
                           )}
                         </div>
                         <div>
-                          <div className="font-semibold text-gray-900 dark:text-white group-hover:text-eba-blue dark:group-hover:text-blue-400">
+                          <div className="font-semibold text-gray-900 dark:text-white group-hover:text-mba-blue dark:group-hover:text-blue-400">
                             {standing.team.name}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -453,3 +453,4 @@ export default function StandingsPage() {
     </main>
   );
 }
+

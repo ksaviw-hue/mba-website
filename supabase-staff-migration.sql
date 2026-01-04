@@ -36,7 +36,7 @@ CREATE POLICY "Enable delete for authenticated users only" ON public.staff
   FOR DELETE USING (true);
 
 -- Add comments for documentation
-COMMENT ON TABLE public.staff IS 'Stores staff members and their roles in the EBA organization';
+COMMENT ON TABLE public.staff IS 'Stores staff members and their roles in the MBA organization';
 COMMENT ON COLUMN public.staff.id IS 'Unique identifier for the staff record';
 COMMENT ON COLUMN public.staff.player_id IS 'Foreign key reference to the players table';
 COMMENT ON COLUMN public.staff.role IS 'The staff role assigned to the player';

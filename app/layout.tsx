@@ -5,23 +5,23 @@ import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Elite Basketball Association",
-  description: "Official website of the Elite Basketball Association - The Most Competitive Roblox basketball league",
+  title: "Minecraft Basketball Association",
+  description: "Official website of the Minecraft Basketball Association - The Most Competitive Minecraft basketball league",
   icons: {
     icon: '/logo.png',
   },
-  metadataBase: new URL('https://ebassociation.com'),
+  metadataBase: new URL('https://mbaassociation.com'),
   openGraph: {
-    title: "Elite Basketball Association",
-    description: "Official website of the Elite Basketball Association - The Most Competitive Roblox basketball league",
-    url: 'https://ebassociation.com',
-    siteName: 'Elite Basketball Association',
+    title: "Minecraft Basketball Association",
+    description: "Official website of the Minecraft Basketball Association - The Most Competitive Minecraft basketball league",
+    url: 'https://mbaassociation.com',
+    siteName: 'Minecraft Basketball Association',
     images: [
       {
         url: '/logo.png',
         width: 512,
         height: 512,
-        alt: 'EBA Logo',
+        alt: 'MBA Logo',
       },
     ],
     locale: 'en_US',
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary',
-    title: "Elite Basketball Association",
-    description: "Official website of the Elite Basketball Association - Premier Roblox basketball league",
+    title: "Minecraft Basketball Association",
+    description: "Official website of the Minecraft Basketball Association - Premier Minecraft basketball league",
     images: ['/logo.png'],
   },
   themeColor: '#3B82F6',
@@ -56,3 +56,4 @@ export default function RootLayout({
     </html>
   );
 }
+

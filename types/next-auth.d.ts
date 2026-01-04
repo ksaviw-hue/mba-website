@@ -10,7 +10,7 @@ declare module "next-auth" {
       // Discord admin fields
       discordId?: string;
       isAdmin?: boolean;
-      // Roblox player fields
+      // Minecraft player fields
       playerId?: string;
       teamId?: string | null;
       playerName?: string;

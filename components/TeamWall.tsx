@@ -130,7 +130,7 @@ export default function TeamWall({ teamId }: TeamWallProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
       <div className="flex items-center gap-2 mb-6">
-        <MessageSquare className="w-6 h-6 text-eba-blue" />
+        <MessageSquare className="w-6 h-6 text-mba-blue" />
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Team Wall</h2>
       </div>
 
@@ -150,7 +150,7 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="Post to your team wall..."
-                className="w-full px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white resize-none"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white resize-none"
                 rows={3}
                 maxLength={500}
               />
@@ -159,7 +159,7 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                 <button
                   type="submit"
                   disabled={submitting || !newPost.trim()}
-                  className="px-4 py-2 bg-eba-blue text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-mba-blue text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
                   {submitting ? "Posting..." : "Post"}
                 </button>
@@ -187,7 +187,7 @@ export default function TeamWall({ teamId }: TeamWallProps) {
               key={post.id}
               className={`flex gap-3 p-4 rounded-lg ${
                 post.is_pinned
-                  ? "bg-blue-50 dark:bg-blue-900/20 border-2 border-eba-blue"
+                  ? "bg-blue-50 dark:bg-blue-900/20 border-2 border-mba-blue"
                   : "bg-gray-50 dark:bg-gray-700"
               }`}
             >
@@ -209,11 +209,11 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                         <Crown className="w-4 h-4 text-yellow-500" />
                       )}
                       {post.is_pinned && (
-                        <Pin className="w-4 h-4 text-eba-blue" />
+                        <Pin className="w-4 h-4 text-mba-blue" />
                       )}
                     </div>
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      @{post.players?.roblox_username} •{" "}
+                      @{post.players?.minecraft_username} •{" "}
                       {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
                     </span>
                   </div>
@@ -223,7 +223,7 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                         onClick={() => handleTogglePin(post.id, post.is_pinned)}
                         className={`p-1 rounded ${
                           post.is_pinned
-                            ? "text-eba-blue hover:text-blue-700"
+                            ? "text-mba-blue hover:text-blue-700"
                             : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                         }`}
                       >
@@ -257,3 +257,4 @@ export default function TeamWall({ teamId }: TeamWallProps) {
     </div>
   );
 }
+

@@ -15,7 +15,7 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Shield className="w-16 h-16 mx-auto mb-4 text-eba-blue animate-pulse" />
+          <Shield className="w-16 h-16 mx-auto mb-4 text-mba-blue animate-pulse" />
           <p className="text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
       </div>
@@ -25,10 +25,10 @@ export default function AdminPage() {
   // Show login screen if not authenticated OR not a Discord admin
   if (!session || !session.user.isAdmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-eba-light to-gray-100 dark:from-eba-dark dark:to-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-mba-light to-gray-100 dark:from-mba-dark dark:to-gray-900">
         <div className="max-w-md w-full mx-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-8 border border-gray-200 dark:border-gray-700 text-center shadow-xl">
-            <Shield className="w-20 h-20 mx-auto mb-6 text-eba-blue" />
+            <Shield className="w-20 h-20 mx-auto mb-6 text-mba-blue" />
             <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Admin Access Required</h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8">
               {session && !session.user.isAdmin ? 'You do not have admin access. Please sign in with an authorized Discord account.' : 'Sign in with Discord to access the admin dashboard'}
@@ -58,7 +58,7 @@ export default function AdminPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold mb-2 flex items-center text-gray-900 dark:text-white">
-              <Shield className="w-10 h-10 mr-3 text-eba-blue" />
+              <Shield className="w-10 h-10 mr-3 text-mba-blue" />
               Admin Dashboard
             </h1>
             <p className="text-gray-600 dark:text-gray-400">Manage players, teams, games, and content</p>
@@ -77,7 +77,7 @@ export default function AdminPage() {
             )}
             <button
               onClick={() => signOut()}
-              className="px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+              className="px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
             >
               <LogOut className="w-4 h-4" />
               <span>Sign Out</span>
@@ -92,7 +92,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('players')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'players'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -103,7 +103,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('teams')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'teams'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -114,7 +114,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('games')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'games'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -125,7 +125,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('articles')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'articles'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -136,7 +136,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('gamestats')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'gamestats'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -147,7 +147,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('staff')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'staff'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -158,7 +158,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('seasons')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'seasons'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -169,7 +169,7 @@ export default function AdminPage() {
           onClick={() => setActiveTab('livestream')}
           className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
             activeTab === 'livestream'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -192,3 +192,4 @@ export default function AdminPage() {
     </div>
   );
 }
+

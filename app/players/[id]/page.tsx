@@ -81,12 +81,12 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'Franchise Owner':
-        return <Shield className="w-4 h-4 text-eba-blue" />;
+        return <Shield className="w-4 h-4 text-mba-blue" />;
       case 'General Manager':
-        return <Award className="w-4 h-4 text-eba-blue" />;
+        return <Award className="w-4 h-4 text-mba-blue" />;
       case 'Head Coach':
       case 'Assistant Coach':
-        return <UsersIcon className="w-4 h-4 text-eba-blue" />;
+        return <UsersIcon className="w-4 h-4 text-mba-blue" />;
       default:
         return <User className="w-4 h-4 text-gray-500" />;
     }
@@ -183,7 +183,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
           {/* Player Info */}
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">{player.displayName}</h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-3">@{player.robloxUsername}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-3">@{player.minecraftUsername}</p>
             
             {player.description && (
               <p className="text-gray-700 dark:text-gray-300 mb-4">{player.description}</p>
@@ -236,7 +236,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
         <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Record</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <div className="text-3xl font-bold text-eba-blue">{stats.gamesPlayed}</div>
+            <div className="text-3xl font-bold text-mba-blue">{stats.gamesPlayed}</div>
             <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Games Played</div>
           </div>
           <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -248,7 +248,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
             <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Losses</div>
           </div>
           <div className="text-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <div className="text-3xl font-bold text-eba-blue">{winPercentage}%</div>
+            <div className="text-3xl font-bold text-mba-blue">{winPercentage}%</div>
             <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Win %</div>
           </div>
         </div>
@@ -301,7 +301,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <h3 className="text-lg font-semibold mb-3 text-center text-gray-900 dark:text-white">Field Goals</h3>
             <div className="text-center mb-2">
-              <div className="text-3xl font-bold text-eba-blue">
+              <div className="text-3xl font-bold text-mba-blue">
                 {stats.fieldGoalPercentage.toFixed(1)}%
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">FG%</div>
@@ -316,7 +316,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <h3 className="text-lg font-semibold mb-3 text-center text-gray-900 dark:text-white">Three Pointers</h3>
             <div className="text-center mb-2">
-              <div className="text-3xl font-bold text-eba-blue">
+              <div className="text-3xl font-bold text-mba-blue">
                 {stats.threePointPercentage.toFixed(1)}%
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">3P%</div>
@@ -331,7 +331,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <h3 className="text-lg font-semibold mb-3 text-center text-gray-900 dark:text-white">Free Throws</h3>
             <div className="text-center mb-2">
-              <div className="text-3xl font-bold text-eba-blue">
+              <div className="text-3xl font-bold text-mba-blue">
                 {stats.freeThrowPercentage.toFixed(1)}%
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">FT%</div>
@@ -418,12 +418,12 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
         <div>
           <h3 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-300">Playing Time</h3>
           <div className="grid grid-cols-2 gap-3">
-            <div className="text-center p-4 bg-gradient-to-br from-eba-blue/10 to-eba-blue/20 dark:from-eba-blue/20 dark:to-eba-blue/10 rounded-lg border border-eba-blue/30">
-              <div className="text-3xl font-bold text-eba-blue">{totals.minutesPlayed}</div>
+            <div className="text-center p-4 bg-gradient-to-br from-mba-blue/10 to-mba-blue/20 dark:from-mba-blue/20 dark:to-mba-blue/10 rounded-lg border border-mba-blue/30">
+              <div className="text-3xl font-bold text-mba-blue">{totals.minutesPlayed}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Total Minutes</div>
             </div>
-            <div className="text-center p-4 bg-gradient-to-br from-eba-blue/10 to-eba-blue/20 dark:from-eba-blue/20 dark:to-eba-blue/10 rounded-lg border border-eba-blue/30">
-              <div className="text-3xl font-bold text-eba-blue">{stats.gamesPlayed > 0 ? (totals.minutesPlayed / stats.gamesPlayed).toFixed(1) : '0.0'}</div>
+            <div className="text-center p-4 bg-gradient-to-br from-mba-blue/10 to-mba-blue/20 dark:from-mba-blue/20 dark:to-mba-blue/10 rounded-lg border border-mba-blue/30">
+              <div className="text-3xl font-bold text-mba-blue">{stats.gamesPlayed > 0 ? (totals.minutesPlayed / stats.gamesPlayed).toFixed(1) : '0.0'}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">Minutes Per Game</div>
             </div>
           </div>
@@ -528,3 +528,4 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
     </div>
   );
 }
+

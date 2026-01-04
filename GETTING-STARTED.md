@@ -18,7 +18,7 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 ## Project Structure
 
 ```
-EBAWebsite/
+MBAWebsite/
 ├── app/                      # Next.js app directory
 │   ├── page.tsx             # Home page
 │   ├── branding/            # Branding page
@@ -65,8 +65,8 @@ To add/edit data, modify **`lib/mockData.ts`**:
 {
   id: '2',
   displayName: 'PlayerName',
-  robloxUsername: 'roblox_username',
-  robloxUserId: '123456789',
+  minecraftUsername: 'minecraft_username',
+  minecraftUserId: '123456789',
   profilePicture: 'https://tr.rbxcdn.com/...',
   description: 'Bio text here',
   discordUsername: 'discord_username',
@@ -129,8 +129,8 @@ Edit **`app/links/page.tsx`** and update the `links` array:
 
 ```typescript
 {
-  title: 'Roblox Group',
-  url: 'https://www.roblox.com/groups/YOUR_GROUP_ID',
+  title: 'Minecraft Group',
+  url: 'https://www.minecraft.com/groups/YOUR_GROUP_ID',
   // ...
 }
 ```
@@ -169,7 +169,7 @@ npm run lint     # Run ESLint
 |------|-----|-------------|
 | Home | `/` | Latest news and upcoming games |
 | Branding | `/branding` | Teams and staff |
-| Links | `/links` | External links (Roblox, Discord) |
+| Links | `/links` | External links (Minecraft, Discord) |
 | Stats | `/stats` | League leaders by category |
 | Games | `/games` | Schedule and results |
 | Players | `/players` | Search all players |

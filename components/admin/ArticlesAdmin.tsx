@@ -153,7 +153,7 @@ export default function ArticlesAdmin() {
             setShowForm(!showForm);
             if (showForm) resetForm();
           }}
-          className="flex items-center space-x-2 px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
         >
           <Plus className="w-5 h-5" />
           <span>New Article</span>
@@ -216,7 +216,7 @@ export default function ArticlesAdmin() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Article title"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -229,7 +229,7 @@ export default function ArticlesAdmin() {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="Your name"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -242,7 +242,7 @@ export default function ArticlesAdmin() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Article content..."
                 rows={8}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white resize-none"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white resize-none"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 {content.length} characters
@@ -254,7 +254,7 @@ export default function ArticlesAdmin() {
             <button
               onClick={handleSaveArticle}
               disabled={loading}
-              className="px-6 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : (editingArticle ? 'Update Article' : 'Create Article')}
             </button>
@@ -278,7 +278,7 @@ export default function ArticlesAdmin() {
           sortedArticles.map((article) => (
             <div
               key={article.id}
-              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -300,7 +300,7 @@ export default function ArticlesAdmin() {
                 <div className="flex items-center space-x-2 ml-4">
                   <button
                     onClick={() => openEditForm(article)}
-                    className="p-2 text-eba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    className="p-2 text-mba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     title="Edit article"
                   >
                     <Edit2 className="w-5 h-5" />
@@ -321,3 +321,4 @@ export default function ArticlesAdmin() {
     </div>
   );
 }
+

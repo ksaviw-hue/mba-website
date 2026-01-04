@@ -35,7 +35,7 @@ export default function PlayersPage() {
 
   const filteredPlayers = players.filter(player =>
     player.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    player.robloxUsername.toLowerCase().includes(searchQuery.toLowerCase())
+    player.minecraftUsername.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (loading) {
@@ -50,7 +50,7 @@ export default function PlayersPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2 flex items-center text-gray-900 dark:text-white">
-          <Search className="w-10 h-10 mr-3 text-eba-blue" />
+          <Search className="w-10 h-10 mr-3 text-mba-blue" />
           Player Search
         </h1>
         <p className="text-gray-600 dark:text-gray-400">Find and view player profiles</p>
@@ -65,7 +65,7 @@ export default function PlayersPage() {
             placeholder="Search by display name or Roblox username..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue transition-colors text-gray-900 dark:text-white shadow-sm"
+            className="w-full pl-12 pr-4 py-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue transition-colors text-gray-900 dark:text-white shadow-sm"
           />
         </div>
       </div>
@@ -80,7 +80,7 @@ export default function PlayersPage() {
               <Link
                 key={player.id}
                 href={`/players/${player.id}`}
-                className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-all transform hover:scale-105 shadow-sm"
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-all transform hover:scale-105 shadow-sm"
               >
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
@@ -96,7 +96,7 @@ export default function PlayersPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-lg truncate text-gray-900 dark:text-white">{player.displayName}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 truncate">@{player.robloxUsername}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 truncate">@{player.minecraftUsername}</p>
                   </div>
                 </div>
 
@@ -169,3 +169,4 @@ export default function PlayersPage() {
     </div>
   );
 }
+

@@ -23,6 +23,18 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.DISCORD_CLIENT_ID || "",
       clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
     }),
+    /* TODO: Replace Roblox OAuth with Minecraft authentication
+    {
+      id: "minecraft",
+      name: "Minecraft",
+      type: "oauth",
+      clientId: process.env.MINECRAFT_CLIENT_ID || "",
+      clientSecret: process.env.MINECRAFT_CLIENT_SECRET || "",
+      // Minecraft OAuth configuration to be implemented
+    },
+    */
+    /*
+    // Roblox OAuth provider - replaced with Minecraft
     {
       id: "roblox",
       name: "Roblox",
@@ -79,174 +91,118 @@ export const authOptions: NextAuthOptions = {
   debug: true,
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Discord admin authentication
+      // Discord authentication - works for both admins and players
       if (account?.provider === "discord") {
         const discordId = account.providerAccountId;
-        console.log("Attempting sign in with Discord ID:", discordId);
-        console.log("Is admin?", ADMIN_DISCORD_IDS.includes(discordId));
-        return ADMIN_DISCORD_IDS.includes(discordId);
-      }
-      
-      // Roblox player authentication
-      if (account?.provider === "roblox" && profile) {
-        const robloxUsername = (profile as any).preferred_username || (profile as any).name;
-        const robloxId = (profile as any).sub;
-        const robloxAvatar = (profile as any).picture;
-
-        console.log("[ROBLOX AUTH] Starting sign in:", { robloxUsername, robloxId, userId: user.id });
+        const userId = `discord-${discordId}`; // Bot format: discord-{id}
+        const isAdmin = ADMIN_DISCORD_IDS.includes(discordId);
+        
+        console.log("Discord sign in attempt:", { discordId, userId, isAdmin });
 
         try {
-          // Check if player exists with this Roblox username
-          const { data: existingPlayer } = await supabaseAdmin
-            .from("players")
-            .select("id, user_id")
-            .eq("roblox_username", robloxUsername)
+          // Check if user exists in database
+          const { data: existingUser } = await supabaseAdmin
+            .from("users")
+            .select("*")
+            .eq("id", userId)
             .single();
 
-          if (existingPlayer) {
-            console.log("[ROBLOX AUTH] Found existing player:", existingPlayer.id);
-            // Link user to existing player if not already linked
-            if (!existingPlayer.user_id) {
-              console.log("[ROBLOX AUTH] Linking user to existing player");
-              await supabaseAdmin
-                .from("players")
-                .update({
-                  user_id: user.id,
-                  roblox_user_id: robloxId,
-                  profile_picture: robloxAvatar,
-                })
-                .eq("id", existingPlayer.id);
-            } else {
-              console.log("[ROBLOX AUTH] Player already linked to user:", existingPlayer.user_id);
-            }
-          } else {
-            console.log("[ROBLOX AUTH] Creating new Free Agent player");
+          // Allow admins to always sign in (for admin panel access)
+          if (isAdmin) {
+            console.log("Admin user signing in:", userId);
             
-            // Fetch Roblox profile description
-            let robloxDescription = "";
-            try {
-              const descResponse = await fetch(`https://users.roblox.com/v1/users/${robloxId}`);
-              if (descResponse.ok) {
-                const userData = await descResponse.json();
-                robloxDescription = userData.description || "";
-              }
-            } catch (err) {
-              console.error("[ROBLOX AUTH] Failed to fetch profile description:", err);
+            if (!existingUser) {
+              // Create admin user
+              await supabaseAdmin.from("users").insert({
+                id: userId,
+                username: user.name || "Unknown",
+                email: user.email,
+                avatar_url: user.image,
+                discord_username: user.name,
+              });
             }
-            
-            // Create new player as Free Agent
-            const { data: newPlayer, error: insertError } = await supabaseAdmin.from("players").insert({
-              display_name: robloxUsername,
-              roblox_username: robloxUsername,
-              roblox_user_id: robloxId,
-              user_id: user.id,
-              team_id: null, // Free Agent - not on a team
-              roles: ["Player"],
-              profile_picture: robloxAvatar,
-              description: robloxDescription,
-            }).select().single();
-            
-            if (insertError) {
-              console.error("[ROBLOX AUTH] Error creating player:", insertError);
-              console.error("[ROBLOX AUTH] Full insert error:", JSON.stringify(insertError));
-              // Still allow sign in even if player creation fails
-              return true;
-            } else {
-              console.log("[ROBLOX AUTH] Created new player:", newPlayer?.id);
-            }
+            return true;
           }
+
+          // For non-admin players: Check if they have verified their Minecraft username
+          if (!existingUser) {
+            // User doesn't exist - they need to verify on Discord first
+            console.log("User not found in database - must verify on Discord:", userId);
+            throw new Error("MINECRAFT_NOT_VERIFIED");
+          }
+
+          // Check if user has minecraft_username (indicates Discord verification)
+          if (!existingUser.minecraft_username) {
+            // User exists but hasn't verified Minecraft username
+            console.log("User exists but no minecraft_username - must verify:", userId);
+            throw new Error("MINECRAFT_NOT_VERIFIED");
+          }
+
+          // User is verified and has minecraft_username - allow sign in
+          console.log("Verified user signing in:", userId, "Minecraft:", existingUser.minecraft_username);
           return true;
-        } catch (error) {
-          console.error("Error in Roblox signIn callback:", error);
-          return false;
+
+        } catch (error: any) {
+          console.error("Error in Discord signIn callback:", error);
+          
+          // If it's our custom verification error, reject sign-in
+          if (error.message === "MINECRAFT_NOT_VERIFIED") {
+            return false;
+          }
+          
+          // For other errors, still allow sign in to avoid blocking users
+          return true;
         }
       }
       
       return false;
     },
     async session({ session, token }) {
-      // Add Discord ID to session for admins
+      // Add user ID and Discord info to session
       if (token.sub) {
         session.user.id = token.sub;
       }
       if (token.discordId) {
         session.user.discordId = token.discordId as string;
-        session.user.isAdmin = true;
+        session.user.isAdmin = ADMIN_DISCORD_IDS.includes(token.discordId as string);
       }
       
-      // Add player data to session for Roblox users
+      // Add player/team data to session
       if (token.playerId) {
         session.user.playerId = token.playerId as string;
         session.user.teamId = token.teamId as string | null;
         session.user.playerName = token.playerName as string;
         session.user.profilePicture = token.profilePicture as string;
-        console.log("[SESSION] Player session:", { playerId: token.playerId, playerName: token.playerName });
-      } else {
-        console.log("[SESSION] No player ID in token");
       }
       
       return session;
     },
-    async jwt({ token, account, user, trigger }) {
-      console.log("[JWT] Called with:", { provider: account?.provider, userId: user?.id, tokenSub: token.sub, trigger, hasPlayerId: !!token.playerId, hasDiscordId: !!token.discordId });
-      
-      // Store Discord ID in token
+    async jwt({ token, account, user }) {
+      // Store Discord ID and fetch user data
       if (account?.provider === "discord") {
-        token.discordId = account.providerAccountId;
+        const discordId = account.providerAccountId;
+        const userId = `discord-${discordId}`;
         
-        // For Discord admins, also try to find if they have a linked player account
-        // This allows admins to have both admin access AND a player profile
-        if (!token.playerId && ADMIN_DISCORD_IDS.includes(account.providerAccountId)) {
-          try {
-            const { data: player } = await supabaseAdmin
-              .from("players")
-              .select("id, display_name, team_id, profile_picture")
-              .eq("discord_username", user?.name || "")
-              .single();
-            
-            if (player) {
-              console.log("[JWT] Discord admin has linked player:", player.id);
-              token.playerId = player.id;
-              token.teamId = player.team_id;
-              token.playerName = player.display_name;
-              token.profilePicture = player.profile_picture;
-            }
-          } catch (error) {
-            // No linked player, that's okay
-          }
-        }
-      }
-      
-      // For Roblox users, fetch player data if we don't have it yet
-      // Use token.sub (the user ID) which persists across JWT calls
-      if (account?.provider === "roblox" && !token.playerId) {
-        const userId = user?.id || token.sub;
-        console.log("[JWT] Fetching player data for user:", userId);
+        token.discordId = discordId;
+        token.userId = userId;
         
+        // Fetch user data from database
         try {
-          const { data: player, error: playerError } = await supabaseAdmin
-            .from("players")
-            .select("id, display_name, team_id, profile_picture")
-            .eq("user_id", userId)
+          const { data: userData } = await supabaseAdmin
+            .from("users")
+            .select("id, username, team_id, avatar_url, minecraft_username")
+            .eq("id", userId)
             .single();
-
-          if (playerError) {
-            console.error("[JWT] Error fetching player:", playerError);
-            console.error("[JWT] Error details:", JSON.stringify(playerError));
-          } else if (player) {
-            console.log("[JWT] Found player:", player.id, player.display_name);
-            token.playerId = player.id;
-            token.teamId = player.team_id;
-            token.playerName = player.display_name;
-            token.profilePicture = player.profile_picture;
-          } else {
-            console.log("[JWT] No player found for user:", userId);
+          
+          if (userData) {
+            token.playerId = userData.id;
+            token.teamId = userData.team_id;
+            token.playerName = userData.username;
+            token.profilePicture = userData.avatar_url;
           }
         } catch (error) {
-          console.error("[JWT] Exception fetching player data:", error);
+          console.error("Error fetching user data:", error);
         }
-      } else if (token.playerId) {
-        console.log("[JWT] Player data already in token:", token.playerId);
       }
       
       return token;
@@ -258,3 +214,4 @@ export const authOptions: NextAuthOptions = {
 export function isAdminDiscordId(discordId: string): boolean {
   return ADMIN_DISCORD_IDS.includes(discordId);
 }
+

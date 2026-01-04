@@ -15,8 +15,8 @@ export async function GET() {
   const formattedPlayers = players?.map(player => ({
     id: player.id,
     displayName: player.display_name,
-    robloxUsername: player.roblox_username,
-    robloxUserId: player.roblox_user_id,
+    minecraftUsername: player.minecraft_username,
+    minecraftUserId: player.minecraft_user_id,
     profilePicture: player.profile_picture,
     description: player.description,
     discordUsername: player.discord_username,
@@ -74,29 +74,37 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    if (!body.robloxUsername) {
+    if (!body.minecraftUsername) {
       return NextResponse.json(
-        { error: 'Roblox username is required' },
+        { error: 'Minecraft username is required' },
         { status: 400 }
       );
     }
 
-    // Fetch Roblox user data
+    // TODO: Replace with Minecraft API call
+    // Fetch Minecraft user data
     try {
+      /* Roblox API - to be replaced with Minecraft API
       const userResponse = await fetch(`https://users.roblox.com/v1/usernames/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          usernames: [body.robloxUsername],
+          usernames: [body.minecraftUsername],
           excludeBannedUsers: true
         })
       });
+      */
 
+      // TODO: Replace with Minecraft API response parsing
+      const displayName = body.minecraftUsername;
+      const userId = body.minecraftUsername; // Minecraft uses username as ID
+      
+      /* Roblox API parsing - to be replaced
       const userData = await userResponse.json();
       
       if (!userData.data || userData.data.length === 0) {
         return NextResponse.json(
-          { error: 'Roblox user not found' },
+          { error: 'Minecraft user not found' },
           { status: 404 }
         );
       }
@@ -104,8 +112,10 @@ export async function POST(request: Request) {
       const robloxUser = userData.data[0];
       const userId = robloxUser.id;
       const displayName = robloxUser.displayName;
+      */
 
       let description = '';
+      /* Roblox description fetch - to be replaced with Minecraft API
       try {
         const descResponse = await fetch(`https://users.roblox.com/v1/users/${userId}`);
         const descData = await descResponse.json();
@@ -113,9 +123,11 @@ export async function POST(request: Request) {
       } catch (e) {
         console.log('Could not fetch description');
       }
+      */
 
-      // Fetch profile picture from Roblox thumbnails API
+      // TODO: Fetch profile picture from Minecraft API
       let profilePicture = '';
+      /* Roblox thumbnail fetch - to be replaced with Minecraft skin/head API
       try {
         const thumbResponse = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=150x150&format=Png&isCircular=false`);
         const thumbData = await thumbResponse.json();
@@ -125,14 +137,15 @@ export async function POST(request: Request) {
       } catch (e) {
         console.log('Could not fetch profile picture');
       }
+      */
 
       const stats = body.stats || {};
       const { data, error } = await supabaseAdmin
         .from('players')
         .insert({
           display_name: displayName,
-          roblox_username: body.robloxUsername,
-          roblox_user_id: userId.toString(),
+          minecraft_username: body.minecraftUsername,
+          minecraft_user_id: userId.toString(),
           profile_picture: profilePicture,
           description: description,
           discord_username: body.discordUsername || '',
@@ -159,13 +172,13 @@ export async function POST(request: Request) {
         player: {
           id: data.id,
           displayName: data.display_name,
-          robloxUsername: data.roblox_username,
+          minecraftUsername: data.minecraft_username,
         }
       });
     } catch (error) {
-      console.error('Roblox API error:', error);
+      console.error('Minecraft API error:', error);
       return NextResponse.json(
-        { error: 'Failed to fetch Roblox user data' },
+        { error: 'Failed to fetch Minecraft user data' },
         { status: 500 }
       );
     }
@@ -280,3 +293,4 @@ export async function DELETE(request: Request) {
     );
   }
 }
+

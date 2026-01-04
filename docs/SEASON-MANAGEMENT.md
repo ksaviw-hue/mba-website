@@ -2,7 +2,7 @@
 
 ## Overview
 
-The EBA Website now has a centralized season configuration system that makes it easy to update the season across the entire website.
+The MBA Website now has a centralized season configuration system that makes it easy to update the season across the entire website.
 
 ## Current Season Configuration
 
@@ -84,3 +84,4 @@ Possible future features:
 - Display names are strings ("Season 1", "Season 2", etc.)
 - Always update both `CURRENT_SEASON` (number) and `CURRENT_SEASON_NAME` (string)
 - Add new seasons to `AVAILABLE_SEASONS` array to make them selectable in stats
+

@@ -123,7 +123,7 @@ export default function GameDetailPage({ params }: { params: { id: string } }) {
       {/* Back Button */}
       <Link 
         href="/games"
-        className="inline-flex items-center space-x-2 text-eba-blue hover:text-blue-600 dark:text-blue-400 mb-6"
+        className="inline-flex items-center space-x-2 text-mba-blue hover:text-blue-600 dark:text-blue-400 mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to Schedule</span>
@@ -222,7 +222,7 @@ export default function GameDetailPage({ params }: { params: { id: string } }) {
           {/* Away Team Box Score */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6 shadow-lg border border-gray-200 dark:border-gray-700">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <Users className="w-5 h-5 mr-2 text-eba-blue" />
+              <Users className="w-5 h-5 mr-2 text-mba-blue" />
               {awayTeam.name} Box Score
             </h3>
             <div className="overflow-x-auto">
@@ -246,7 +246,7 @@ export default function GameDetailPage({ params }: { params: { id: string } }) {
                   {awayPlayerStats.map((stat) => (
                     <tr key={stat.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                       <td className="py-3 px-2">
-                        <Link href={`/players/${stat.playerId}`} className="text-eba-blue hover:text-blue-600 dark:text-blue-400 font-medium">
+                        <Link href={`/players/${stat.playerId}`} className="text-mba-blue hover:text-blue-600 dark:text-blue-400 font-medium">
                           {stat.player?.displayName || 'Unknown'}
                         </Link>
                       </td>
@@ -295,7 +295,7 @@ export default function GameDetailPage({ params }: { params: { id: string } }) {
           {/* Home Team Box Score */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-200 dark:border-gray-700">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <Users className="w-5 h-5 mr-2 text-eba-blue" />
+              <Users className="w-5 h-5 mr-2 text-mba-blue" />
               {homeTeam.name} Box Score
             </h3>
             <div className="overflow-x-auto">
@@ -319,7 +319,7 @@ export default function GameDetailPage({ params }: { params: { id: string } }) {
                   {homePlayerStats.map((stat) => (
                     <tr key={stat.id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                       <td className="py-3 px-2">
-                        <Link href={`/players/${stat.playerId}`} className="text-eba-blue hover:text-blue-600 dark:text-blue-400 font-medium">
+                        <Link href={`/players/${stat.playerId}`} className="text-mba-blue hover:text-blue-600 dark:text-blue-400 font-medium">
                           {stat.player?.displayName || 'Unknown'}
                         </Link>
                       </td>
@@ -376,3 +376,4 @@ export default function GameDetailPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+

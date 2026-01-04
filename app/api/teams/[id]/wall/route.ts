@@ -20,7 +20,7 @@ export async function GET(
         players:player_id (
           id,
           display_name,
-          roblox_username,
+          minecraft_username,
           profile_picture,
           roles
         )
@@ -92,7 +92,7 @@ export async function POST(
         players:player_id (
           id,
           display_name,
-          roblox_username,
+          minecraft_username,
           profile_picture,
           roles
         )

@@ -9,10 +9,10 @@ export default function AuthErrorPage() {
 
   const errorMessages: Record<string, string> = {
     Configuration: "There is a problem with the server configuration.",
-    AccessDenied: "You denied access to your account.",
+    AccessDenied: "You must verify your Minecraft username on Discord before signing in to the website. Join the Discord server and use the verification bot.",
     Verification: "The verification link has expired or has already been used.",
     OAuthSignin: "Error constructing the authorization URL.",
-    OAuthCallback: "Error handling the OAuth callback. This usually means the redirect URI is incorrect in your OAuth app settings.",
+    OAuthCallback: "Error handling the Discord OAuth callback.",
     OAuthCreateAccount: "Error creating your account in the database.",
     EmailCreateAccount: "Error creating your email account.",
     Callback: "Error in the OAuth callback handler.",
@@ -20,7 +20,7 @@ export default function AuthErrorPage() {
     EmailSignin: "Error sending the verification email.",
     CredentialsSignin: "Sign in failed. Check your credentials.",
     SessionRequired: "Please sign in to access this page.",
-    Default: "An unknown error occurred during authentication.",
+    Default: "You need to verify your Minecraft username on Discord before you can sign in.",
   };
 
   const message = error ? errorMessages[error] || errorMessages.Default : errorMessages.Default;
@@ -48,22 +48,30 @@ export default function AuthErrorPage() {
                 Common Solutions:
               </h3>
               <ul className="text-sm text-yellow-800 dark:text-yellow-300 space-y-2 list-disc list-inside">
-                <li>Check that your Roblox OAuth app redirect URI is exactly:<br/>
-                  <code className="bg-yellow-100 dark:bg-yellow-900/50 px-2 py-1 rounded text-xs">
-                    https://ebassociation.com/api/auth/callback/roblox
-                  </code>
-                </li>
-                <li>Verify your OAuth app is published/active in Roblox Creator Dashboard</li>
-                <li>Ensure the Client ID and Client Secret match</li>
+                <li>Check that your Discord OAuth app redirect URI is set correctly</li>
                 <li>Try clearing your browser cookies and cache</li>
               </ul>
             </div>
           )}
 
-          <div className="space-y-3">
-            <Link
-              href="/"
-              className="block w-full text-center bg-eba-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg"
+          {(error === "AccessDenied" || error === "Default") && (
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                ✅ How to Verify Your Minecraft Username:
+              </h3>
+              <ol className="text-sm text-blue-800 dark:text-blue-300 space-y-2 list-decimal list-inside">
+                <li>Join the MBA Discord server</li>
+                <li>Go to the verification channel</li>
+                <li>Use the bot command to link your Minecraft account</li>
+                <li>Once verified, come back and sign in again</li>
+              </ol>
+            </div>
+          )}
+
+          <div className="space-y-3">"}
+              className="block w-full text-center bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+            >
+              Try Signing InssName="block w-full text-center bg-mba-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg"
             >
               Go to Homepage
             </Link>
@@ -85,3 +93,4 @@ export default function AuthErrorPage() {
     </div>
   );
 }
+

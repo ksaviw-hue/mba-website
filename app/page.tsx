@@ -63,7 +63,7 @@ export default function Home() {
         {/* Main Content - News and Articles */}
         <div className="lg:col-span-2 space-y-6">
           <div>
-            <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Elite Basketball Association</h1>
+            <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Minecraft Basketball Association</h1>
             <p className="text-gray-600 dark:text-gray-400">Your home for the most competitive Roblox basketball experience</p>
           </div>
 
@@ -88,7 +88,7 @@ export default function Home() {
                 {/* Twitch Embed */}
                 <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
                   <iframe
-                    src={`https://player.twitch.tv/?channel=${liveStream.twitch_channel}&parent=${typeof window !== 'undefined' ? window.location.hostname : 'ebassociation.com'}`}
+                    src={`https://player.twitch.tv/?channel=${liveStream.twitch_channel}&parent=${typeof window !== 'undefined' ? window.location.hostname : 'mbaassociation.com'}`}
                     className="absolute top-0 left-0 w-full h-full rounded-lg"
                     allowFullScreen
                   ></iframe>
@@ -116,7 +116,7 @@ export default function Home() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Latest News</h2>
-              <Link href="/news" className="text-eba-blue hover:text-blue-600 flex items-center text-sm">
+              <Link href="/news" className="text-mba-blue hover:text-blue-600 flex items-center text-sm">
                 View All <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -125,7 +125,7 @@ export default function Home() {
               {latestArticles.map((article) => (
                 <article
                   key={article.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
+                  className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors shadow-sm"
                 >
                   {article.image && (
                     <div className="w-full h-48 relative">
@@ -148,7 +148,7 @@ export default function Home() {
                     <p className="text-gray-700 dark:text-gray-300">{article.excerpt || article.content.slice(0, 150)}...</p>
                     <Link
                       href={`/news/${article.id}`}
-                      className="inline-block mt-4 text-eba-blue hover:text-blue-600 font-medium"
+                      className="inline-block mt-4 text-mba-blue hover:text-blue-600 font-medium"
                     >
                       Read More →
                     </Link>
@@ -163,7 +163,7 @@ export default function Home() {
         <div className="lg:col-span-1">
           <div className="sticky top-4">
             <h2 className="text-2xl font-bold mb-4 flex items-center text-gray-900 dark:text-white">
-              <Calendar className="w-6 h-6 mr-2 text-eba-blue" />
+              <Calendar className="w-6 h-6 mr-2 text-mba-blue" />
               Upcoming Games
             </h2>
             
@@ -177,7 +177,7 @@ export default function Home() {
                     <Link
                       key={game.id}
                       href={`/games/${game.id}`}
-                      className="block bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
+                      className="block bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors shadow-sm"
                     >
                       <div className="text-xs text-gray-600 dark:text-gray-400 mb-2">
                         {new Date(game.scheduledDate).toLocaleDateString('en-US', {
@@ -205,7 +205,7 @@ export default function Home() {
               
               <Link
                 href="/games"
-                className="block text-center py-3 px-4 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors shadow-sm"
+                className="block text-center py-3 px-4 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors shadow-sm"
               >
                 View Full Schedule
               </Link>
@@ -216,3 +216,4 @@ export default function Home() {
     </div>
   );
 }
+

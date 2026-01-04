@@ -42,7 +42,7 @@ export default function EditProfile({ player, isOwnProfile, onSave }: EditProfil
     return (
       <button
         onClick={() => setIsEditing(true)}
-        className="flex items-center gap-2 px-4 py-2 bg-eba-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-mba-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
       >
         <Edit2 className="w-4 h-4" />
         <span>Edit Profile</span>
@@ -80,7 +80,7 @@ export default function EditProfile({ player, isOwnProfile, onSave }: EditProfil
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             rows={6}
-            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
             placeholder="Tell us about yourself..."
           />
         </div>
@@ -88,3 +88,4 @@ export default function EditProfile({ player, isOwnProfile, onSave }: EditProfil
     </div>
   );
 }
+

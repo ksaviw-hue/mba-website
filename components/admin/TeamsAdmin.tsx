@@ -170,7 +170,7 @@ export default function TeamsAdmin() {
             setShowForm(!showForm);
             if (showForm) resetForm();
           }}
-          className="flex items-center space-x-2 px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
         >
           <Plus className="w-5 h-5" />
           <span>New Team</span>
@@ -233,7 +233,7 @@ export default function TeamsAdmin() {
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
                 placeholder="Toronto Terror"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -247,7 +247,7 @@ export default function TeamsAdmin() {
                 onChange={(e) => setAbbreviation(e.target.value.toUpperCase())}
                 placeholder="TOR"
                 maxLength={3}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -267,7 +267,7 @@ export default function TeamsAdmin() {
                   type="text"
                   value={primaryColor}
                   onChange={(e) => setPrimaryColor(e.target.value)}
-                  className="flex-1 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="flex-1 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -288,7 +288,7 @@ export default function TeamsAdmin() {
                   type="text"
                   value={secondaryColor}
                   onChange={(e) => setSecondaryColor(e.target.value)}
-                  className="flex-1 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="flex-1 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -302,7 +302,7 @@ export default function TeamsAdmin() {
                 value={owner}
                 onChange={(e) => setOwner(e.target.value)}
                 placeholder="Owner name"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -315,7 +315,7 @@ export default function TeamsAdmin() {
                 value={headCoach}
                 onChange={(e) => setHeadCoach(e.target.value)}
                 placeholder="Coach name"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -326,7 +326,7 @@ export default function TeamsAdmin() {
               <select
                 value={conference}
                 onChange={(e) => setConference(e.target.value as 'Eastern' | 'Western')}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="Eastern">Eastern Conference</option>
                 <option value="Western">Western Conference</option>
@@ -338,7 +338,7 @@ export default function TeamsAdmin() {
             <button
               onClick={handleSaveTeam}
               disabled={loading}
-              className="px-6 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : (editingTeam ? 'Update Team' : 'Create Team')}
             </button>
@@ -362,7 +362,7 @@ export default function TeamsAdmin() {
           teams.map((team) => (
             <div
               key={team.id}
-              className="p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors"
+              className="p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
@@ -385,7 +385,7 @@ export default function TeamsAdmin() {
                 <div className="flex space-x-1">
                   <button
                     onClick={() => openEditForm(team)}
-                    className="p-2 text-eba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    className="p-2 text-mba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
@@ -430,3 +430,4 @@ export default function TeamsAdmin() {
     </div>
   );
 }
+

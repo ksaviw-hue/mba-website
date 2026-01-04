@@ -43,7 +43,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-2xl font-bold mb-4">Contact</h2>
           <p>
-            For privacy-related questions, please contact the EBA administration team.
+            For privacy-related questions, please contact the MBA administration team.
           </p>
         </section>
 
@@ -54,3 +54,4 @@ export default function PrivacyPage() {
     </div>
   );
 }
+

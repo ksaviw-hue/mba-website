@@ -1,4 +1,4 @@
-# EBA Basketball League Website
+# MBA Basketball League Website
 
 A modern basketball league website built with Next.js, TypeScript, and Tailwind CSS.
 

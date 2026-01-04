@@ -13,8 +13,8 @@ interface StaffMember {
 interface Player {
   id: string;
   displayName: string;
-  robloxUsername: string;
-  robloxUserId: number;
+  minecraftUsername: string;
+  minecraftUserId: number;
   profilePicture: string;
 }
 
@@ -101,7 +101,7 @@ export default function StaffPage() {
             <Users className="w-12 h-12 text-blue-400 mr-3" />
             <h1 className="text-4xl md:text-5xl font-bold text-white">League Staff</h1>
           </div>
-          <p className="text-xl text-gray-300">Meet the team behind the Elite Basketball Association</p>
+          <p className="text-xl text-gray-300">Meet the team behind the Minecraft Basketball Association</p>
         </div>
 
         {/* Staff Categories */}
@@ -158,7 +158,7 @@ export default function StaffPage() {
                                   {player.displayName}
                                 </p>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                  @{player.robloxUsername}
+                                  @{player.minecraftUsername}
                                 </p>
                               </div>
                             </div>
@@ -184,3 +184,4 @@ export default function StaffPage() {
     </div>
   );
 }
+

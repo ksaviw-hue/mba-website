@@ -8,7 +8,7 @@
 
 1. Initialize git in your project folder:
 ```bash
-cd c:\Users\ksavi\Downloads\EBAWebsite
+cd c:\Users\ksavi\Downloads\MBAWebsite
 git init
 ```
 
@@ -19,18 +19,18 @@ git add .
 
 3. Create initial commit:
 ```bash
-git commit -m "Initial commit - Elite Basketball Association website"
+git commit -m "Initial commit - Minecraft Basketball Association website"
 ```
 
 4. Create a new repository on GitHub:
    - Go to https://github.com/new
-   - Name it "eba-website" (or your preferred name)
+   - Name it "mba-website" (or your preferred name)
    - Don't initialize with README (you already have files)
    - Click "Create repository"
 
 5. Connect your local repo to GitHub:
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/eba-website.git
+git remote add origin https://github.com/YOUR_USERNAME/mba-website.git
 git branch -M main
 git push -u origin main
 ```
@@ -68,10 +68,10 @@ After deployment, update the links in the website:
 
 1. Open `app/links/page.tsx`
 2. Replace placeholder URLs with your actual links:
-   - Roblox Group URL
-   - Roblox Game URL
+   - Minecraft Group URL
+   - Minecraft Game URL
    - Discord Invite URL
-   - Your Vercel URL (e.g., https://eba-website.vercel.app)
+   - Your Vercel URL (e.g., https://mba-website.vercel.app)
 
 ## Step 4: Custom Domain (Optional)
 
@@ -97,8 +97,8 @@ For admin features:
 - **Clerk** (easy to use)
 - **Auth0** (enterprise-grade)
 
-### 3. Roblox API Integration
-- Use Roblox API to fetch user data
+### 3. Minecraft API Integration
+- Use Minecraft API to fetch user data
 - Store player information in database
 - Automatically update profile pictures
 

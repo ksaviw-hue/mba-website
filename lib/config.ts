@@ -7,8 +7,8 @@
 
 export const LEAGUE_CONFIG = {
   // League Info
-  LEAGUE_NAME: 'Elite Basketball Association',
-  LEAGUE_SHORT_NAME: 'EBA',
+  LEAGUE_NAME: 'Minecraft Basketball Association',
+  LEAGUE_SHORT_NAME: 'MBA',
 } as const;
 
 /**
@@ -73,4 +73,5 @@ export async function isCurrentSeason(seasonName: string): Promise<boolean> {
   const current = await getCurrentSeasonName();
   return seasonName === current;
 }
+
 

@@ -26,3 +26,4 @@ export const supabaseAdmin = typeof window === 'undefined' && supabaseServiceKey
       }
     })
   : supabase; // Fallback to regular client if service key is missing or on client-side
+

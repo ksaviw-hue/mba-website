@@ -88,7 +88,7 @@ export default function GamesPage() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2 flex items-center text-gray-900 dark:text-white">
-          <Calendar className="w-10 h-10 mr-3 text-eba-blue" />
+          <Calendar className="w-10 h-10 mr-3 text-mba-blue" />
           Games Schedule
         </h1>
         <p className="text-gray-600 dark:text-gray-400">View upcoming games and recent results</p>
@@ -102,7 +102,7 @@ export default function GamesPage() {
         <select
           value={selectedSeason}
           onChange={(e) => setSelectedSeason(e.target.value)}
-          className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+          className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
         >
           {availableSeasons.map((season) => (
             <option key={season} value={season}>
@@ -118,7 +118,7 @@ export default function GamesPage() {
           onClick={() => setFilter('all')}
           className={`px-6 py-3 rounded-lg font-medium transition-colors ${
             filter === 'all'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -128,7 +128,7 @@ export default function GamesPage() {
           onClick={() => setFilter('upcoming')}
           className={`px-6 py-3 rounded-lg font-medium transition-colors ${
             filter === 'upcoming'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -138,7 +138,7 @@ export default function GamesPage() {
           onClick={() => setFilter('completed')}
           className={`px-6 py-3 rounded-lg font-medium transition-colors ${
             filter === 'completed'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
           }`}
         >
@@ -159,7 +159,7 @@ export default function GamesPage() {
               <Link
                 key={game.id}
                 href={`/games/${game.id}`}
-                className="block bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
+                className="block bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors shadow-sm"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
@@ -170,7 +170,7 @@ export default function GamesPage() {
                       </>
                     ) : (
                       <>
-                        <Clock className="w-4 h-4 text-eba-blue" />
+                        <Clock className="w-4 h-4 text-mba-blue" />
                         <span>Scheduled</span>
                       </>
                     )}
@@ -301,3 +301,4 @@ export default function GamesPage() {
     </div>
   );
 }
+

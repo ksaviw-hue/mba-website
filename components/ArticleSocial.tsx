@@ -237,7 +237,7 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white resize-none"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white resize-none"
                 rows={3}
                 maxLength={1000}
               />
@@ -246,7 +246,7 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
                 <button
                   type="submit"
                   disabled={submitting || !newComment.trim()}
-                  className="px-4 py-2 bg-eba-blue text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-mba-blue text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
                   {submitting ? "Posting..." : "Post Comment"}
                 </button>
@@ -274,7 +274,7 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
                     {comment.players?.display_name}
                   </span>
                   <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
-                    @{comment.players?.roblox_username}
+                    @{comment.players?.minecraft_username}
                   </span>
                   <span className="text-sm text-gray-400 dark:text-gray-500 ml-2">
                     • {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}
@@ -321,3 +321,4 @@ export default function ArticleSocial({ articleId }: ArticleSocialProps) {
     </div>
   );
 }
+

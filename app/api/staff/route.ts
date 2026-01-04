@@ -65,3 +65,4 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'Failed to remove staff member' }, { status: 500 });
   }
 }
+

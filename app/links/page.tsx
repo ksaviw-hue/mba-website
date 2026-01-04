@@ -6,28 +6,28 @@ const links = [
     description: 'EBA Roblox Group',
     url: 'https://www.roblox.com/communities/16862596/Elite-Basketball-Association#!/about',
     icon: Users,
-    color: 'bg-eba-blue hover:bg-blue-600',
+    color: 'bg-mba-blue hover:bg-blue-600',
   },
   {
     title: 'Roblox Game',
     description: 'Practical Basketball',
     url: 'https://www.roblox.com/games/80681221431821/Practical-Basketball',
     icon: Gamepad2,
-    color: 'bg-eba-blue hover:bg-blue-600',
+    color: 'bg-mba-blue hover:bg-blue-600',
   },
   {
     title: 'Discord Server',
     description: 'Join our Discord community',
     url: 'https://discord.gg/eba',
     icon: MessageCircle,
-    color: 'bg-eba-blue hover:bg-blue-600',
+    color: 'bg-mba-blue hover:bg-blue-600',
   },
   {
     title: 'Website',
     description: 'You are here!',
-    url: typeof window !== 'undefined' ? window.location.origin : 'https://www.ebassociation.com',
+    url: typeof window !== 'undefined' ? window.location.origin : 'https://www.mbaassociation.com',
     icon: Globe,
-    color: 'bg-eba-blue hover:bg-blue-600',
+    color: 'bg-mba-blue hover:bg-blue-600',
   },
 ];
 
@@ -36,7 +36,7 @@ export default function LinksPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Important Links</h1>
-        <p className="text-gray-600 dark:text-gray-400">Connect with the Elite Basketball Association across platforms</p>
+        <p className="text-gray-600 dark:text-gray-400">Connect with the Minecraft Basketball Association across platforms</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -67,9 +67,10 @@ export default function LinksPage() {
       <div className="mt-8 bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 text-center shadow-sm">
         <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Stay Connected</h3>
         <p className="text-gray-600 dark:text-gray-400">
-          Follow us on all platforms to stay updated with the latest news, scores, and events from the Elite Basketball Association!
+          Follow us on all platforms to stay updated with the latest news, scores, and events from the Minecraft Basketball Association!
         </p>
       </div>
     </div>
   );
 }
+

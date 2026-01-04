@@ -151,7 +151,7 @@ export default function LiveStreamAdmin() {
           {!showForm ? (
             <button
               onClick={() => setShowForm(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
             >
               <Plus className="w-5 h-5" />
               <span>Start Live Stream</span>
@@ -171,8 +171,8 @@ export default function LiveStreamAdmin() {
                     type="text"
                     value={twitchChannel}
                     onChange={(e) => setTwitchChannel(e.target.value)}
-                    placeholder="e.g., ebassociation"
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white font-mono"
+                    placeholder="e.g., mbaassociation"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white font-mono"
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     Just the channel name, not the full URL
@@ -188,7 +188,7 @@ export default function LiveStreamAdmin() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g., EBA Season 1 Finals - Game 3"
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
               </div>
@@ -234,3 +234,4 @@ export default function LiveStreamAdmin() {
     </div>
   );
 }
+

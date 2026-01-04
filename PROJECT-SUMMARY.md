@@ -1,8 +1,8 @@
-# EBA Basketball League Website - Project Summary
+# MBA Basketball League Website - Project Summary
 
 ## ✅ Project Complete!
 
-Your EBA Basketball League website has been successfully created and is ready to deploy!
+Your MBA Basketball League website has been successfully created and is ready to deploy!
 
 ## 🎯 What's Been Built
 
@@ -20,8 +20,8 @@ Your EBA Basketball League website has been successfully created and is ready to
    - Visual team cards
 
 3. **Links Page** (`/links`)
-   - Roblox Group link
-   - Roblox Game link
+   - Minecraft Group link
+   - Minecraft Game link
    - Discord invite link
    - Website link
    - Colorful, interactive cards
@@ -50,7 +50,7 @@ Your EBA Basketball League website has been successfully created and is ready to
 
 7. **Player Profile** (`/players/[id]`)
    - Full player information
-   - Profile picture (Roblox)
+   - Profile picture (Minecraft)
    - Team affiliation
    - Comprehensive stats:
      - GP (Games Played)
@@ -100,8 +100,8 @@ You can:
    - Add news articles
 
 2. **Update Links** in `app/links/page.tsx`:
-   - Replace Roblox Group URL
-   - Replace Roblox Game URL
+   - Replace Minecraft Group URL
+   - Replace Minecraft Game URL
    - Replace Discord invite URL
 
 3. **Test Everything**:
@@ -119,7 +119,7 @@ You can:
 ### Future Enhancements (see ROADMAP.md):
 - Add database (PostgreSQL, MongoDB)
 - Implement authentication
-- Roblox API integration
+- Minecraft API integration
 - Real-time updates
 - Advanced statistics
 - And much more!
@@ -199,7 +199,7 @@ npm run lint     # Check for errors
 
 1. **Testing**: Use http://localhost:3000 to preview
 2. **Editing**: Changes auto-reload in dev mode
-3. **Images**: Roblox profile pictures load automatically
+3. **Images**: Minecraft profile pictures load automatically
 4. **Mobile**: Design is fully responsive
 5. **Performance**: Next.js optimizes everything
 

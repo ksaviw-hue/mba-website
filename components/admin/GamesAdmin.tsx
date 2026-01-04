@@ -243,7 +243,7 @@ export default function GamesAdmin() {
             setShowForm(!showForm);
             if (showForm) resetForm();
           }}
-          className="flex items-center space-x-2 px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
         >
           <Plus className="w-5 h-5" />
           <span>Schedule Game</span>
@@ -265,7 +265,7 @@ export default function GamesAdmin() {
               <select
                 value={homeTeamId}
                 onChange={(e) => setHomeTeamId(e.target.value)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="">Select home team...</option>
                 {teams.map(team => (
@@ -281,7 +281,7 @@ export default function GamesAdmin() {
               <select
                 value={awayTeamId}
                 onChange={(e) => setAwayTeamId(e.target.value)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="">Select away team...</option>
                 {teams.map(team => (
@@ -298,7 +298,7 @@ export default function GamesAdmin() {
                 type="datetime-local"
                 value={scheduledDate}
                 onChange={(e) => setScheduledDate(e.target.value)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Enter time in Eastern Standard Time</p>
             </div>
@@ -310,7 +310,7 @@ export default function GamesAdmin() {
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as any)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="scheduled">Scheduled</option>
                 <option value="live">Live</option>
@@ -325,7 +325,7 @@ export default function GamesAdmin() {
               <select
                 value={season}
                 onChange={(e) => setSeason(e.target.value)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 {availableSeasons.map((seasonName) => (
                   <option key={seasonName} value={seasonName}>
@@ -347,7 +347,7 @@ export default function GamesAdmin() {
                     onChange={(e) => setHomeScore(e.target.value)}
                     placeholder="0"
                     disabled={isForfeit}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white disabled:opacity-50"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white disabled:opacity-50"
                   />
                 </div>
 
@@ -361,7 +361,7 @@ export default function GamesAdmin() {
                     onChange={(e) => setAwayScore(e.target.value)}
                     placeholder="0"
                     disabled={isForfeit}
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white disabled:opacity-50"
+                    className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white disabled:opacity-50"
                   />
                 </div>
                 
@@ -373,7 +373,7 @@ export default function GamesAdmin() {
                           type="checkbox"
                           checked={isForfeit}
                           onChange={(e) => setIsForfeit(e.target.checked)}
-                          className="w-4 h-4 text-eba-blue border-gray-300 rounded focus:ring-eba-blue"
+                          className="w-4 h-4 text-mba-blue border-gray-300 rounded focus:ring-mba-blue"
                         />
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                           Mark as Forfeit
@@ -389,7 +389,7 @@ export default function GamesAdmin() {
                         <select
                           value={forfeitWinner}
                           onChange={(e) => setForfeitWinner(e.target.value as any)}
-                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                          className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                         >
                           <option value="home">Home Team (FFW) - Away Team (FFL)</option>
                           <option value="away">Away Team (FFW) - Home Team (FFL)</option>
@@ -409,7 +409,7 @@ export default function GamesAdmin() {
             <button
               onClick={handleSaveGame}
               disabled={loading}
-              className="px-6 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : (editingGame ? 'Update Game' : 'Schedule Game')}
             </button>
@@ -435,13 +435,13 @@ export default function GamesAdmin() {
               placeholder="Search by team name or date..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
             />
           </div>
           <select
             value={seasonFilter}
             onChange={(e) => setSeasonFilter(e.target.value)}
-            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
           >
             <option value="all">All Seasons</option>
             {availableSeasons.map(season => (
@@ -451,7 +451,7 @@ export default function GamesAdmin() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
           >
             <option value="all">All Status</option>
             <option value="scheduled">Scheduled</option>
@@ -470,7 +470,7 @@ export default function GamesAdmin() {
           filteredGames.map((game) => (
             <div
               key={game.id}
-              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors"
+              className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
@@ -520,7 +520,7 @@ export default function GamesAdmin() {
                 <div className="flex items-center space-x-2 ml-4">
                   <button
                     onClick={() => openEditForm(game)}
-                    className="p-2 text-eba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                    className="p-2 text-mba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                     title="Edit game"
                   >
                     <Edit2 className="w-5 h-5" />
@@ -541,3 +541,4 @@ export default function GamesAdmin() {
     </div>
   );
 }
+

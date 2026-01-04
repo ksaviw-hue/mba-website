@@ -1,6 +1,6 @@
 # Future Enhancements
 
-This document outlines planned features and improvements for the EBA Basketball League website.
+This document outlines planned features and improvements for the MBA Basketball League website.
 
 ## Phase 1: Current Features ✅
 - [x] Home page with news and upcoming games
@@ -23,15 +23,15 @@ This document outlines planned features and improvements for the EBA Basketball 
 - [ ] Migrate from mock data to real database
 - [ ] Add data validation and error handling
 
-## Phase 3: Roblox Integration
-- [ ] Implement Roblox API integration
-- [ ] Auto-fetch player data from Roblox:
+## Phase 3: Minecraft Integration
+- [ ] Implement Minecraft API integration
+- [ ] Auto-fetch player data from Minecraft:
   - Profile picture
   - Display name
   - Description/Bio
   - User ID
 - [ ] Keep player data synced
-- [ ] Add Roblox group verification
+- [ ] Add Minecraft group verification
 
 ## Phase 4: Authentication & Authorization
 - [ ] Implement NextAuth.js or similar
@@ -125,7 +125,7 @@ This document outlines planned features and improvements for the EBA Basketball 
 - [ ] Implement rate limiting on APIs
 - [ ] Add data backup strategy
 
-## Roblox Game Integration Ideas
+## Minecraft Game Integration Ideas
 - [ ] Webhook from game to website (auto-update stats)
 - [ ] OAuth flow for player verification
 - [ ] In-game leaderboards synced with website

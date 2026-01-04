@@ -26,7 +26,7 @@ I've updated all your API routes to use the Supabase service role key, which byp
 ### 3. Add the Service Role Key to Vercel
 
 1. Go to your Vercel Dashboard: https://vercel.com/dashboard
-2. Select your EBA Website project
+2. Select your MBA Website project
 3. Go to **Settings** → **Environment Variables**
 4. Click **Add New**
 5. Set:

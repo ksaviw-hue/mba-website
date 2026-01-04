@@ -31,7 +31,7 @@ export default function Navigation() {
   console.log('[NAV DEBUG] Player ID:', session?.user?.playerId);
 
   return (
-    <nav className="bg-white dark:bg-eba-dark border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <nav className="bg-white dark:bg-mba-dark border-b border-gray-200 dark:border-gray-800 shadow-sm">
       <div className="max-w-full mx-auto px-2 sm:px-4 lg:px-8">
         <div className="flex items-center justify-between min-h-16 py-2">
           <div className="flex items-center">
@@ -45,7 +45,7 @@ export default function Navigation() {
                   className="object-contain"
                 />
               </div>
-              <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">Elite Basketball Association</span>
+              <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">Minecraft Basketball Association</span>
             </Link>
           </div>
           
@@ -61,7 +61,7 @@ export default function Navigation() {
                     href={item.href}
                     className={`flex items-center gap-1 px-2 py-2 rounded-md text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-eba-blue text-white'
+                        ? 'bg-mba-blue text-white'
                         : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
@@ -76,7 +76,7 @@ export default function Navigation() {
             {status === "authenticated" && session?.user?.playerId ? (
               <Link
                 href={`/players/${session.user.playerId}`}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-mba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"
               >
                 {session.user.profilePicture ? (
                   <img
@@ -93,7 +93,7 @@ export default function Navigation() {
               <button
                 onClick={() => signIn("roblox", { callbackUrl: '/' })}
                 disabled={status === "loading"}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2 disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-mba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2 disabled:opacity-50"
               >
                 <User className="w-4 h-4" />
                 <span className="whitespace-nowrap">Log In</span>
@@ -113,3 +113,4 @@ export default function Navigation() {
     </nav>
   );
 }
+

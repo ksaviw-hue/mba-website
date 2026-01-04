@@ -1,7 +1,7 @@
-# EBA Basketball League Website - Setup Script
+# MBA Basketball League Website - Setup Script
 
 Write-Host "===================================" -ForegroundColor Cyan
-Write-Host "Elite Basketball Association - Setup" -ForegroundColor Cyan
+Write-Host "Minecraft Basketball Association - Setup" -ForegroundColor Cyan
 Write-Host "===================================" -ForegroundColor Cyan
 Write-Host ""
 

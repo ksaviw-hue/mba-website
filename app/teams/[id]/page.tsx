@@ -210,7 +210,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
         {/* Back Button */}
         <Link 
           href="/branding"
-          className="inline-flex items-center space-x-2 text-eba-blue hover:text-blue-600 dark:text-blue-400 mb-6"
+          className="inline-flex items-center space-x-2 text-mba-blue hover:text-blue-600 dark:text-blue-400 mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Teams</span>
@@ -274,7 +274,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(e.target.value)}
-            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
           >
             {availableSeasons.map((season) => (
               <option key={season} value={season}>
@@ -290,7 +290,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
             {/* Team Stats */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <Trophy className="w-6 h-6 mr-2 text-eba-blue" />
+                <Trophy className="w-6 h-6 mr-2 text-mba-blue" />
                 Team Statistics
               </h2>
               
@@ -323,7 +323,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
             {/* Stat Leaders */}
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <TrendingUp className="w-6 h-6 mr-2 text-eba-blue" />
+                <TrendingUp className="w-6 h-6 mr-2 text-mba-blue" />
                 Team Leaders
               </h2>
               
@@ -352,7 +352,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                           <div className="text-sm text-gray-600 dark:text-gray-400">Points Leader</div>
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-eba-blue">
+                      <div className="text-2xl font-bold text-mba-blue">
                         {pointsLeader.stats.points.toFixed(1)}
                       </div>
                     </div>
@@ -381,7 +381,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                           <div className="text-sm text-gray-600 dark:text-gray-400">Rebounds Leader</div>
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-eba-blue">
+                      <div className="text-2xl font-bold text-mba-blue">
                         {reboundsLeader.stats.rebounds.toFixed(1)}
                       </div>
                     </div>
@@ -410,7 +410,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                           <div className="text-sm text-gray-600 dark:text-gray-400">Assists Leader</div>
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-eba-blue">
+                      <div className="text-2xl font-bold text-mba-blue">
                         {assistsLeader.stats.assists.toFixed(1)}
                       </div>
                     </div>
@@ -439,7 +439,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                           <div className="text-sm text-gray-600 dark:text-gray-400">Minutes Leader</div>
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-eba-blue">
+                      <div className="text-2xl font-bold text-mba-blue">
                         {minutesLeader.gameStats?.reduce((total: number, game: any) => total + (game.minutesPlayed || 0), 0) || 0}
                       </div>
                     </div>
@@ -468,7 +468,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                           <div className="text-sm text-gray-600 dark:text-gray-400">Efficiency Leader</div>
                         </div>
                       </div>
-                      <div className="text-2xl font-bold text-eba-blue">
+                      <div className="text-2xl font-bold text-mba-blue">
                         {(() => {
                           const totals = efficiencyLeader.gameStats.reduce((acc: any, gs: any) => ({
                             points: acc.points + (gs.points || 0),
@@ -547,7 +547,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
           <div>
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg sticky top-4">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <Users className="w-6 h-6 mr-2 text-eba-blue" />
+                <Users className="w-6 h-6 mr-2 text-mba-blue" />
                 Roster ({teamPlayers.length})
               </h2>
               
@@ -590,3 +590,4 @@ export default function TeamPage({ params }: { params: { id: string } }) {
     </main>
   );
 }
+

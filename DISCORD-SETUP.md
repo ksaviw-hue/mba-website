@@ -4,7 +4,7 @@
 
 1. Go to https://discord.com/developers/applications
 2. Click "New Application"
-3. Name it "Elite Basketball Association" (or your preferred name)
+3. Name it "Minecraft Basketball Association" (or your preferred name)
 4. Click "Create"
 
 ## Step 2: Get Your Client ID and Secret
@@ -96,7 +96,7 @@ When you deploy to Vercel:
    - `DISCORD_CLIENT_ID`
    - `DISCORD_CLIENT_SECRET`
    - `NEXTAUTH_SECRET`
-   - `NEXTAUTH_URL` (set to your production URL, e.g., `https://www.ebassociation.com`)
+   - `NEXTAUTH_URL` (set to your production URL, e.g., `https://www.mbaassociation.com`)
    - `ADMIN_DISCORD_IDS`
 4. Redeploy your application
 

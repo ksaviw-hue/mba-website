@@ -35,8 +35,8 @@ export const players: Player[] = [
   {
     id: '1',
     displayName: 'posterizing',
-    robloxUsername: 'trevonism',
-    robloxUserId: '123456',
+    minecraftUsername: 'trevonism',
+    minecraftUserId: '123456',
     profilePicture: 'https://tr.rbxcdn.com/30DAY-AvatarHeadshot-0000000000000000000000000000000000-Png/150/150/AvatarHeadshot/Png/noFilter',
     description: 'Entrepreneur, enthusiast, free-thinker.',
     discordUsername: 'trevonism',
@@ -93,18 +93,19 @@ export const games: Game[] = [
 export const articles: Article[] = [
   {
     id: '1',
-    title: 'Welcome to Elite Basketball Association!',
-    content: 'We are excited to announce the launch of the Elite Basketball Association. Stay tuned for more updates!',
-    author: 'EBA Admin',
+    title: 'Welcome to Minecraft Basketball Association!',
+    content: 'We are excited to announce the launch of the Minecraft Basketball Association. Stay tuned for more updates!',
+    author: 'MBA Admin',
     publishedDate: '2025-12-25T12:00:00',
-    excerpt: 'Welcome to the official Elite Basketball Association website.',
+    excerpt: 'Welcome to the official Minecraft Basketball Association website.',
   },
   {
     id: '2',
     title: 'Season 0 Begins Soon',
     content: 'Get ready for an exciting season of basketball action. Our inaugural season kicks off next week!',
-    author: 'EBA Admin',
+    author: 'MBA Admin',
     publishedDate: '2025-12-24T10:00:00',
     excerpt: 'Season 0 is just around the corner!',
   },
 ];
+

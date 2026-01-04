@@ -131,7 +131,7 @@ export default function SeasonsAdmin() {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Seasons</h2>
         <button
           onClick={() => setShowForm(true)}
-          className="px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+          className="px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
         >
           <Plus className="w-4 h-4" />
           <span>Add Season</span>
@@ -154,7 +154,7 @@ export default function SeasonsAdmin() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   placeholder="e.g., Season 1, Preseason 1"
                   required
                 />
@@ -168,7 +168,7 @@ export default function SeasonsAdmin() {
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) })}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   placeholder="0"
                   required
                 />
@@ -183,7 +183,7 @@ export default function SeasonsAdmin() {
                   type="date"
                   value={formData.startDate}
                   onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
 
@@ -195,7 +195,7 @@ export default function SeasonsAdmin() {
                   type="date"
                   value={formData.endDate}
                   onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function SeasonsAdmin() {
                 id="isCurrent"
                 checked={formData.isCurrent}
                 onChange={(e) => setFormData({ ...formData, isCurrent: e.target.checked })}
-                className="w-4 h-4 text-eba-blue border-gray-300 rounded focus:ring-eba-blue"
+                className="w-4 h-4 text-mba-blue border-gray-300 rounded focus:ring-mba-blue"
               />
               <label htmlFor="isCurrent" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                 Set as current season (will unset other seasons)
@@ -216,7 +216,7 @@ export default function SeasonsAdmin() {
             <div className="flex space-x-3">
               <button
                 type="submit"
-                className="px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+                className="px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
               >
                 <Check className="w-4 h-4" />
                 <span>{editingId ? 'Update' : 'Create'} Season</span>
@@ -295,3 +295,4 @@ export default function SeasonsAdmin() {
     </div>
   );
 }
+

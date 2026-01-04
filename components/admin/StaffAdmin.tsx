@@ -13,8 +13,8 @@ interface StaffMember {
 interface Player {
   id: string;
   displayName: string;
-  robloxUsername: string;
-  robloxUserId: number;
+  minecraftUsername: string;
+  minecraftUserId: number;
   profilePicture: string;
 }
 
@@ -137,7 +137,7 @@ export default function StaffAdmin() {
   const filteredPlayers = players.filter(player => {
     if (!searchQuery) return true;
     const nameMatch = player.displayName?.toLowerCase()?.includes(searchQuery.toLowerCase()) ?? false;
-    const idMatch = player.robloxUserId?.toString()?.includes(searchQuery) ?? false;
+    const idMatch = player.minecraftUserId?.toString()?.includes(searchQuery) ?? false;
     return nameMatch || idMatch;
   });
 
@@ -221,7 +221,7 @@ export default function StaffAdmin() {
                       )}
                       <div className="flex flex-col">
                         <span className="text-gray-900 dark:text-white font-medium">{player.displayName || 'Unknown'}</span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">@{player.robloxUsername}</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">@{player.minecraftUsername}</span>
                       </div>
                     </div>
                   ))
@@ -332,3 +332,4 @@ export default function StaffAdmin() {
     </div>
   );
 }
+

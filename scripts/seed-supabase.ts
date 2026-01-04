@@ -58,8 +58,8 @@ async function seedDatabase() {
         .from('players')
         .insert({
           display_name: player.displayName,
-          roblox_username: player.robloxUsername,
-          roblox_user_id: player.robloxUserId,
+          minecraft_username: player.minecraftUsername,
+          minecraft_user_id: player.minecraftUserId,
           profile_picture: player.profilePicture,
           description: player.description,
           discord_username: player.discordUsername,

@@ -2,7 +2,7 @@
 
 ## Logo Setup
 
-Please add your EBA logo to this directory as `logo.png` for it to appear on the website.
+Please add your MBA logo to this directory as `logo.png` for it to appear on the website.
 
 The logo will be displayed:
 - In the navigation bar (40x40px)

@@ -241,7 +241,7 @@ export default function GameStatsAdmin() {
   // Filter players by search
   const filteredPlayers = players.filter(player => 
     player.displayName.toLowerCase().includes(playerSearch.toLowerCase()) ||
-    player.robloxUsername.toLowerCase().includes(playerSearch.toLowerCase())
+    player.minecraftUsername.toLowerCase().includes(playerSearch.toLowerCase())
   );
 
   // Get team name helper
@@ -279,12 +279,12 @@ export default function GameStatsAdmin() {
     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold flex items-center text-gray-900 dark:text-white">
-          <TrendingUp className="w-6 h-6 mr-2 text-eba-blue" />
+          <TrendingUp className="w-6 h-6 mr-2 text-mba-blue" />
           Game Stats
         </h2>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+          className="px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
         >
           {showForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
           <span>{showForm ? 'Cancel' : 'Add Game Stats'}</span>
@@ -306,7 +306,7 @@ export default function GameStatsAdmin() {
                   placeholder="Search players by name or username..."
                   value={playerSearch}
                   onChange={(e) => setPlayerSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               <div className="max-h-48 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg">
@@ -322,7 +322,7 @@ export default function GameStatsAdmin() {
                       }}
                       className={`w-full px-4 py-3 text-left hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 ${
                         formData.playerId === player.id
-                          ? 'bg-eba-blue text-white hover:bg-blue-600'
+                          ? 'bg-mba-blue text-white hover:bg-blue-600'
                           : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
                       }`}
                     >
@@ -332,7 +332,7 @@ export default function GameStatsAdmin() {
                           ? 'text-blue-100'
                           : 'text-gray-500 dark:text-gray-400'
                       }`}>
-                        @{player.robloxUsername} • {getTeamAbbr(player.teamId)}
+                        @{player.minecraftUsername} • {getTeamAbbr(player.teamId)}
                       </div>
                     </button>
                   ))
@@ -355,7 +355,7 @@ export default function GameStatsAdmin() {
                   placeholder="Search games by date, teams, or score..."
                   value={gameSearchInput}
                   onChange={(e) => setGameSearchInput(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               <div className="max-h-64 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg">
@@ -411,7 +411,7 @@ export default function GameStatsAdmin() {
                         }}
                         className={`w-full px-4 py-3 text-left hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 ${
                           formData.gameId === game.id
-                            ? 'bg-eba-blue text-white hover:bg-blue-600'
+                            ? 'bg-mba-blue text-white hover:bg-blue-600'
                             : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
                         }`}
                       >
@@ -444,7 +444,7 @@ export default function GameStatsAdmin() {
                 value={formData.date}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -460,7 +460,7 @@ export default function GameStatsAdmin() {
                 onChange={handleChange}
                 required
                 placeholder="Opponent team name"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -474,7 +474,7 @@ export default function GameStatsAdmin() {
                 value={formData.result}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="W">Win</option>
                 <option value="L">Loss</option>
@@ -496,7 +496,7 @@ export default function GameStatsAdmin() {
                   value={formData.points}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* FG Made */}
@@ -510,7 +510,7 @@ export default function GameStatsAdmin() {
                   value={formData.fieldGoalsMade}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* FG Attempted */}
@@ -524,7 +524,7 @@ export default function GameStatsAdmin() {
                   value={formData.fieldGoalsAttempted}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* 3PT Made */}
@@ -538,7 +538,7 @@ export default function GameStatsAdmin() {
                   value={formData.threePointersMade}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* 3PT Attempted */}
@@ -552,7 +552,7 @@ export default function GameStatsAdmin() {
                   value={formData.threePointersAttempted}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* FT Made */}
@@ -566,7 +566,7 @@ export default function GameStatsAdmin() {
                   value={formData.freeThrowsMade}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* FT Attempted */}
@@ -580,7 +580,7 @@ export default function GameStatsAdmin() {
                   value={formData.freeThrowsAttempted}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Assists */}
@@ -594,7 +594,7 @@ export default function GameStatsAdmin() {
                   value={formData.assists}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Steals */}
@@ -608,7 +608,7 @@ export default function GameStatsAdmin() {
                   value={formData.steals}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Blocks */}
@@ -622,7 +622,7 @@ export default function GameStatsAdmin() {
                   value={formData.blocks}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Rebounds */}
@@ -636,7 +636,7 @@ export default function GameStatsAdmin() {
                   value={formData.rebounds}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Turnovers */}
@@ -650,7 +650,7 @@ export default function GameStatsAdmin() {
                   value={formData.turnovers}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Fouls */}
@@ -664,7 +664,7 @@ export default function GameStatsAdmin() {
                   value={formData.fouls}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
               {/* Minutes Played */}
@@ -678,7 +678,7 @@ export default function GameStatsAdmin() {
                   value={formData.minutesPlayed}
                   onChange={handleChange}
                   min="0"
-                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                 />
               </div>
             </div>
@@ -686,7 +686,7 @@ export default function GameStatsAdmin() {
 
           <button
             type="submit"
-            className="w-full px-6 py-3 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+            className="w-full px-6 py-3 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
           >
             {editingStatId ? 'Update Game Stats' : 'Add Game Stats'}
           </button>
@@ -709,7 +709,7 @@ export default function GameStatsAdmin() {
               placeholder="Search by team name or date..."
               value={gameSearch}
               onChange={(e) => setGameSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
             />
           </div>
         </div>
@@ -1044,3 +1044,4 @@ export default function GameStatsAdmin() {
     </div>
   );
 }
+

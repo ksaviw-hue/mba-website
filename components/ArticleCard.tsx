@@ -83,7 +83,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-all shadow-sm hover:shadow-md">
+    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-all shadow-sm hover:shadow-md">
       <Link href={`/news/${article.id}`}>
         {article.image && (
           <div className="w-full h-48 relative overflow-hidden">
@@ -98,7 +98,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       
       <div className="p-6">
         <Link href={`/news/${article.id}`}>
-          <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white hover:text-eba-blue transition-colors">
+          <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white hover:text-mba-blue transition-colors">
             {article.title}
           </h2>
         </Link>
@@ -178,7 +178,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             {commentCount > 2 && (
               <Link 
                 href={`/news/${article.id}`}
-                className="text-sm text-gray-500 dark:text-gray-400 hover:text-eba-blue transition-colors block"
+                className="text-sm text-gray-500 dark:text-gray-400 hover:text-mba-blue transition-colors block"
               >
                 View all {commentCount} comments
               </Link>
@@ -189,7 +189,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         {commentCount === 0 && (
           <Link 
             href={`/news/${article.id}`}
-            className="text-sm text-gray-500 dark:text-gray-400 hover:text-eba-blue transition-colors block"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-mba-blue transition-colors block"
           >
             Be the first to comment
           </Link>
@@ -198,3 +198,4 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     </div>
   );
 }
+

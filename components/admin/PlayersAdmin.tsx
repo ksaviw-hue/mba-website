@@ -17,7 +17,7 @@ export default function PlayersAdmin() {
   const [gameStatsPlayer, setGameStatsPlayer] = useState<any>(null);
 
   // Form state
-  const [robloxUsername, setRobloxUsername] = useState('');
+  const [minecraftUsername, setMinecraftUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [discordUsername, setDiscordUsername] = useState('');
   const [teamId, setTeamId] = useState('');
@@ -60,7 +60,7 @@ export default function PlayersAdmin() {
   };
 
   const filteredPlayers = players.filter(p => {
-    const matchesSearch = p.robloxUsername.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = p.minecraftUsername.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (p.discordUsername && p.discordUsername.toLowerCase().includes(searchTerm.toLowerCase()));
     
@@ -70,8 +70,8 @@ export default function PlayersAdmin() {
   });
 
   const handleImportPlayer = async () => {
-    if (!robloxUsername) {
-      alert('Please enter a Roblox username');
+    if (!minecraftUsername) {
+      alert('Please enter a Minecraft username');
       return;
     }
 
@@ -81,7 +81,7 @@ export default function PlayersAdmin() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          robloxUsername,
+          minecraftUsername,
           discordUsername,
           teamId,
           roles,
@@ -124,7 +124,7 @@ export default function PlayersAdmin() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           id: selectedPlayer.id,
-          robloxUsername,
+          // minecraftUsername cannot be updated after creation
           displayName,
           discordUsername,
           teamId,
@@ -184,7 +184,7 @@ export default function PlayersAdmin() {
   };
 
   const resetForm = () => {
-    setRobloxUsername('');
+    setMinecraftUsername('');
     setDisplayName('');
     setDiscordUsername('');
     setTeamId('');
@@ -204,7 +204,7 @@ export default function PlayersAdmin() {
 
   const openEditForm = (player: any) => {
     setSelectedPlayer(player);
-    setRobloxUsername(player.robloxUsername);
+    setMinecraftUsername(player.minecraftUsername);
     setDisplayName(player.displayName);
     setDiscordUsername(player.discordUsername || '');
     setTeamId(player.teamId || '');
@@ -227,7 +227,7 @@ export default function PlayersAdmin() {
         <div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Player Management</h2>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            Import players from Roblox, assign teams, and manage roster
+            Import players from Minecraft, assign teams, and manage roster
           </p>
         </div>
         <button
@@ -239,7 +239,7 @@ export default function PlayersAdmin() {
               setShowEditForm(false);
             }
           }}
-          className="flex items-center space-x-2 px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
         >
           <UserPlus className="w-5 h-5" />
           <span>Import Player</span>
@@ -256,15 +256,15 @@ export default function PlayersAdmin() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
-                Roblox Username *
+                Minecraft Username *
               </label>
               <input
                 type="text"
-                value={robloxUsername}
-                onChange={(e) => setRobloxUsername(e.target.value)}
-                placeholder="Enter Roblox username"
+                value={minecraftUsername}
+                onChange={(e) => setMinecraftUsername(e.target.value)}
+                placeholder="Enter Minecraft username"
                 disabled={showEditForm}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white disabled:opacity-50"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white disabled:opacity-50"
               />
               {!showEditForm && (
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -282,7 +282,7 @@ export default function PlayersAdmin() {
                 value={discordUsername}
                 onChange={(e) => setDiscordUsername(e.target.value)}
                 placeholder="username#1234"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -293,7 +293,7 @@ export default function PlayersAdmin() {
               <select
                 value={teamId}
                 onChange={(e) => setTeamId(e.target.value)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="">Select team...</option>
                 {teams.map((team) => (
@@ -308,7 +308,7 @@ export default function PlayersAdmin() {
             <button
               type="button"
               onClick={() => setShowStats(!showStats)}
-              className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-eba-blue dark:hover:text-eba-blue font-medium"
+              className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-mba-blue dark:hover:text-mba-blue font-medium"
             >
               <span>{showStats ? '▼' : '▶'}</span>
               <span>Player Statistics (Optional)</span>
@@ -324,7 +324,7 @@ export default function PlayersAdmin() {
                     type="number"
                     value={gamesPlayed}
                     onChange={(e) => setGamesPlayed(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
                 
@@ -337,7 +337,7 @@ export default function PlayersAdmin() {
                     step="0.1"
                     value={points}
                     onChange={(e) => setPoints(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
                 
@@ -350,7 +350,7 @@ export default function PlayersAdmin() {
                     step="0.1"
                     value={rebounds}
                     onChange={(e) => setRebounds(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
                 
@@ -363,7 +363,7 @@ export default function PlayersAdmin() {
                     step="0.1"
                     value={assists}
                     onChange={(e) => setAssists(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
                 
@@ -376,7 +376,7 @@ export default function PlayersAdmin() {
                     step="0.1"
                     value={steals}
                     onChange={(e) => setSteals(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
                 
@@ -389,7 +389,7 @@ export default function PlayersAdmin() {
                     step="0.1"
                     value={blocks}
                     onChange={(e) => setBlocks(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
                 
@@ -402,7 +402,7 @@ export default function PlayersAdmin() {
                     step="0.1"
                     value={turnovers}
                     onChange={(e) => setTurnovers(e.target.value)}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
                   />
                 </div>
               </div>
@@ -412,7 +412,7 @@ export default function PlayersAdmin() {
           <div className="flex space-x-3 mt-6">\n            <button
               onClick={showEditForm ? handleUpdatePlayer : handleImportPlayer}
               disabled={loading}
-              className="px-6 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Saving...' : (showEditForm ? 'Update Player' : 'Import Player')}
             </button>
@@ -434,15 +434,15 @@ export default function PlayersAdmin() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search players by Roblox or Discord username..."
-            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            placeholder="Search players by Minecraft or Discord username..."
+            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
           />
         </div>
         <div className="sm:w-64">
           <select
             value={teamFilter}
             onChange={(e) => setTeamFilter(e.target.value)}
-            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+            className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
           >
             <option value="">All Teams</option>
             {teams.map((team) => (
@@ -462,14 +462,14 @@ export default function PlayersAdmin() {
           filteredPlayers.map((player) => (
             <div
               key={player.id}
-              className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors"
+              className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors"
             >
               <div className="flex-1">
                 <div className="flex items-center space-x-4">
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{player.displayName || player.robloxUsername}</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{player.displayName || player.minecraftUsername}</h3>
                     <div className="flex items-center space-x-4 mt-1">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">@{player.robloxUsername}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">@{player.minecraftUsername}</span>
                       {player.discordUsername && (
                         <>
                           <span className="text-sm text-gray-500 dark:text-gray-400">•</span>
@@ -502,7 +502,7 @@ export default function PlayersAdmin() {
                 </button>
                 <button
                   onClick={() => openEditForm(player)}
-                  className="p-2 text-eba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className="p-2 text-mba-blue hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
                   title="Edit player"
                 >
                   <Edit2 className="w-5 h-5" />
@@ -524,7 +524,7 @@ export default function PlayersAdmin() {
       {showGameStatsModal && gameStatsPlayer && (
         <AddGameStatsModal
           playerId={gameStatsPlayer.id}
-          playerName={gameStatsPlayer.displayName || gameStatsPlayer.robloxUsername}
+          playerName={gameStatsPlayer.displayName || gameStatsPlayer.minecraftUsername}
           onClose={() => {
             setShowGameStatsModal(false);
             setGameStatsPlayer(null);
@@ -557,3 +557,4 @@ export default function PlayersAdmin() {
     </div>
   );
 }
+

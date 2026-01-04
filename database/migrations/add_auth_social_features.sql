@@ -1,8 +1,8 @@
 -- Migration: Add authentication and social features
 
--- Add Roblox and Discord fields to players table
-ALTER TABLE players ADD COLUMN IF NOT EXISTS roblox_user_id TEXT UNIQUE;
-ALTER TABLE players ADD COLUMN IF NOT EXISTS roblox_username TEXT;
+-- Add Minecraft and Discord fields to players table
+ALTER TABLE players ADD COLUMN IF NOT EXISTS minecraft_user_id TEXT UNIQUE;
+ALTER TABLE players ADD COLUMN IF NOT EXISTS minecraft_username TEXT;
 ALTER TABLE players ADD COLUMN IF NOT EXISTS user_id TEXT UNIQUE;
 ALTER TABLE players ADD COLUMN IF NOT EXISTS discord_username TEXT;
 

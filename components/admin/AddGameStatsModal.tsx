@@ -103,7 +103,7 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
                     setDate(game.scheduledDate.split('T')[0]);
                   }
                 }}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="">Manual Entry</option>
                 {games.map(game => (
@@ -122,7 +122,7 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -135,7 +135,7 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
                 value={opponent}
                 onChange={(e) => setOpponent(e.target.value)}
                 placeholder="Team name"
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               />
             </div>
 
@@ -146,7 +146,7 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
               <select
                 value={result}
                 onChange={(e) => setResult(e.target.value as 'W' | 'L')}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-mba-blue text-gray-900 dark:text-white"
               >
                 <option value="W">Win</option>
                 <option value="L">Loss</option>
@@ -286,7 +286,7 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+              className="px-6 py-2 bg-mba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
             >
               Add Game Stats
             </button>
@@ -296,3 +296,4 @@ export default function AddGameStatsModal({ playerId, playerName, onClose, onSav
     </div>
   );
 }
+

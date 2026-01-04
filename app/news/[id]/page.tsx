@@ -50,7 +50,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       {/* Back Button */}
       <Link
         href="/"
-        className="inline-flex items-center space-x-2 text-eba-blue hover:text-blue-600 dark:text-blue-400 mb-6"
+        className="inline-flex items-center space-x-2 text-mba-blue hover:text-blue-600 dark:text-blue-400 mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to Home</span>
@@ -79,7 +79,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
               </span>
             </div>
             {article.category && (
-              <span className="px-3 py-1 bg-eba-blue/10 text-eba-blue rounded-full text-xs font-medium">
+              <span className="px-3 py-1 bg-mba-blue/10 text-mba-blue rounded-full text-xs font-medium">
                 {article.category}
               </span>
             )}
@@ -110,3 +110,4 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+

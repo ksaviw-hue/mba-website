@@ -1,4 +1,4 @@
--- EBA Basketball League Database Schema
+-- MBA Basketball League Database Schema
 -- Run this in your Supabase SQL Editor
 
 -- Enable UUID extension
@@ -24,8 +24,8 @@ CREATE TABLE teams (
 CREATE TABLE players (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   display_name TEXT NOT NULL,
-  roblox_username TEXT NOT NULL,
-  roblox_user_id TEXT NOT NULL,
+  minecraft_username TEXT NOT NULL,
+  minecraft_user_id TEXT NOT NULL,
   profile_picture TEXT,
   description TEXT,
   discord_username TEXT,
@@ -112,7 +112,7 @@ CREATE TABLE articles (
 
 -- Indexes for better query performance
 CREATE INDEX idx_players_team_id ON players(team_id);
-CREATE INDEX idx_players_roblox_username ON players(roblox_username);
+CREATE INDEX idx_players_minecraft_username ON players(minecraft_username);
 CREATE INDEX idx_games_home_team ON games(home_team_id);
 CREATE INDEX idx_games_away_team ON games(away_team_id);
 CREATE INDEX idx_games_status ON games(status);

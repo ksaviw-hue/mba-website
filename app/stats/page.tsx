@@ -217,10 +217,10 @@ export default function StatsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2 flex items-center text-gray-900 dark:text-white">
-          <Trophy className="w-10 h-10 mr-3 text-eba-blue" />
+          <Trophy className="w-10 h-10 mr-3 text-mba-blue" />
           League Leaders
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">Top performers in the Elite Basketball Association</p>
+        <p className="text-gray-600 dark:text-gray-400">Top performers in the Minecraft Basketball Association</p>
       </div>
 
       {/* Filters */}
@@ -231,7 +231,7 @@ export default function StatsPage() {
           <select
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(e.target.value)}
-            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-eba-blue"
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-mba-blue"
           >
             {availableSeasons.map(season => (
               <option key={season} value={season}>{season}</option>
@@ -245,7 +245,7 @@ export default function StatsPage() {
             onClick={() => setStatMode('averages')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               statMode === 'averages'
-                ? 'bg-eba-blue text-white'
+                ? 'bg-mba-blue text-white'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600'
             }`}
           >
@@ -255,7 +255,7 @@ export default function StatsPage() {
             onClick={() => setStatMode('totals')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               statMode === 'totals'
-                ? 'bg-eba-blue text-white'
+                ? 'bg-mba-blue text-white'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600'
             }`}
           >
@@ -276,7 +276,7 @@ export default function StatsPage() {
               }}
               className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                 selectedStat === category.key
-                  ? 'bg-eba-blue text-white'
+                  ? 'bg-mba-blue text-white'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
               }`}
             >
@@ -397,7 +397,7 @@ export default function StatsPage() {
                             {player.displayName}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400">
-                            @{player.robloxUsername}
+                            @{player.minecraftUsername}
                           </div>
                         </div>
                       </Link>
@@ -434,56 +434,56 @@ export default function StatsPage() {
                       {player.seasonStats.gamesPlayed || 0}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'points' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'points' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.points || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.points || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'rebounds' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'rebounds' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.rebounds || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.rebounds || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'assists' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'assists' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.assists || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.assists || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'steals' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'steals' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.steals || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.steals || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'blocks' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'blocks' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.blocks || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.blocks || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'turnovers' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'turnovers' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.turnovers || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.turnovers || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'minutesPlayed' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'minutesPlayed' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.minutesPlayed || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.minutesPlayed || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
-                      selectedStat === 'efficiency' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                      selectedStat === 'efficiency' ? 'font-bold text-mba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
                         ? (player.seasonStats.totalEfficiency || 0)
@@ -539,7 +539,7 @@ export default function StatsPage() {
               className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 text-center shadow-sm"
             >
               <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">{category.label} Leader</div>
-              <div className="font-bold text-lg text-eba-blue">
+              <div className="font-bold text-lg text-mba-blue">
                 {topPlayer ? (topPlayer.seasonStats[category.key] || 0).toFixed(1) : '-'}
               </div>
               <div className="text-xs text-gray-600 dark:text-gray-400 truncate">
@@ -552,3 +552,4 @@ export default function StatsPage() {
     </div>
   );
 }
+

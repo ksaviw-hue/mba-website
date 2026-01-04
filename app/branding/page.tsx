@@ -45,7 +45,7 @@ export default function BrandingPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Branding</h1>
-        <p className="text-gray-600 dark:text-gray-400">Meet the teams and leadership of the Elite Basketball Association</p>
+        <p className="text-gray-600 dark:text-gray-400">Meet the teams and leadership of the Minecraft Basketball Association</p>
       </div>
 
       {/* Conference Filter */}
@@ -54,7 +54,7 @@ export default function BrandingPage() {
           onClick={() => setConferenceFilter('all')}
           className={`px-6 py-3 rounded-lg font-medium transition-colors ${
             conferenceFilter === 'all'
-              ? 'bg-eba-blue text-white'
+              ? 'bg-mba-blue text-white'
               : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600'
           }`}
         >
@@ -87,7 +87,7 @@ export default function BrandingPage() {
           <Link
             key={team.id}
             href={`/teams/${team.id}`}
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm cursor-pointer"
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-mba-blue dark:hover:border-mba-blue transition-colors shadow-sm cursor-pointer"
           >
             {/* Team Header */}
             <div className="flex items-center space-x-4 mb-6">
@@ -139,7 +139,7 @@ export default function BrandingPage() {
               {/* Owner */}
               {team.owner && (
                 <div className="flex items-start space-x-3">
-                  <Shield className="w-5 h-5 text-eba-blue mt-0.5" />
+                  <Shield className="w-5 h-5 text-mba-blue mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Franchise Owner</div>
                     <div className="font-medium text-gray-900 dark:text-white">{team.owner}</div>
@@ -150,7 +150,7 @@ export default function BrandingPage() {
               {/* General Manager */}
               {team.generalManager && (
                 <div className="flex items-start space-x-3">
-                  <Award className="w-5 h-5 text-eba-blue mt-0.5" />
+                  <Award className="w-5 h-5 text-mba-blue mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">General Manager</div>
                     <div className="font-medium text-gray-900 dark:text-white">{team.generalManager}</div>
@@ -161,7 +161,7 @@ export default function BrandingPage() {
               {/* Head Coach */}
               {team.headCoach && (
                 <div className="flex items-start space-x-3">
-                  <Users className="w-5 h-5 text-eba-blue mt-0.5" />
+                  <Users className="w-5 h-5 text-mba-blue mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Head Coach</div>
                     <div className="font-medium text-gray-900 dark:text-white">{team.headCoach}</div>
@@ -172,7 +172,7 @@ export default function BrandingPage() {
               {/* Assistant Coaches */}
               {team.assistantCoaches.length > 0 && (
                 <div className="flex items-start space-x-3">
-                  <Users className="w-5 h-5 text-eba-blue mt-0.5" />
+                  <Users className="w-5 h-5 text-mba-blue mt-0.5" />
                   <div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">Assistant Coaches</div>
                     <div className="font-medium text-gray-900 dark:text-white">
@@ -195,3 +195,4 @@ export default function BrandingPage() {
     </div>
   );
 }
+

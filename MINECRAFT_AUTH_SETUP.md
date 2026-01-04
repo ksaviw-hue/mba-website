@@ -1,12 +1,12 @@
-# Roblox OAuth & Social Features Setup Guide
+# Minecraft OAuth & Social Features Setup Guide
 
-This document outlines the implementation of Roblox authentication and social features for the EBA website.
+This document outlines the implementation of Minecraft authentication and social features for the MBA website.
 
 ## ✅ Completed Setup
 
 ### 1. Authentication Infrastructure
 - ✅ Installed NextAuth.js with Supabase adapter
-- ✅ Created Roblox OAuth provider configuration
+- ✅ Created Minecraft OAuth provider configuration
 - ✅ Updated TypeScript types for session data
 - ✅ Created sign-in page at `/auth/signin`
 - ✅ Updated Navigation component with profile button
@@ -15,22 +15,22 @@ This document outlines the implementation of Roblox authentication and social fe
 
 ### 2. Database Migration Created
 - ✅ SQL migration file created at `database/migrations/add_auth_social_features.sql`
-- Adds: `roblox_user_id`, `roblox_username`, `user_id`, `discord_username` to players table
+- Adds: `minecraft_user_id`, `minecraft_username`, `user_id`, `discord_username` to players table
 - Creates: `article_likes`, `article_comments`, `team_wall_posts` tables
 - Includes: Indexes and RLS policies
 
 ## 📋 Required Next Steps
 
-### Step 1: Set up Roblox OAuth Application
+### Step 1: Set up Minecraft OAuth Application
 
-1. Go to https://create.roblox.com/credentials
+1. Go to https://create.minecraft.com/credentials
 2. Create a new OAuth2 Application
-3. Set the redirect URI to: `http://localhost:3000/api/auth/callback/roblox` (dev) and `https://ebassociation.com/api/auth/callback/roblox` (production)
+3. Set the redirect URI to: `http://localhost:3000/api/auth/callback/minecraft` (dev) and `https://mbaassociation.com/api/auth/callback/minecraft` (production)
 4. Copy your Client ID and Client Secret
 5. Update `.env.local`:
    ```env
-   ROBLOX_CLIENT_ID=your_actual_client_id
-   ROBLOX_CLIENT_SECRET=your_actual_client_secret
+   MINECRAFT_CLIENT_ID=your_actual_client_id
+   MINECRAFT_CLIENT_SECRET=your_actual_client_secret
    ```
 6. Add the same variables to Vercel environment variables
 
@@ -48,9 +48,9 @@ Alternatively, you can run each ALTER TABLE and CREATE TABLE statement separatel
 ### Step 3: Test Authentication Flow
 
 1. Click "Log In" button in top navigation
-2. Authenticate with Roblox
+2. Authenticate with Minecraft
 3. Verify:
-   - Existing players (with matching roblox_username) are automatically logged in
+   - Existing players (with matching minecraft_username) are automatically logged in
    - New users create a "Free Agent" player profile
    - Profile button appears with "View Profile" and avatar
 
@@ -82,19 +82,19 @@ Alternatively, you can run each ALTER TABLE and CREATE TABLE statement separatel
 ## 📁 Files Modified
 
 ### Created:
-- `lib/auth.ts` - Updated with Roblox provider
+- `lib/auth.ts` - Updated with Minecraft provider
 - `types/next-auth.d.ts` - Extended session types
 - `app/auth/signin/page.tsx` - Login page
 - `database/migrations/add_auth_social_features.sql` - DB schema
 
 ### Modified:
 - `components/Navigation.tsx` - Added profile button
-- `.env.local` - Added Roblox OAuth placeholders
+- `.env.local` - Added Minecraft OAuth placeholders
 
 ## 🔑 Key Features
 
 ### Free Agent System
-When a new user signs in with Roblox:
+When a new user signs in with Minecraft:
 - Player record is created automatically
 - `team_id` is set to `null` (Free Agent)
 - `position` is set to "Free Agent"
@@ -103,7 +103,7 @@ When a new user signs in with Roblox:
 
 ### Dual Authentication
 - **Discord OAuth**: For admins only (existing system)
-- **Roblox OAuth**: For players (new system)
+- **Minecraft OAuth**: For players (new system)
 - Session tracks both types separately
 - `session.user.isAdmin` for admins
 - `session.user.playerId` for players
@@ -129,17 +129,17 @@ const isOwnProfile = session?.user.playerId === player.id;
 ### Redirect to login:
 ```typescript
 import { signIn } from 'next-auth/react';
-signIn('roblox');
+signIn('minecraft');
 ```
 
 ## 🐛 Troubleshooting
 
 ### "Invalid redirect URI" error
-- Make sure your Roblox OAuth app has the correct callback URL registered
-- Format: `{NEXTAUTH_URL}/api/auth/callback/roblox`
+- Make sure your Minecraft OAuth app has the correct callback URL registered
+- Format: `{NEXTAUTH_URL}/api/auth/callback/minecraft`
 
 ### User created but not linked to player
-- Check `roblox_username` column matches exactly
+- Check `minecraft_username` column matches exactly
 - Check database logs in Supabase for errors
 
 ### Profile button not showing
@@ -151,8 +151,8 @@ signIn('roblox');
 
 ### Players Table Additions:
 ```sql
-roblox_user_id TEXT UNIQUE       -- Roblox user ID (sub claim)
-roblox_username TEXT             -- Roblox username for matching
+minecraft_user_id TEXT UNIQUE       -- Minecraft user ID (sub claim)
+minecraft_username TEXT             -- Minecraft username for matching
 user_id TEXT UNIQUE              -- Links to auth user
 discord_username TEXT            -- For Discord linking feature
 ```
