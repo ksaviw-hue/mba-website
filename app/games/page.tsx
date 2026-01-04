@@ -3,6 +3,7 @@
 import { Calendar, CheckCircle, Clock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { getSeasonDisplay, LEAGUE_CONFIG } from '@/lib/config';
 
 type GameFilter = 'all' | 'upcoming' | 'completed';
@@ -128,9 +129,10 @@ export default function GamesPage() {
             const gameDate = new Date(game.scheduledDate);
 
             return (
-              <div
+              <Link
                 key={game.id}
-                className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
+                href={`/games/${game.id}`}
+                className="block bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
@@ -201,8 +203,8 @@ export default function GamesPage() {
                   <div className="text-center">
                     {isCompleted ? (
                       <div>
-                        {game.isForfeit && game.awayScore === 0 && game.homeScore === 0 ? (
-                          // Show FFW/FFL labels when scores are 0-0
+                        {game.isForfeit && (!game.awayScore || game.awayScore === 0) && (!game.homeScore || game.homeScore === 0) ? (
+                          // Show FFW/FFL labels when scores are null or 0-0
                           <div className="text-2xl font-bold text-gray-900 dark:text-white">
                             <span className={game.forfeitWinner === 'away' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}>
                               {game.forfeitWinner === 'away' ? 'FFW' : 'FFL'}
@@ -258,7 +260,7 @@ export default function GamesPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })
         ) : (

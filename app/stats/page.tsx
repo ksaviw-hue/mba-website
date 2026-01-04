@@ -86,7 +86,9 @@ export default function StatsPage() {
         assists: 0,
         steals: 0,
         blocks: 0,
-        turnovers: 0
+        turnovers: 0,
+        minutesPlayed: 0,
+        efficiency: 0
       };
     }
 

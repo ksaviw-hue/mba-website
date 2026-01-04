@@ -128,11 +128,31 @@ export default function TeamPage({ params }: { params: { id: string } }) {
     });
   };
 
+  // Get efficiency leader from game stats
+  const getEfficiencyLeader = () => {
+    if (teamPlayers.length === 0) return null;
+    return teamPlayers.reduce((leader, player) => {
+      const calculateEfficiency = (p: any) => {
+        if (!p.gameStats || p.gameStats.length === 0) return 0;
+        const totals = p.gameStats.reduce((acc: any, gs: any) => ({
+          points: acc.points + (gs.points || 0),
+          rebounds: acc.rebounds + (gs.rebounds || 0),
+          assists: acc.assists + (gs.assists || 0),
+          steals: acc.steals + (gs.steals || 0),
+          blocks: acc.blocks + (gs.blocks || 0),
+          turnovers: acc.turnovers + (gs.turnovers || 0)
+        }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0 });
+        return (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - totals.turnovers) / p.gameStats.length;
+      };
+      return calculateEfficiency(player) > calculateEfficiency(leader) ? player : leader;
+    });
+  };
+
   const pointsLeader = getStatLeader('points');
   const reboundsLeader = getStatLeader('rebounds');
   const assistsLeader = getStatLeader('assists');
   const minutesLeader = getMinutesLeader();
-  const efficiencyLeader = getStatLeader('efficiency');
+  const efficiencyLeader = getEfficiencyLeader();
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
@@ -367,7 +387,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                     </div>
                   )}
 
-                  {efficiencyLeader && (
+                  {efficiencyLeader && efficiencyLeader.gameStats && efficiencyLeader.gameStats.length > 0 && (
                     <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
@@ -391,7 +411,17 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                         </div>
                       </div>
                       <div className="text-2xl font-bold text-eba-blue">
-                        {efficiencyLeader.stats.efficiency.toFixed(1)}
+                        {(() => {
+                          const totals = efficiencyLeader.gameStats.reduce((acc: any, gs: any) => ({
+                            points: acc.points + (gs.points || 0),
+                            rebounds: acc.rebounds + (gs.rebounds || 0),
+                            assists: acc.assists + (gs.assists || 0),
+                            steals: acc.steals + (gs.steals || 0),
+                            blocks: acc.blocks + (gs.blocks || 0),
+                            turnovers: acc.turnovers + (gs.turnovers || 0)
+                          }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0 });
+                          return ((totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - totals.turnovers) / efficiencyLeader.gameStats.length).toFixed(1);
+                        })()}
                       </div>
                     </div>
                   )}
