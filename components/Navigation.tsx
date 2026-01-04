@@ -73,27 +73,27 @@ export default function Navigation() {
                 href={`/players/${session.user.playerId}`}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"
               >
-                {session.user.profilePicture ? (
+                {session.user.image || session.user.profilePicture ? (
                   <Image
-                    src={session.user.profilePicture}
+                    src={session.user.image || session.user.profilePicture || ''}
                     alt="Profile"
-                    width={20}
-                    height={20}
+                    width={24}
+                    height={24}
                     className="rounded-full"
                   />
                 ) : (
                   <User className="w-4 h-4" />
                 )}
-                <span>View Profile</span>
+                <span className="whitespace-nowrap">Profile</span>
               </Link>
             ) : (
               <button
-                onClick={() => signIn("roblox")}
+                onClick={() => signIn("roblox", { callbackUrl: '/' })}
                 disabled={status === "loading"}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2 disabled:opacity-50"
               >
                 <User className="w-4 h-4" />
-                <span>Log In</span>
+                <span className="whitespace-nowrap">Log In</span>
               </button>
             )}
             
