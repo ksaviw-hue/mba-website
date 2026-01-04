@@ -481,7 +481,7 @@ export default function StatsPage() {
             >
               <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">{category.label} Leader</div>
               <div className="font-bold text-lg text-eba-blue">
-                {topPlayer ? topPlayer.stats[category.key].toFixed(1) : '-'}
+                {topPlayer ? (topPlayer.seasonStats[category.key] || 0).toFixed(1) : '-'}
               </div>
               <div className="text-xs text-gray-600 dark:text-gray-400 truncate">
                 {topPlayer ? topPlayer.displayName : 'N/A'}
