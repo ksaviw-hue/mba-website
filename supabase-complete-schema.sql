@@ -260,56 +260,56 @@ CREATE TABLE IF NOT EXISTS team_wall_posts (
 -- ============================================
 
 -- Users indexes
-CREATE INDEX idx_users_team ON users(team_id);
-CREATE INDEX idx_users_minecraft_username ON users(minecraft_username);
-CREATE INDEX idx_users_discord_username ON users(discord_username);
+CREATE INDEX IF NOT EXISTS idx_users_team ON users(team_id);
+CREATE INDEX IF NOT EXISTS idx_users_minecraft_username ON users(minecraft_username);
+CREATE INDEX IF NOT EXISTS idx_users_discord_username ON users(discord_username);
 
 -- Teams indexes
-CREATE INDEX idx_teams_guild ON teams(guild_id);
-CREATE INDEX idx_teams_conference ON teams(conference);
+CREATE INDEX IF NOT EXISTS idx_teams_guild ON teams(guild_id);
+CREATE INDEX IF NOT EXISTS idx_teams_conference ON teams(conference);
 
 -- Games indexes
-CREATE INDEX idx_games_team1 ON games(team1_id);
-CREATE INDEX idx_games_team2 ON games(team2_id);
-CREATE INDEX idx_games_home_team ON games(home_team_id);
-CREATE INDEX idx_games_away_team ON games(away_team_id);
-CREATE INDEX idx_games_season ON games(season_id);
-CREATE INDEX idx_games_guild ON games(guild_id);
-CREATE INDEX idx_games_status ON games(status);
-CREATE INDEX idx_games_scheduled_date ON games(scheduled_date);
+CREATE INDEX IF NOT EXISTS idx_games_team1 ON games(team1_id);
+CREATE INDEX IF NOT EXISTS idx_games_team2 ON games(team2_id);
+CREATE INDEX IF NOT EXISTS idx_games_home_team ON games(home_team_id);
+CREATE INDEX IF NOT EXISTS idx_games_away_team ON games(away_team_id);
+CREATE INDEX IF NOT EXISTS idx_games_season ON games(season_id);
+CREATE INDEX IF NOT EXISTS idx_games_guild ON games(guild_id);
+CREATE INDEX IF NOT EXISTS idx_games_status ON games(status);
+CREATE INDEX IF NOT EXISTS idx_games_scheduled_date ON games(scheduled_date);
 
 -- Stats indexes
-CREATE INDEX idx_player_season_stats_player ON player_season_stats(player_id);
-CREATE INDEX idx_player_season_stats_season ON player_season_stats(season_id);
-CREATE INDEX idx_player_season_stats_guild ON player_season_stats(guild_id);
-CREATE INDEX idx_player_game_stats_game ON player_game_stats(game_id);
-CREATE INDEX idx_player_game_stats_player ON player_game_stats(player_id);
+CREATE INDEX IF NOT EXISTS idx_player_season_stats_player ON player_season_stats(player_id);
+CREATE INDEX IF NOT EXISTS idx_player_season_stats_season ON player_season_stats(season_id);
+CREATE INDEX IF NOT EXISTS idx_player_season_stats_guild ON player_season_stats(guild_id);
+CREATE INDEX IF NOT EXISTS idx_player_game_stats_game ON player_game_stats(game_id);
+CREATE INDEX IF NOT EXISTS idx_player_game_stats_player ON player_game_stats(player_id);
 
 -- Transaction indexes
-CREATE INDEX idx_transaction_history_player ON transaction_history(player_id);
-CREATE INDEX idx_transaction_history_guild ON transaction_history(guild_id);
-CREATE INDEX idx_transaction_history_created ON transaction_history(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_transaction_history_player ON transaction_history(player_id);
+CREATE INDEX IF NOT EXISTS idx_transaction_history_guild ON transaction_history(guild_id);
+CREATE INDEX IF NOT EXISTS idx_transaction_history_created ON transaction_history(created_at DESC);
 
 -- Accolades indexes
-CREATE INDEX idx_accolades_player ON accolades(player_id);
-CREATE INDEX idx_accolades_season ON accolades(season_id);
+CREATE INDEX IF NOT EXISTS idx_accolades_player ON accolades(player_id);
+CREATE INDEX IF NOT EXISTS idx_accolades_season ON accolades(season_id);
 
 -- Articles indexes
-CREATE INDEX idx_articles_published_date ON articles(published_date DESC);
+CREATE INDEX IF NOT EXISTS idx_articles_published_date ON articles(published_date DESC);
 
 -- Social features indexes
-CREATE INDEX idx_article_likes_article ON article_likes(article_id);
-CREATE INDEX idx_article_likes_player ON article_likes(player_id);
-CREATE INDEX idx_article_comments_article ON article_comments(article_id);
-CREATE INDEX idx_article_comments_player ON article_comments(player_id);
-CREATE INDEX idx_comment_likes_comment ON comment_likes(comment_id);
-CREATE INDEX idx_team_wall_posts_team ON team_wall_posts(team_id);
-CREATE INDEX idx_team_wall_posts_player ON team_wall_posts(player_id);
-CREATE INDEX idx_team_wall_posts_pinned ON team_wall_posts(is_pinned, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_article_likes_article ON article_likes(article_id);
+CREATE INDEX IF NOT EXISTS idx_article_likes_player ON article_likes(player_id);
+CREATE INDEX IF NOT EXISTS idx_article_comments_article ON article_comments(article_id);
+CREATE INDEX IF NOT EXISTS idx_article_comments_player ON article_comments(player_id);
+CREATE INDEX IF NOT EXISTS idx_comment_likes_comment ON comment_likes(comment_id);
+CREATE INDEX IF NOT EXISTS idx_team_wall_posts_team ON team_wall_posts(team_id);
+CREATE INDEX IF NOT EXISTS idx_team_wall_posts_player ON team_wall_posts(player_id);
+CREATE INDEX IF NOT EXISTS idx_team_wall_posts_pinned ON team_wall_posts(is_pinned, created_at DESC);
 
 -- Staff indexes
-CREATE INDEX idx_staff_player ON staff(player_id);
-CREATE INDEX idx_staff_role ON staff(role);
+CREATE INDEX IF NOT EXISTS idx_staff_player ON staff(player_id);
+CREATE INDEX IF NOT EXISTS idx_staff_role ON staff(role);
 
 -- ============================================
 -- TRIGGERS FOR AUTOMATIC TIMESTAMPS
@@ -325,25 +325,25 @@ END;
 $$ language 'plpgsql';
 
 -- Apply triggers
-CREATE TRIGGER update_teams_updated_at BEFORE UPDATE ON teams
+CREATE TRIGGER IF NOT EXISTS update_teams_updated_at BEFORE UPDATE ON teams
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
+CREATE TRIGGER IF NOT EXISTS update_users_updated_at BEFORE UPDATE ON users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_games_updated_at BEFORE UPDATE ON games
+CREATE TRIGGER IF NOT EXISTS update_games_updated_at BEFORE UPDATE ON games
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_player_season_stats_updated_at BEFORE UPDATE ON player_season_stats
+CREATE TRIGGER IF NOT EXISTS update_player_season_stats_updated_at BEFORE UPDATE ON player_season_stats
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_articles_updated_at BEFORE UPDATE ON articles
+CREATE TRIGGER IF NOT EXISTS update_articles_updated_at BEFORE UPDATE ON articles
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_article_comments_updated_at BEFORE UPDATE ON article_comments
+CREATE TRIGGER IF NOT EXISTS update_article_comments_updated_at BEFORE UPDATE ON article_comments
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_team_wall_posts_updated_at BEFORE UPDATE ON team_wall_posts
+CREATE TRIGGER IF NOT EXISTS update_team_wall_posts_updated_at BEFORE UPDATE ON team_wall_posts
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================
@@ -371,42 +371,42 @@ ALTER TABLE team_wall_posts ENABLE ROW LEVEL SECURITY;
 -- RLS POLICIES - Public Read Access
 -- ============================================
 
-CREATE POLICY "Public read teams" ON teams FOR SELECT USING (true);
-CREATE POLICY "Public read users" ON users FOR SELECT USING (true);
-CREATE POLICY "Public read seasons" ON seasons FOR SELECT USING (true);
-CREATE POLICY "Public read games" ON games FOR SELECT USING (true);
-CREATE POLICY "Public read player_season_stats" ON player_season_stats FOR SELECT USING (true);
-CREATE POLICY "Public read player_game_stats" ON player_game_stats FOR SELECT USING (true);
-CREATE POLICY "Public read transaction_history" ON transaction_history FOR SELECT USING (true);
-CREATE POLICY "Public read accolades" ON accolades FOR SELECT USING (true);
-CREATE POLICY "Public read articles" ON articles FOR SELECT USING (true);
-CREATE POLICY "Public read staff" ON staff FOR SELECT USING (true);
-CREATE POLICY "Public read live_stream" ON live_stream FOR SELECT USING (true);
-CREATE POLICY "Public read article_likes" ON article_likes FOR SELECT USING (true);
-CREATE POLICY "Public read article_comments" ON article_comments FOR SELECT USING (true);
-CREATE POLICY "Public read comment_likes" ON comment_likes FOR SELECT USING (true);
-CREATE POLICY "Public read team_wall_posts" ON team_wall_posts FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read teams" ON teams FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read users" ON users FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read seasons" ON seasons FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read games" ON games FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read player_season_stats" ON player_season_stats FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read player_game_stats" ON player_game_stats FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read transaction_history" ON transaction_history FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read accolades" ON accolades FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read articles" ON articles FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read staff" ON staff FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read live_stream" ON live_stream FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read article_likes" ON article_likes FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read article_comments" ON article_comments FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read comment_likes" ON comment_likes FOR SELECT USING (true);
+CREATE POLICY IF NOT EXISTS "Public read team_wall_posts" ON team_wall_posts FOR SELECT USING (true);
 
 -- ============================================
 -- RLS POLICIES - Service Role Write Access
 -- (Bot and website service role can write)
 -- ============================================
 
-CREATE POLICY "Service role teams" ON teams FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role users" ON users FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role seasons" ON seasons FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role games" ON games FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role player_season_stats" ON player_season_stats FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role player_game_stats" ON player_game_stats FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role transaction_history" ON transaction_history FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role accolades" ON accolades FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role articles" ON articles FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role staff" ON staff FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role live_stream" ON live_stream FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role article_likes" ON article_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role article_comments" ON article_comments FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role comment_likes" ON comment_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
-CREATE POLICY "Service role team_wall_posts" ON team_wall_posts FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role teams" ON teams FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role users" ON users FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role seasons" ON seasons FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY IF NOT EXISTS "Service role games" ON games FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role player_season_stats" ON player_season_stats FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY IF NOT EXISTS "Service role player_game_stats" ON player_game_stats FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY IF NOT EXISTS "Service role transaction_history" ON transaction_history FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY IF NOT EXISTS "Service role accolades" ON accolades FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY IF NOT EXISTS "Service role articles" ON articles FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role staff" ON staff FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role live_stream" ON live_stream FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role article_likes" ON article_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role article_comments" ON article_comments FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role comment_likes" ON comment_likes FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
+CREATE POLICY IF NOT EXISTS "Service role team_wall_posts" ON team_wall_posts FOR ALL USING (auth.role() = 'service_role' OR auth.role() = 'authenticated');
 
 -- ============================================
 -- HELPFUL VIEWS
@@ -512,4 +512,5 @@ COMMENT ON TABLE live_stream IS 'Active live streams (website feature)';
 -- 3. Have bot create a team and sign players
 -- 4. Verify data appears on website
 -- ============================================
+
 
