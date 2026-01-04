@@ -4,56 +4,63 @@ import { NextResponse } from 'next/server';
 // This endpoint is kept for backward compatibility
 // New code should use /api/users instead
 export async function GET() {
-  const { data: users, error } = await supabaseAdmin
-    .from('users')
-    .select('*, player_season_stats(*)')
-    .order('username');
+  try {
+    const { data: users, error } = await supabaseAdmin
+      .from('users')
+      .select('*, player_season_stats(*)')
+      .order('username');
 
-  if (error) {
-    console.error('Error fetching users:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      console.error('Error fetching users:', error);
+      // Return empty array instead of error to prevent frontend crashes
+      return NextResponse.json([]);
+    }
+
+    // Format users to match expected player format
+    const formattedPlayers = (users || []).map((user: any) => {
+      // Get current season stats if available
+      const currentStats = user.player_season_stats?.[0] || {};
+      
+      return {
+        id: user.id,
+        displayName: user.username || '',
+        minecraftUsername: user.minecraft_username || '',
+        minecraftUserId: user.minecraft_user_id || '',
+        profilePicture: user.avatar_url || '',
+        description: user.description || '',
+        discordUsername: user.discord_username || '',
+        teamId: user.team_id || null,
+        roles: user.roles || ['Player'],
+        stats: {
+          gamesPlayed: currentStats.games_played || 0,
+          points: parseFloat(currentStats.points || 0),
+          rebounds: parseFloat(currentStats.rebounds || 0),
+          assists: parseFloat(currentStats.assists || 0),
+          steals: parseFloat(currentStats.steals || 0),
+          blocks: parseFloat(currentStats.blocks || 0),
+          turnovers: parseFloat(currentStats.turnovers || 0),
+          fieldGoalsMade: currentStats.field_goals_made || 0,
+          fieldGoalsAttempted: currentStats.field_goals_attempted || 0,
+          fieldGoalPercentage: parseFloat(currentStats.field_goal_percentage || 0),
+          threePointersMade: currentStats.three_pointers_made || 0,
+          threePointersAttempted: currentStats.three_pointers_attempted || 0,
+          threePointPercentage: parseFloat(currentStats.three_point_percentage || 0),
+          freeThrowsMade: currentStats.free_throws_made || 0,
+          freeThrowsAttempted: currentStats.free_throws_attempted || 0,
+          freeThrowPercentage: parseFloat(currentStats.free_throw_percentage || 0),
+          fouls: currentStats.fouls || 0,
+          assistTurnoverRatio: 0,
+          assistPercentage: 0,
+          efficiency: 0,
+        },
+        gameStats: [],
+      };
+    });
+
+    return NextResponse.json(formattedPlayers);
+  } catch (error) {
+    console.error('Error in players API:', error);
+    // Return empty array on any error
+    return NextResponse.json([]);
   }
-
-  // Format users to match expected player format
-  const formattedPlayers = (users || []).map((user: any) => {
-    // Get current season stats if available
-    const currentStats = user.player_season_stats?.[0] || {};
-    
-    return {
-      id: user.id,
-      displayName: user.username || '',
-      minecraftUsername: user.minecraft_username || '',
-      minecraftUserId: user.minecraft_user_id || '',
-      profilePicture: user.avatar_url || '',
-      description: user.description || '',
-      discordUsername: user.discord_username || '',
-      teamId: user.team_id || null,
-      roles: user.roles || ['Player'],
-      stats: {
-        gamesPlayed: currentStats.games_played || 0,
-        points: parseFloat(currentStats.points || 0),
-        rebounds: parseFloat(currentStats.rebounds || 0),
-        assists: parseFloat(currentStats.assists || 0),
-        steals: parseFloat(currentStats.steals || 0),
-        blocks: parseFloat(currentStats.blocks || 0),
-        turnovers: parseFloat(currentStats.turnovers || 0),
-        fieldGoalsMade: currentStats.field_goals_made || 0,
-        fieldGoalsAttempted: currentStats.field_goals_attempted || 0,
-        fieldGoalPercentage: parseFloat(currentStats.field_goal_percentage || 0),
-        threePointersMade: currentStats.three_pointers_made || 0,
-        threePointersAttempted: currentStats.three_pointers_attempted || 0,
-        threePointPercentage: parseFloat(currentStats.three_point_percentage || 0),
-        freeThrowsMade: currentStats.free_throws_made || 0,
-        freeThrowsAttempted: currentStats.free_throws_attempted || 0,
-        freeThrowPercentage: parseFloat(currentStats.free_throw_percentage || 0),
-        fouls: currentStats.fouls || 0,
-        assistTurnoverRatio: 0,
-        assistPercentage: 0,
-        efficiency: 0,
-      },
-      gameStats: [],
-    };
-  });
-
-  return NextResponse.json(formattedPlayers);
 }

@@ -2,35 +2,41 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const { data: teams, error } = await supabaseAdmin
-    .from('teams')
-    .select('*')
-    .order('name');
+  try {
+    const { data: teams, error } = await supabaseAdmin
+      .from('teams')
+      .select('*')
+      .order('name');
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      console.error('Error fetching teams:', error);
+      return NextResponse.json([]);
+    }
+
+    // Transform snake_case to camelCase
+    const formattedTeams = teams?.map(team => ({
+      id: team.id,
+      name: team.name,
+      abbreviation: team.name.substring(0, 3).toUpperCase(), // Default abbreviation
+      logo: team.logo,
+      owner: team.owner,
+      generalManager: team.general_manager,
+      headCoach: team.head_coach,
+      assistantCoaches: team.assistant_coaches,
+      conference: team.conference,
+      primaryColor: team.primary_color,
+      secondaryColor: team.secondary_color,
+      colors: {
+        primary: team.primary_color,
+        secondary: team.secondary_color,
+      },
+    })) || [];
+
+    return NextResponse.json(formattedTeams);
+  } catch (error) {
+    console.error('Error in teams API:', error);
+    return NextResponse.json([]);
   }
-
-  // Transform snake_case to camelCase
-  const formattedTeams = teams?.map(team => ({
-    id: team.id,
-    name: team.name,
-    abbreviation: team.name.substring(0, 3).toUpperCase(), // Default abbreviation
-    logo: team.logo,
-    owner: team.owner,
-    generalManager: team.general_manager,
-    headCoach: team.head_coach,
-    assistantCoaches: team.assistant_coaches,
-    conference: team.conference,
-    primaryColor: team.primary_color,
-    secondaryColor: team.secondary_color,
-    colors: {
-      primary: team.primary_color,
-      secondary: team.secondary_color,
-    },
-  })) || [];
-
-  return NextResponse.json(formattedTeams);
 }
 
 export async function POST(request: Request) {
