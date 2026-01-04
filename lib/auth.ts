@@ -35,7 +35,8 @@ export const authOptions: NextAuthOptions = {
       token: {
         url: "https://apis.roblox.com/oauth/v1/token",
         async request({ client, params, checks, provider }) {
-          const response = await fetch(provider.token.url, {
+          const tokenUrl = "https://apis.roblox.com/oauth/v1/token";
+          const response = await fetch(tokenUrl, {
             method: "POST",
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
