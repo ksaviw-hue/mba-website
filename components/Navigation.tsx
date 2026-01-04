@@ -89,12 +89,14 @@ export default function Navigation() {
             ) : status === "unauthenticated" ? (
               <button
                 onClick={() => signIn("roblox")}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-eba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"
               >
                 <User className="w-4 h-4" />
                 <span>Log In</span>
               </button>
-            ) : null}
+            ) : (
+              <div className="ml-2" />
+            )}
             
             <button
               onClick={toggleTheme}
