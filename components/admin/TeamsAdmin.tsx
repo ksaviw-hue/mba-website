@@ -96,7 +96,9 @@ export default function TeamsAdmin() {
         await fetchTeams();
         resetForm();
       } else {
-        alert('Error: ' + data.message);
+        const errorMsg = data.error || data.message || 'Unknown error';
+        const details = data.details ? '\n\nDetails: ' + JSON.stringify(data.details) : '';
+        alert('Error: ' + errorMsg + details);
       }
     } catch (error) {
       console.error('Failed to save team:', error);

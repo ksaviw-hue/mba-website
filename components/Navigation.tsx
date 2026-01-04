@@ -73,8 +73,8 @@ export default function Navigation() {
               })}
             </div>
             
-            {/* Profile Button */}
-            {status === "authenticated" && session?.user?.playerId ? (
+            {/* Profile Button - Only show if Minecraft account is verified */}
+            {status === "authenticated" && session?.user?.playerId && session?.user?.minecraftUsername ? (
               <Link
                 href={`/players/${session.user.playerId}`}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-mba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"

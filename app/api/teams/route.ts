@@ -50,16 +50,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Generate a simple team ID from the team name
+    const teamId = body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
     const { data, error } = await supabaseAdmin
       .from('teams')
       .insert({
+        id: teamId,
         name: body.name,
         logo: body.logo || null,
         owner: body.owner || '',
         general_manager: body.generalManager || '',
         head_coach: body.headCoach || '',
         assistant_coaches: body.assistantCoaches || [],
-        conference: body.conference || 'Eastern',
+        conference: body.conference || 'Desert',
         primary_color: body.primaryColor || '#00A8E8',
         secondary_color: body.secondaryColor || '#0A0E27',
       })
@@ -67,7 +71,12 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error('Error creating team:', error);
+      return NextResponse.json({ 
+        success: false,
+        error: error.message || 'Failed to create team',
+        details: error 
+      }, { status: 500 });
     }
 
     const formattedTeam = {
@@ -90,9 +99,14 @@ export async function POST(request: Request) {
       message: 'Team created successfully',
       team: formattedTeam 
     });
-  } catch (error) {
+  } catch (error: any) {
+    console.error('Exception in POST /api/teams:', error);
     return NextResponse.json(
-      { error: 'Failed to create team' },
+      { 
+        success: false,
+        error: error.message || 'Failed to create team',
+        details: error.toString()
+      },
       { status: 500 }
     );
   }

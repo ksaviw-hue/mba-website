@@ -15,6 +15,7 @@ declare module "next-auth" {
       teamId?: string | null;
       playerName?: string;
       profilePicture?: string;
+      minecraftUsername?: string;
     };
   }
 }
@@ -27,5 +28,6 @@ declare module "next-auth/jwt" {
     teamId?: string | null;
     playerName?: string;
     profilePicture?: string;
+    minecraftUsername?: string;
   }
 }

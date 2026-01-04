@@ -175,6 +175,7 @@ export const authOptions: NextAuthOptions = {
         session.user.teamId = token.teamId as string | null;
         session.user.playerName = token.playerName as string;
         session.user.profilePicture = token.profilePicture as string;
+        session.user.minecraftUsername = token.minecraftUsername as string;
       }
       
       return session;
@@ -200,6 +201,7 @@ export const authOptions: NextAuthOptions = {
             token.playerId = userData.id;
             token.teamId = userData.team_id;
             token.playerName = userData.username;
+            token.minecraftUsername = userData.minecraft_username;
             // Use Minecraft headshot instead of Discord avatar
             token.profilePicture = getMinecraftHeadshot(userData.minecraft_username, 128);
           }
