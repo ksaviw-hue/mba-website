@@ -14,6 +14,10 @@ console.log("Admin IDs:", ADMIN_DISCORD_IDS);
 console.log("Raw Admin IDs env:", process.env.ADMIN_DISCORD_IDS);
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID || "",
@@ -184,11 +188,33 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, account, user, trigger }) {
-      console.log("[JWT] Called with:", { provider: account?.provider, userId: user?.id, tokenSub: token.sub, trigger, hasPlayerId: !!token.playerId });
+      console.log("[JWT] Called with:", { provider: account?.provider, userId: user?.id, tokenSub: token.sub, trigger, hasPlayerId: !!token.playerId, hasDiscordId: !!token.discordId });
       
       // Store Discord ID in token
       if (account?.provider === "discord") {
         token.discordId = account.providerAccountId;
+        
+        // For Discord admins, also try to find if they have a linked player account
+        // This allows admins to have both admin access AND a player profile
+        if (!token.playerId && ADMIN_DISCORD_IDS.includes(account.providerAccountId)) {
+          try {
+            const { data: player } = await supabaseAdmin
+              .from("players")
+              .select("id, display_name, team_id, profile_picture")
+              .eq("discord_username", user?.name || "")
+              .single();
+            
+            if (player) {
+              console.log("[JWT] Discord admin has linked player:", player.id);
+              token.playerId = player.id;
+              token.teamId = player.team_id;
+              token.playerName = player.display_name;
+              token.profilePicture = player.profile_picture;
+            }
+          } catch (error) {
+            // No linked player, that's okay
+          }
+        }
       }
       
       // For Roblox users, fetch player data if we don't have it yet
