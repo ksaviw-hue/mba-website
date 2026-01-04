@@ -118,9 +118,21 @@ export default function TeamPage({ params }: { params: { id: string } }) {
     });
   };
 
+  // Get minutes played leader from game stats
+  const getMinutesLeader = () => {
+    if (teamPlayers.length === 0) return null;
+    return teamPlayers.reduce((leader, player) => {
+      const playerMinutes = player.gameStats?.reduce((total: number, game: any) => total + (game.minutesPlayed || 0), 0) || 0;
+      const leaderMinutes = leader.gameStats?.reduce((total: number, game: any) => total + (game.minutesPlayed || 0), 0) || 0;
+      return playerMinutes > leaderMinutes ? player : leader;
+    });
+  };
+
   const pointsLeader = getStatLeader('points');
   const reboundsLeader = getStatLeader('rebounds');
   const assistsLeader = getStatLeader('assists');
+  const minutesLeader = getMinutesLeader();
+  const efficiencyLeader = getStatLeader('efficiency');
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
@@ -322,6 +334,64 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                       </div>
                       <div className="text-2xl font-bold text-eba-blue">
                         {assistsLeader.stats.assists.toFixed(1)}
+                      </div>
+                    </div>
+                  )}
+
+                  {minutesLeader && (
+                    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
+                          {minutesLeader.profilePicture ? (
+                            <img
+                              src={minutesLeader.profilePicture}
+                              alt={minutesLeader.displayName}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">
+                              {minutesLeader.displayName.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-900 dark:text-white">
+                            {minutesLeader.displayName}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">Minutes Leader</div>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-bold text-eba-blue">
+                        {minutesLeader.gameStats?.reduce((total: number, game: any) => total + (game.minutesPlayed || 0), 0) || 0}
+                      </div>
+                    </div>
+                  )}
+
+                  {efficiencyLeader && (
+                    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-600 flex-shrink-0">
+                          {efficiencyLeader.profilePicture ? (
+                            <img
+                              src={efficiencyLeader.profilePicture}
+                              alt={efficiencyLeader.displayName}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">
+                              {efficiencyLeader.displayName.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-900 dark:text-white">
+                            {efficiencyLeader.displayName}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400">Efficiency Leader</div>
+                        </div>
+                      </div>
+                      <div className="text-2xl font-bold text-eba-blue">
+                        {efficiencyLeader.stats.efficiency.toFixed(1)}
                       </div>
                     </div>
                   )}

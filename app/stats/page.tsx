@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { LEAGUE_CONFIG } from '@/lib/config';
 
-type StatCategory = 'points' | 'rebounds' | 'assists' | 'steals' | 'blocks' | 'turnovers';
+type StatCategory = 'points' | 'rebounds' | 'assists' | 'steals' | 'blocks' | 'turnovers' | 'minutesPlayed' | 'efficiency';
 type StatMode = 'averages' | 'totals';
 
 const statCategories = [
@@ -16,6 +16,8 @@ const statCategories = [
   { key: 'steals' as StatCategory, label: 'Steals', abbr: 'STL' },
   { key: 'blocks' as StatCategory, label: 'Blocks', abbr: 'BLK' },
   { key: 'turnovers' as StatCategory, label: 'Turnovers', abbr: 'TOV' },
+  { key: 'minutesPlayed' as StatCategory, label: 'Minutes Played', abbr: 'MIN' },
+  { key: 'efficiency' as StatCategory, label: 'Efficiency', abbr: 'EFF' },
 ];
 
 export default function StatsPage() {
@@ -97,7 +99,11 @@ export default function StatsPage() {
       steals: acc.steals + (gs.steals || 0),
       blocks: acc.blocks + (gs.blocks || 0),
       turnovers: acc.turnovers + (gs.turnovers || 0),
-    }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0 });
+      minutesPlayed: acc.minutesPlayed + (gs.minutesPlayed || 0),
+    }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0, minutesPlayed: 0 });
+
+    // Calculate efficiency: (PTS + REB + AST + STL + BLK - TOV) / GP
+    const efficiency = gamesPlayed > 0 ? (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - totals.turnovers) / gamesPlayed : 0;
 
     return {
       gamesPlayed,
@@ -107,6 +113,8 @@ export default function StatsPage() {
       steals: totals.steals / gamesPlayed,
       blocks: totals.blocks / gamesPlayed,
       turnovers: totals.turnovers / gamesPlayed,
+      minutesPlayed: totals.minutesPlayed / gamesPlayed,
+      efficiency,
     };
   };
 

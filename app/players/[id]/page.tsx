@@ -221,7 +221,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
       {/* Averages */}
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6 shadow-sm">
         <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Averages</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
           <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.points.toFixed(1)}</div>
             <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">PTS</div>
@@ -245,6 +245,14 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
           <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.turnovers.toFixed(1)}</div>
             <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">TOV</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.gamesPlayed > 0 ? (totals.minutesPlayed / stats.gamesPlayed).toFixed(1) : '0.0'}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">MIN</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.efficiency.toFixed(1)}</div>
+            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">EFF</div>
           </div>
         </div>
       </div>
