@@ -29,9 +29,37 @@ export const authOptions: NextAuthOptions = {
         url: "https://apis.roblox.com/oauth/v1/authorize",
         params: {
           scope: "openid profile",
+          response_type: "code",
         },
       },
-      token: "https://apis.roblox.com/oauth/v1/token",
+      token: {
+        url: "https://apis.roblox.com/oauth/v1/token",
+        async request({ client, params, checks, provider }) {
+          const response = await fetch(provider.token.url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              grant_type: "authorization_code",
+              code: params.code as string,
+              redirect_uri: params.redirect_uri as string,
+              client_id: provider.clientId as string,
+              client_secret: provider.clientSecret as string,
+            }),
+          });
+
+          const tokens = await response.json();
+          
+          if (!response.ok) {
+            console.error("[ROBLOX TOKEN ERROR]", tokens);
+            throw new Error(`Token exchange failed: ${JSON.stringify(tokens)}`);
+          }
+          
+          console.log("[ROBLOX TOKEN SUCCESS]", { access_token: tokens.access_token ? "present" : "missing" });
+          return { tokens };
+        },
+      },
       userinfo: "https://apis.roblox.com/oauth/v1/userinfo",
       profile(profile: any) {
         return {
