@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, ChevronRight } from 'lucide-react';
+import { Calendar, ChevronRight, Radio, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -8,6 +8,7 @@ export default function Home() {
   const [articles, setArticles] = useState<any[]>([]);
   const [games, setGames] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
+  const [liveStream, setLiveStream] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,19 +17,22 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const [articlesRes, gamesRes, teamsRes] = await Promise.all([
+      const [articlesRes, gamesRes, teamsRes, streamRes] = await Promise.all([
         fetch('/api/articles'),
         fetch('/api/games'),
-        fetch('/api/teams')
+        fetch('/api/teams'),
+        fetch('/api/live-stream')
       ]);
-      const [articlesData, gamesData, teamsData] = await Promise.all([
+      const [articlesData, gamesData, teamsData, streamData] = await Promise.all([
         articlesRes.json(),
         gamesRes.json(),
-        teamsRes.json()
+        teamsRes.json(),
+        streamRes.json()
       ]);
       setArticles(articlesData);
       setGames(gamesData);
       setTeams(teamsData);
+      setLiveStream(streamData.stream);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -62,6 +66,51 @@ export default function Home() {
             <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Elite Basketball Association</h1>
             <p className="text-gray-600 dark:text-gray-400">Your home for the most competitive Roblox basketball experience</p>
           </div>
+
+          {/* Live Stream Section */}
+          {liveStream && (
+            <div className="bg-gradient-to-r from-red-500 to-purple-600 rounded-lg p-1 shadow-lg">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Radio className="w-6 h-6 text-red-600 animate-pulse" />
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    Live Game - Tune In!
+                  </h2>
+                  <span className="ml-auto px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full animate-pulse">
+                    LIVE
+                  </span>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                  {liveStream.title}
+                </h3>
+
+                {/* Twitch Embed */}
+                <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+                  <iframe
+                    src={`https://player.twitch.tv/?channel=${liveStream.twitch_channel}&parent=${typeof window !== 'undefined' ? window.location.hostname : 'ebassociation.com'}`}
+                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    Watching on Twitch: <span className="font-mono font-semibold">{liveStream.twitch_channel}</span>
+                  </p>
+                  <a
+                    href={`https://twitch.tv/${liveStream.twitch_channel}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Watch on Twitch
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Latest News */}
           <div>
