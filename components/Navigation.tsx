@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Home, Users, Link2, TrendingUp, Calendar, Search, Shield, Sun, Moon, Trophy, Briefcase } from 'lucide-react';
+import { Home, Users, Link2, TrendingUp, Calendar, Search, Shield, Sun, Moon, Trophy, Briefcase, Award } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/branding', label: 'Branding', icon: Users },
   { href: '/links', label: 'Links', icon: Link2 },
   { href: '/standings', label: 'Standings', icon: Trophy },
+  { href: '/rankings', label: 'Rankings', icon: Award },
   { href: '/stats', label: 'Stats', icon: TrendingUp },
   { href: '/games', label: 'Games', icon: Calendar },
   { href: '/players', label: 'Players', icon: Search },
