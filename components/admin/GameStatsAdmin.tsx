@@ -19,19 +19,20 @@ export default function GameStatsAdmin() {
     gameId: '',
     date: '',
     opponent: '',
-    points: 0,
-    rebounds: 0,
-    assists: 0,
-    steals: 0,
-    blocks: 0,
-    turnovers: 0,
-    fieldGoalsMade: 0,
-    fieldGoalsAttempted: 0,
-    threePointersMade: 0,
-    threePointersAttempted: 0,
-    freeThrowsMade: 0,
-    freeThrowsAttempted: 0,
-    fouls: 0,
+    points: '',
+    rebounds: '',
+    assists: '',
+    steals: '',
+    blocks: '',
+    turnovers: '',
+    fieldGoalsMade: '',
+    fieldGoalsAttempted: '',
+    threePointersMade: '',
+    threePointersAttempted: '',
+    freeThrowsMade: '',
+    freeThrowsAttempted: '',
+    fouls: '',
+    minutesPlayed: '',
     result: 'W' as 'W' | 'L',
   });
 
@@ -76,10 +77,29 @@ export default function GameStatsAdmin() {
     e.preventDefault();
     
     try {
+      // Convert empty strings to 0 for numeric fields
+      const dataToSubmit = {
+        ...formData,
+        points: Number(formData.points) || 0,
+        rebounds: Number(formData.rebounds) || 0,
+        assists: Number(formData.assists) || 0,
+        steals: Number(formData.steals) || 0,
+        blocks: Number(formData.blocks) || 0,
+        turnovers: Number(formData.turnovers) || 0,
+        fieldGoalsMade: Number(formData.fieldGoalsMade) || 0,
+        fieldGoalsAttempted: Number(formData.fieldGoalsAttempted) || 0,
+        threePointersMade: Number(formData.threePointersMade) || 0,
+        threePointersAttempted: Number(formData.threePointersAttempted) || 0,
+        freeThrowsMade: Number(formData.freeThrowsMade) || 0,
+        freeThrowsAttempted: Number(formData.freeThrowsAttempted) || 0,
+        fouls: Number(formData.fouls) || 0,
+        minutesPlayed: Number(formData.minutesPlayed) || 0,
+      };
+      
       const method = editingStatId ? 'PUT' : 'POST';
       const body = editingStatId 
-        ? JSON.stringify({ ...formData, id: editingStatId })
-        : JSON.stringify(formData);
+        ? JSON.stringify({ ...dataToSubmit, id: editingStatId })
+        : JSON.stringify(dataToSubmit);
         
       const response = await fetch('/api/players/game-stats', {
         method,
@@ -145,6 +165,7 @@ export default function GameStatsAdmin() {
       freeThrowsMade: stat.freeThrowsMade,
       freeThrowsAttempted: stat.freeThrowsAttempted,
       fouls: stat.fouls,
+      minutesPlayed: stat.minutesPlayed || '',
       result: stat.result,
     });
     setShowForm(true);
@@ -156,19 +177,20 @@ export default function GameStatsAdmin() {
       gameId: '',
       date: '',
       opponent: '',
-      points: 0,
-      rebounds: 0,
-      assists: 0,
-      steals: 0,
-      blocks: 0,
-      turnovers: 0,
-      fieldGoalsMade: 0,
-      fieldGoalsAttempted: 0,
-      threePointersMade: 0,
-      threePointersAttempted: 0,
-      freeThrowsMade: 0,
-      freeThrowsAttempted: 0,
-      fouls: 0,
+      points: '',
+      rebounds: '',
+      assists: '',
+      steals: '',
+      blocks: '',
+      turnovers: '',
+      fieldGoalsMade: '',
+      fieldGoalsAttempted: '',
+      threePointersMade: '',
+      threePointersAttempted: '',
+      freeThrowsMade: '',
+      freeThrowsAttempted: '',
+      fouls: '',
+      minutesPlayed: '',
       result: 'W',
     });
     setPlayerSearch('');
@@ -209,8 +231,8 @@ export default function GameStatsAdmin() {
       ...prev,
       [name]: ['points', 'rebounds', 'assists', 'steals', 'blocks', 'turnovers', 
                'fieldGoalsMade', 'fieldGoalsAttempted', 'threePointersMade', 
-               'threePointersAttempted', 'freeThrowsMade', 'freeThrowsAttempted', 'fouls'].includes(name)
-        ? parseInt(value) || 0
+               'threePointersAttempted', 'freeThrowsMade', 'freeThrowsAttempted', 'fouls', 'minutesPlayed'].includes(name)
+        ? value
         : value
     }));
   };
@@ -577,6 +599,20 @@ export default function GameStatsAdmin() {
                   type="number"
                   name="fouls"
                   value={formData.fouls}
+                  onChange={handleChange}
+                  min="0"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                />
+              </div>
+              {/* Minutes Played */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Minutes Played
+                </label>
+                <input
+                  type="number"
+                  name="minutesPlayed"
+                  value={formData.minutesPlayed}
                   onChange={handleChange}
                   min="0"
                   className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"

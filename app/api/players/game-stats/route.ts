@@ -74,6 +74,7 @@ export async function POST(request: NextRequest) {
         free_throws_made: gameStats.freeThrowsMade,
         free_throws_attempted: gameStats.freeThrowsAttempted,
         fouls: gameStats.fouls,
+        minutes_played: gameStats.minutesPlayed || 0,
         result: gameStats.result,
       })
       .select()
@@ -273,6 +274,7 @@ export async function PUT(request: NextRequest) {
         free_throws_made: gameStats.freeThrowsMade,
         free_throws_attempted: gameStats.freeThrowsAttempted,
         fouls: gameStats.fouls,
+        minutes_played: gameStats.minutesPlayed || 0,
         result: gameStats.result,
       })
       .eq('id', gameStats.id);
