@@ -14,6 +14,7 @@ export default function GameStatsAdmin() {
   const [selectedGameFilter, setSelectedGameFilter] = useState('');
   const [expandedGames, setExpandedGames] = useState<Set<string>>(new Set());
   const [gameSearchInput, setGameSearchInput] = useState('');
+  const [gameSearch, setGameSearch] = useState('');
   const [formData, setFormData] = useState({
     playerId: '',
     gameId: '',
