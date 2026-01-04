@@ -7,6 +7,7 @@ import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
 import { LEAGUE_CONFIG } from '@/lib/config';
 
 type ViewMode = 'overall' | 'eastern' | 'western';
+type RecordType = 'overall' | 'conference';
 
 interface TeamStanding {
   team: any;
@@ -21,6 +22,7 @@ interface TeamStanding {
 
 export default function StandingsPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('overall');
+  const [recordType, setRecordType] = useState<RecordType>('overall');
   const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
   const [teams, setTeams] = useState<any[]>([]);
   const [games, setGames] = useState<any[]>([]);
@@ -50,7 +52,7 @@ export default function StandingsPage() {
   };
 
   // Calculate standings for each team
-  const calculateStandings = (conferenceFilter?: 'Eastern' | 'Western', seasonFilter?: string): TeamStanding[] => {
+  const calculateStandings = (conferenceFilter?: 'Eastern' | 'Western', seasonFilter?: string, recordTypeFilter?: RecordType): TeamStanding[] => {
     return teams.map(team => {
       // Get all completed games for this team
       let teamGames = games.filter(
@@ -62,12 +64,12 @@ export default function StandingsPage() {
         teamGames = teamGames.filter(game => game.season === seasonFilter);
       }
 
-      // If filtering by conference, only count games against teams in the same conference
-      if (conferenceFilter) {
+      // If recordType is 'conference', only count games against teams in the same conference
+      if (recordTypeFilter === 'conference') {
         teamGames = teamGames.filter(game => {
           const opponentId = game.homeTeamId === team.id ? game.awayTeamId : game.homeTeamId;
           const opponent = teams.find(t => t.id === opponentId);
-          return opponent?.conference === conferenceFilter;
+          return opponent?.conference === team.conference;
         });
       }
 
@@ -141,12 +143,14 @@ export default function StandingsPage() {
   const getFilteredStandings = () => {
     let standings: TeamStanding[];
     
+    // Calculate standings with recordType determining which games count
+    standings = calculateStandings(undefined, selectedSeason, recordType);
+    
+    // Filter teams by conference for display only
     if (viewMode === 'eastern') {
-      standings = calculateStandings('Eastern', selectedSeason).filter(s => s.team.conference === 'Eastern');
+      standings = standings.filter(s => s.team.conference === 'Eastern');
     } else if (viewMode === 'western') {
-      standings = calculateStandings('Western', selectedSeason).filter(s => s.team.conference === 'Western');
-    } else {
-      standings = calculateStandings(undefined, selectedSeason); // Overall - all games count
+      standings = standings.filter(s => s.team.conference === 'Western');
     }
 
     // Sort by wins (descending), then by losses (ascending), then by point differential (descending)
@@ -185,8 +189,9 @@ export default function StandingsPage() {
           </p>
         </div>
 
-        {/* Season Filter */}
-        <div className="flex justify-center mb-6">
+        {/* Filters */}
+        <div className="flex justify-center gap-4 mb-6 flex-wrap">
+          {/* Season Filter */}
           <div className="w-full max-w-xs">
             <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300 text-center">
               Select Season
@@ -201,6 +206,21 @@ export default function StandingsPage() {
                   {season}
                 </option>
               ))}
+            </select>
+          </div>
+
+          {/* Record Type Filter */}
+          <div className="w-full max-w-xs">
+            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300 text-center">
+              Record Type
+            </label>
+            <select
+              value={recordType}
+              onChange={(e) => setRecordType(e.target.value as RecordType)}
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white shadow-sm"
+            >
+              <option value="overall">Overall</option>
+              <option value="conference">Conference</option>
             </select>
           </div>
         </div>
