@@ -3,8 +3,8 @@ import { ExternalLink, Users, Gamepad2, MessageCircle, Globe } from 'lucide-reac
 const links = [
   {
     title: 'Roblox Group',
-    description: 'Practical Basketball Roblox Group',
-    url: 'https://www.roblox.com/communities/16701350/Practicals-Games#!/about',
+    description: 'EBA Roblox Group',
+    url: 'https://www.roblox.com/communities/16862596/Elite-Basketball-Association#!/about',
     icon: Users,
     color: 'bg-eba-blue hover:bg-blue-600',
   },
