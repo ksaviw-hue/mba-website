@@ -33,10 +33,22 @@ export default function SeasonsAdmin() {
   const fetchSeasons = async () => {
     try {
       const res = await fetch('/api/seasons');
-      const data = await res.json();
-      setSeasons(data);
+      if (res.ok) {
+        const data = await res.json();
+        // Ensure data is an array
+        if (Array.isArray(data)) {
+          setSeasons(data);
+        } else {
+          console.error('Seasons API returned non-array:', data);
+          setSeasons([]);
+        }
+      } else {
+        console.error('Failed to fetch seasons:', res.status);
+        setSeasons([]);
+      }
     } catch (error) {
       console.error('Error fetching seasons:', error);
+      setSeasons([]);
     } finally {
       setLoading(false);
     }
@@ -111,6 +123,42 @@ export default function SeasonsAdmin() {
 
   if (loading) {
     return <div className="text-gray-600 dark:text-gray-400">Loading seasons...</div>;
+  }
+
+  // Show setup instructions if no seasons exist
+  if (seasons.length === 0 && !showForm) {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Manage Seasons</h2>
+        </div>
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-6">
+          <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-200 mb-2">
+            Database Setup Required
+          </h3>
+          <p className="text-yellow-700 dark:text-yellow-300 mb-4">
+            The seasons table hasn't been created yet. Please run the migration SQL in your Supabase SQL Editor.
+          </p>
+          <p className="text-sm text-yellow-600 dark:text-yellow-400">
+            See <code className="bg-yellow-100 dark:bg-yellow-900/50 px-2 py-1 rounded">SEASONS_MIGRATION.md</code> in the project root for the SQL migration script.
+          </p>
+        </div>
+        <button
+          onClick={() => setShowForm(true)}
+          className="px-4 py-2 bg-eba-blue hover:bg-blue-600 text-white rounded-lg font-medium transition-colors flex items-center space-x-2"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add Season</span>
+        </button>
+        {showForm && (
+          <div className="mt-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
+              Please run the database migration first before adding seasons.
+            </p>
+          </div>
+        )}
+      </div>
+    );
   }
 
   return (
