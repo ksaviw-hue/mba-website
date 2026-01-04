@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Press_Start_2P } from 'next/font/google';
+import { Pixelify_Sans } from 'next/font/google';
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-// Using Press Start 2P as Minecraft-style font
-const minecraftFont = Press_Start_2P({ 
-  weight: '400',
+// Using Pixelify Sans as Minecraft-style font
+const minecraftFont = Pixelify_Sans({ 
+  weight: ['400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-minecraft',
   display: 'swap',
