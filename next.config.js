@@ -22,8 +22,34 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'hhyqkflwqlfzjvswarty.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'apis.roblox.com',
+      },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-eval' 'unsafe-inline' *.vercel-scripts.com;
+              style-src 'self' 'unsafe-inline';
+              img-src 'self' data: blob: https: *.roblox.com *.rbxcdn.com *.supabase.co cdn.discordapp.com;
+              font-src 'self' data:;
+              connect-src 'self' https://*.supabase.co https://apis.roblox.com wss://*.supabase.co;
+              frame-src 'self';
+            `.replace(/\s+/g, ' ').trim(),
+          },
+        ],
+      },
+    ];
   },
 };
 
 module.exports = nextConfig;
+
