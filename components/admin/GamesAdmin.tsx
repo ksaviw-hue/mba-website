@@ -25,6 +25,7 @@ export default function GamesAdmin() {
   // Search/filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'scheduled' | 'completed' | 'live'>('all');
+  const [seasonFilter, setSeasonFilter] = useState<string>('all');
 
   // Fetch games and teams on mount
   useEffect(() => {
@@ -56,6 +57,9 @@ export default function GamesAdmin() {
     .filter(game => {
       // Status filter
       if (statusFilter !== 'all' && game.status !== statusFilter) return false;
+      
+      // Season filter
+      if (seasonFilter !== 'all' && game.season !== seasonFilter) return false;
       
       // Search filter
       if (searchQuery) {
@@ -410,6 +414,16 @@ export default function GamesAdmin() {
             />
           </div>
           <select
+            value={seasonFilter}
+            onChange={(e) => setSeasonFilter(e.target.value)}
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+          >
+            <option value="all">All Seasons</option>
+            {LEAGUE_CONFIG.AVAILABLE_SEASONS.filter(s => s !== 'All-Time').map(season => (
+              <option key={season} value={season}>{season}</option>
+            ))}
+          </select>
+          <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
             className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
@@ -448,6 +462,9 @@ export default function GamesAdmin() {
                     </span>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(game.status)}`}>
                       {game.status.charAt(0).toUpperCase() + game.status.slice(1)}
+                    </span>
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                      {game.season || 'Season 1'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
