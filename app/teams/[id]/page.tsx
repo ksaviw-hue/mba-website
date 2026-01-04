@@ -5,12 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Users, Trophy, TrendingUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { LEAGUE_CONFIG } from '@/lib/config';
 
 export default function TeamPage({ params }: { params: { id: string } }) {
   const [team, setTeam] = useState<any>(null);
   const [teamPlayers, setTeamPlayers] = useState<any[]>([]);
   const [teamGames, setTeamGames] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
+  const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,11 +40,13 @@ export default function TeamPage({ params }: { params: { id: string } }) {
       setTeam(currentTeam);
       setTeams(teamsData);
       setTeamPlayers(playersData.filter((p: any) => p.teamId === currentTeam.id));
-      setTeamGames(
-        gamesData.filter(
-          (g: any) => (g.homeTeamId === currentTeam.id || g.awayTeamId === currentTeam.id) && g.status === 'completed'
-        ).sort((a: any, b: any) => new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime())
+      
+      // Filter games and sort by date
+      let filteredGames = gamesData.filter(
+        (g: any) => (g.homeTeamId === currentTeam.id || g.awayTeamId === currentTeam.id) && g.status === 'completed'
       );
+      
+      setTeamGames(filteredGames.sort((a: any, b: any) => new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime()));
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -62,25 +66,42 @@ export default function TeamPage({ params }: { params: { id: string } }) {
 
   if (!team) {
     notFound();
-  }
+  }Filter games by season
+  const filteredGamesBySeason = selectedSeason === 'All-Time' 
+    ? teamGames 
+    : teamGames.filter(game => game.season === selectedSeason);
 
   // Calculate team record
-  const wins = teamGames.filter(game => {
+  const wins = filteredGamesBySeason.filter(game => {
     const isHome = game.homeTeamId === team.id;
+    
+    // Check forfeit first
+    if (game.isForfeit && game.forfeitWinner) {
+      return (isHome && game.forfeitWinner === 'home') || (!isHome && game.forfeitWinner === 'away');
+    }
+    
+    // Normal game
     const teamScore = isHome ? game.homeScore : game.awayScore;
     const opponentScore = isHome ? game.awayScore : game.homeScore;
     return teamScore && opponentScore && teamScore > opponentScore;
   }).length;
 
-  const losses = teamGames.filter(game => {
+  const losses = filteredGamesBySeason.filter(game => {
     const isHome = game.homeTeamId === team.id;
+    
+    // Check forfeit first
+    if (game.isForfeit && game.forfeitWinner) {
+      return (isHome && game.forfeitWinner === 'away') || (!isHome && game.forfeitWinner === 'home');
+    }
+    
+    // Normal game
     const teamScore = isHome ? game.homeScore : game.awayScore;
     const opponentScore = isHome ? game.awayScore : game.homeScore;
     return teamScore && opponentScore && teamScore < opponentScore;
   }).length;
 
   // Calculate point differential
-  const pointDifferential = teamGames.reduce((diff, game) => {
+  const pointDifferential = filteredGamesBySeason.reduce((diff, game) => {
     const isHome = game.homeTeamId === team.id;
     const teamScore = isHome ? (game.homeScore || 0) : (game.awayScore || 0);
     const opponentScore = isHome ? (game.awayScore || 0) : (game.homeScore || 0);
@@ -141,7 +162,7 @@ export default function TeamPage({ params }: { params: { id: string } }) {
             </div>
             <div className="text-right">
               <div className="text-5xl font-bold">{wins}-{losses}</div>
-              <div className="text-sm opacity-90 mt-1">Record</div>
+              <div className="text-sm opacity-90 mt-1">{selectedSeason} Record</div>
             </div>
           </div>
 
@@ -159,6 +180,24 @@ export default function TeamPage({ params }: { params: { id: string } }) {
               <div className="font-semibold">{team.headCoach || 'TBD'}</div>
             </div>
           </div>
+        </div>
+
+        {/* Season Filter */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+            Select Season
+          </label>
+          <select
+            value={selectedSeason}
+            onChange={(e) => setSelectedSeason(e.target.value)}
+            className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+          >
+            {LEAGUE_CONFIG.AVAILABLE_SEASONS.map((season) => (
+              <option key={season} value={season}>
+                {season}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

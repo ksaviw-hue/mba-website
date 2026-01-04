@@ -18,7 +18,7 @@ export default function GamesAdmin() {
   const [status, setStatus] = useState<'scheduled' | 'completed' | 'live'>('scheduled');
   const [homeScore, setHomeScore] = useState<number | string>(0);
   const [awayScore, setAwayScore] = useState<number | string>(0);
-  const [season, setSeason] = useState(LEAGUE_CONFIG.CURRENT_SEASON.toString());
+  const [season, setSeason] = useState(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
   const [isForfeit, setIsForfeit] = useState(false);
   const [forfeitWinner, setForfeitWinner] = useState<'home' | 'away'>('home');
   
@@ -155,7 +155,7 @@ export default function GamesAdmin() {
     setStatus('scheduled');
     setHomeScore('');
     setAwayScore('');
-    setSeason(LEAGUE_CONFIG.CURRENT_SEASON.toString());
+    setSeason(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
     setIsForfeit(false);
     setForfeitWinner('home');
     setShowForm(false);
@@ -177,7 +177,7 @@ export default function GamesAdmin() {
     setStatus(game.status);
     setHomeScore(game.homeScore?.toString() || '');
     setAwayScore(game.awayScore?.toString() || '');
-    setSeason(game.season || '2024');
+    setSeason(game.season || LEAGUE_CONFIG.CURRENT_SEASON_NAME);
     setIsForfeit(game.isForfeit || false);
     setForfeitWinner(game.forfeitWinner || 'home');
     setShowForm(true);
@@ -291,8 +291,8 @@ export default function GamesAdmin() {
                 onChange={(e) => setSeason(e.target.value)}
                 className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
               >
-                {LEAGUE_CONFIG.AVAILABLE_SEASONS.map((seasonName, index) => (
-                  <option key={index + 1} value={index + 1}>
+                {LEAGUE_CONFIG.AVAILABLE_SEASONS.filter(s => s !== 'All-Time').map((seasonName) => (
+                  <option key={seasonName} value={seasonName}>
                     {seasonName}
                   </option>
                 ))}

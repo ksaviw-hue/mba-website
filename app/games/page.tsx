@@ -3,12 +3,13 @@
 import { Calendar, CheckCircle, Clock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { getSeasonDisplay } from '@/lib/config';
+import { getSeasonDisplay, LEAGUE_CONFIG } from '@/lib/config';
 
 type GameFilter = 'all' | 'upcoming' | 'completed';
 
 export default function GamesPage() {
   const [filter, setFilter] = useState<GameFilter>('all');
+  const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
   const [games, setGames] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,8 +38,13 @@ export default function GamesPage() {
   };
 
   const filteredGames = games.filter(game => {
-    if (filter === 'upcoming') return game.status === 'scheduled';
-    if (filter === 'completed') return game.status === 'completed';
+    // Filter by status
+    if (filter === 'upcoming' && game.status !== 'scheduled') return false;
+    if (filter === 'completed' && game.status !== 'completed') return false;
+    
+    // Filter by season
+    if (selectedSeason !== 'All-Time' && game.season !== selectedSeason) return false;
+    
     return true;
   }).sort((a, b) => new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime());
 
@@ -58,6 +64,24 @@ export default function GamesPage() {
           Games Schedule
         </h1>
         <p className="text-gray-600 dark:text-gray-400">View upcoming games and recent results</p>
+      </div>
+
+      {/* Season Filter */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+          Select Season
+        </label>
+        <select
+          value={selectedSeason}
+          onChange={(e) => setSelectedSeason(e.target.value)}
+          className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+        >
+          {LEAGUE_CONFIG.AVAILABLE_SEASONS.map((season) => (
+            <option key={season} value={season}>
+              {season}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Filter Tabs */}

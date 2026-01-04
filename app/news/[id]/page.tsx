@@ -85,6 +85,17 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
+        {/* Article Image */}
+        {article.image && (
+          <div className="mb-6 rounded-lg overflow-hidden">
+            <img
+              src={article.image}
+              alt={article.title}
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        )}
+
         {/* Article Content */}
         <div className="prose prose-lg dark:prose-invert max-w-none">
           <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">

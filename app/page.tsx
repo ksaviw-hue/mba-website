@@ -76,23 +76,34 @@ export default function Home() {
               {latestArticles.map((article) => (
                 <article
                   key={article.id}
-                  className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
+                  className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-eba-blue dark:hover:border-eba-blue transition-colors shadow-sm"
                 >
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{article.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
-                    {new Date(article.publishedDate).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })} • By {article.author}
-                  </p>
-                  <p className="text-gray-700 dark:text-gray-300">{article.excerpt || article.content.slice(0, 150)}...</p>
-                  <Link
-                    href={`/news/${article.id}`}
-                    className="inline-block mt-4 text-eba-blue hover:text-blue-600 font-medium"
-                  >
-                    Read More →
-                  </Link>
+                  {article.image && (
+                    <div className="w-full h-48 relative">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{article.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                      {new Date(article.publishedDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })} • By {article.author}
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">{article.excerpt || article.content.slice(0, 150)}...</p>
+                    <Link
+                      href={`/news/${article.id}`}
+                      className="inline-block mt-4 text-eba-blue hover:text-blue-600 font-medium"
+                    >
+                      Read More →
+                    </Link>
+                  </div>
                 </article>
               ))}
             </div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
+import { LEAGUE_CONFIG } from '@/lib/config';
 
 type ViewMode = 'overall' | 'eastern' | 'western';
 
@@ -20,6 +21,7 @@ interface TeamStanding {
 
 export default function StandingsPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('overall');
+  const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
   const [teams, setTeams] = useState<any[]>([]);
   const [games, setGames] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,12 +50,17 @@ export default function StandingsPage() {
   };
 
   // Calculate standings for each team
-  const calculateStandings = (conferenceFilter?: 'Eastern' | 'Western'): TeamStanding[] => {
+  const calculateStandings = (conferenceFilter?: 'Eastern' | 'Western', seasonFilter?: string): TeamStanding[] => {
     return teams.map(team => {
       // Get all completed games for this team
       let teamGames = games.filter(
         g => (g.homeTeamId === team.id || g.awayTeamId === team.id) && g.status === 'completed'
       );
+
+      // Filter by season if not "All-Time"
+      if (seasonFilter && seasonFilter !== 'All-Time') {
+        teamGames = teamGames.filter(game => game.season === seasonFilter);
+      }
 
       // If filtering by conference, only count games against teams in the same conference
       if (conferenceFilter) {
@@ -135,11 +142,11 @@ export default function StandingsPage() {
     let standings: TeamStanding[];
     
     if (viewMode === 'eastern') {
-      standings = calculateStandings('Eastern').filter(s => s.team.conference === 'Eastern');
+      standings = calculateStandings('Eastern', selectedSeason).filter(s => s.team.conference === 'Eastern');
     } else if (viewMode === 'western') {
-      standings = calculateStandings('Western').filter(s => s.team.conference === 'Western');
+      standings = calculateStandings('Western', selectedSeason).filter(s => s.team.conference === 'Western');
     } else {
-      standings = calculateStandings(); // Overall - all games count
+      standings = calculateStandings(undefined, selectedSeason); // Overall - all games count
     }
 
     // Sort by wins (descending), then by losses (ascending), then by point differential (descending)
@@ -176,6 +183,26 @@ export default function StandingsPage() {
           <p className="text-gray-600 dark:text-gray-400">
             Team records and conference rankings
           </p>
+        </div>
+
+        {/* Season Filter */}
+        <div className="flex justify-center mb-6">
+          <div className="w-full max-w-xs">
+            <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300 text-center">
+              Select Season
+            </label>
+            <select
+              value={selectedSeason}
+              onChange={(e) => setSelectedSeason(e.target.value)}
+              className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white shadow-sm"
+            >
+              {LEAGUE_CONFIG.AVAILABLE_SEASONS.map((season) => (
+                <option key={season} value={season}>
+                  {season}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* View Mode Tabs */}
