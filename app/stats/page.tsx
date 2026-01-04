@@ -122,13 +122,13 @@ export default function StatsPage() {
 
     return {
       gamesPlayed,
-      points: totals.points / gamesPlayed,
-      rebounds: totals.rebounds / gamesPlayed,
-      assists: totals.assists / gamesPlayed,
-      steals: totals.steals / gamesPlayed,
-      blocks: totals.blocks / gamesPlayed,
-      turnovers: totals.turnovers / gamesPlayed,
-      minutesPlayed: totals.minutesPlayed / gamesPlayed,
+      points: gamesPlayed > 0 ? totals.points / gamesPlayed : 0,
+      rebounds: gamesPlayed > 0 ? totals.rebounds / gamesPlayed : 0,
+      assists: gamesPlayed > 0 ? totals.assists / gamesPlayed : 0,
+      steals: gamesPlayed > 0 ? totals.steals / gamesPlayed : 0,
+      blocks: gamesPlayed > 0 ? totals.blocks / gamesPlayed : 0,
+      turnovers: gamesPlayed > 0 ? totals.turnovers / gamesPlayed : 0,
+      minutesPlayed: gamesPlayed > 0 ? totals.minutesPlayed / gamesPlayed : 0,
       efficiency,
     };
   };
@@ -386,49 +386,49 @@ export default function StatsPage() {
                       })()}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-center text-gray-900 dark:text-white">
-                      {player.seasonStats.gamesPlayed}
+                      {player.seasonStats.gamesPlayed || 0}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'points' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
-                        ? player.seasonStats.points * player.seasonStats.gamesPlayed 
-                        : player.seasonStats.points).toFixed(1)}
+                        ? (player.seasonStats.points || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.points || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'rebounds' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
-                        ? player.seasonStats.rebounds * player.seasonStats.gamesPlayed 
-                        : player.seasonStats.rebounds).toFixed(1)}
+                        ? (player.seasonStats.rebounds || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.rebounds || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'assists' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
-                        ? player.seasonStats.assists * player.seasonStats.gamesPlayed 
-                        : player.seasonStats.assists).toFixed(1)}
+                        ? (player.seasonStats.assists || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.assists || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'steals' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
-                        ? player.seasonStats.steals * player.seasonStats.gamesPlayed 
-                        : player.seasonStats.steals).toFixed(1)}
+                        ? (player.seasonStats.steals || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.steals || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'blocks' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
-                        ? player.seasonStats.blocks * player.seasonStats.gamesPlayed 
-                        : player.seasonStats.blocks).toFixed(1)}
+                        ? (player.seasonStats.blocks || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.blocks || 0)).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'turnovers' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
                       {(statMode === 'totals' 
-                        ? player.seasonStats.turnovers * player.seasonStats.gamesPlayed 
-                        : player.seasonStats.turnovers).toFixed(1)}
+                        ? (player.seasonStats.turnovers || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.turnovers || 0)).toFixed(1)}
                     </td>
                   </tr>
                 );
