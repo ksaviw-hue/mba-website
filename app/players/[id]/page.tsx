@@ -120,7 +120,12 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
     fouls: 0,
     minutesPlayed: 0,
   };
-
+  // Calculate efficiency: (PTS + REB + AST + STL + BLK - Missed FG - Missed FT - TOV) / GP
+  const missedFG = totals.fieldGoalsAttempted - totals.fieldGoalsMade;
+  const missedFT = totals.freeThrowsAttempted - totals.freeThrowsMade;
+  const efficiency = stats.gamesPlayed > 0 
+    ? (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers) / stats.gamesPlayed
+    : 0;
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Team-colored Banner */}
@@ -251,7 +256,7 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
             <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">MIN</div>
           </div>
           <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{stats.efficiency.toFixed(1)}</div>
+            <div className="text-2xl font-bold text-gray-900 dark:text-white">{efficiency.toFixed(1)}</div>
             <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">EFF</div>
           </div>
         </div>
