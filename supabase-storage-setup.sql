@@ -2,13 +2,13 @@
 -- SUPABASE STORAGE SETUP
 -- ============================================
 -- Run this in your Supabase SQL Editor AFTER running the main schema
--- This creates storage buckets for team logos, player avatars, and article images
+-- This creates storage buckets for team logos and article images
+-- Note: Profile pictures use Minecraft headshots from crafatar.com (no storage needed)
 
 -- Create storage buckets
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES 
   ('team-logos', 'team-logos', true, 5242880, ARRAY['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']),
-  ('player-avatars', 'player-avatars', true, 5242880, ARRAY['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp']),
   ('article-images', 'article-images', true, 10485760, ARRAY['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'])
 ON CONFLICT (id) DO NOTHING;
 
@@ -32,27 +32,6 @@ DROP POLICY IF EXISTS "Anyone can delete team logos" ON storage.objects;
 CREATE POLICY "Anyone can delete team logos"
 ON storage.objects FOR DELETE
 USING (bucket_id = 'team-logos');
-
--- Create storage policies for player-avatars bucket
-DROP POLICY IF EXISTS "Public can view player avatars" ON storage.objects;
-CREATE POLICY "Public can view player avatars"
-ON storage.objects FOR SELECT
-USING (bucket_id = 'player-avatars');
-
-DROP POLICY IF EXISTS "Anyone can upload player avatars" ON storage.objects;
-CREATE POLICY "Anyone can upload player avatars"
-ON storage.objects FOR INSERT
-WITH CHECK (bucket_id = 'player-avatars');
-
-DROP POLICY IF EXISTS "Anyone can update player avatars" ON storage.objects;
-CREATE POLICY "Anyone can update player avatars"
-ON storage.objects FOR UPDATE
-USING (bucket_id = 'player-avatars');
-
-DROP POLICY IF EXISTS "Anyone can delete player avatars" ON storage.objects;
-CREATE POLICY "Anyone can delete player avatars"
-ON storage.objects FOR DELETE
-USING (bucket_id = 'player-avatars');
 
 -- Create storage policies for article-images bucket
 DROP POLICY IF EXISTS "Public can view article images" ON storage.objects;
@@ -80,8 +59,9 @@ USING (bucket_id = 'article-images');
 -- ============================================
 -- Storage buckets created:
 -- 1. team-logos (5MB limit) - For team logo uploads
--- 2. player-avatars (5MB limit) - For player profile pictures  
--- 3. article-images (10MB limit) - For news article images
+-- 2. article-images (10MB limit) - For news article images
+--
+-- Profile pictures use Minecraft headshots from crafatar.com (no storage needed)
 --
 -- All buckets are public (readable by anyone)
 -- Anyone can upload/update/delete (no auth required)
