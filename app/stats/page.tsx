@@ -313,6 +313,12 @@ export default function StatsPage() {
                 <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                   TPG
                 </th>
+                <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                  MPG
+                </th>
+                <th className="px-4 py-4 text-center text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                  EFF
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -430,12 +436,24 @@ export default function StatsPage() {
                         ? (player.seasonStats.turnovers || 0) * (player.seasonStats.gamesPlayed || 0)
                         : (player.seasonStats.turnovers || 0)).toFixed(1)}
                     </td>
+                    <td className={`px-4 py-4 whitespace-nowrap text-center ${
+                      selectedStat === 'minutesPlayed' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                    }`}>
+                      {(statMode === 'totals' 
+                        ? (player.seasonStats.minutesPlayed || 0) * (player.seasonStats.gamesPlayed || 0)
+                        : (player.seasonStats.minutesPlayed || 0)).toFixed(1)}
+                    </td>
+                    <td className={`px-4 py-4 whitespace-nowrap text-center ${
+                      selectedStat === 'efficiency' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
+                    }`}>
+                      {(player.seasonStats.efficiency || 0).toFixed(1)}
+                    </td>
                   </tr>
                 );
                 })
               ) : (
                 <tr>
-                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                  <td colSpan={12} className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
                     <TrendingUp className="w-12 h-12 mx-auto mb-3 opacity-50" />
                     <p>No player statistics available yet.</p>
                     <p className="text-sm mt-1">Stats will appear once games are played!</p>
