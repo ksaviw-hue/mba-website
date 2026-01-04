@@ -82,6 +82,8 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id, ...updates } = body;
 
+    console.log('PUT request received:', { id, updates });
+
     if (!id) {
       return NextResponse.json(
         { error: 'Game ID is required' },
@@ -90,6 +92,8 @@ export async function PUT(request: Request) {
     }
 
     const updateData: any = {};
+    if (updates.homeTeamId !== undefined) updateData.home_team_id = updates.homeTeamId;
+    if (updates.awayTeamId !== undefined) updateData.away_team_id = updates.awayTeamId;
     if (updates.homeScore !== undefined) updateData.home_score = updates.homeScore;
     if (updates.awayScore !== undefined) updateData.away_score = updates.awayScore;
     if (updates.status !== undefined) updateData.status = updates.status;
@@ -98,11 +102,15 @@ export async function PUT(request: Request) {
     if (updates.isForfeit !== undefined) updateData.is_forfeit = updates.isForfeit;
     if (updates.forfeitWinner !== undefined) updateData.forfeit_winner = updates.forfeitWinner;
 
+    console.log('Update data:', updateData);
+
     const { data, error } = await supabase
       .from('games')
       .update(updateData)
       .eq('id', id)
       .select();
+    
+    console.log('Supabase response:', { data, error });
     
     if (error) {
       console.error('Game update error:', error);
