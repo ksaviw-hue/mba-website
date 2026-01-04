@@ -174,38 +174,40 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, account, user, trigger }) {
-      console.log("[JWT] Called with:", { provider: account?.provider, userId: user?.id, trigger, hasPlayerId: !!token.playerId });
+      console.log("[JWT] Called with:", { provider: account?.provider, userId: user?.id, tokenSub: token.sub, trigger, hasPlayerId: !!token.playerId });
       
       // Store Discord ID in token
       if (account?.provider === "discord") {
         token.discordId = account.providerAccountId;
       }
       
-      // Store player data in token for Roblox users
-      // Fetch on initial sign in or when explicitly requested
-      if ((account?.provider === "roblox" || trigger === "update") && user && !token.playerId) {
-        console.log("[JWT] Fetching player data for user:", user.id);
+      // For Roblox users, fetch player data if we don't have it yet
+      // Use token.sub (the user ID) which persists across JWT calls
+      if (account?.provider === "roblox" && !token.playerId) {
+        const userId = user?.id || token.sub;
+        console.log("[JWT] Fetching player data for user:", userId);
+        
         try {
           const { data: player, error: playerError } = await supabaseAdmin
             .from("players")
-            .select("id, name, team_id, profile_picture")
-            .eq("user_id", user.id)
+            .select("id, display_name, team_id, profile_picture")
+            .eq("user_id", userId)
             .single();
 
           if (playerError) {
             console.error("[JWT] Error fetching player:", playerError);
             console.error("[JWT] Error details:", JSON.stringify(playerError));
           } else if (player) {
-            console.log("[JWT] Found player:", player.id, player.name);
+            console.log("[JWT] Found player:", player.id, player.display_name);
             token.playerId = player.id;
             token.teamId = player.team_id;
-            token.playerName = player.name;
+            token.playerName = player.display_name;
             token.profilePicture = player.profile_picture;
           } else {
-            console.log("[JWT] No player found for user");
+            console.log("[JWT] No player found for user:", userId);
           }
         } catch (error) {
-          console.error("[JWT] Error fetching player data:", error);
+          console.error("[JWT] Exception fetching player data:", error);
         }
       } else if (token.playerId) {
         console.log("[JWT] Player data already in token:", token.playerId);
