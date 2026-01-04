@@ -24,6 +24,7 @@ export default function StatsPage() {
   const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
   const [players, setPlayers] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
+  const [games, setGames] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const playersPerPage = 10;
@@ -34,16 +35,19 @@ export default function StatsPage() {
 
   const fetchData = async () => {
     try {
-      const [playersRes, teamsRes] = await Promise.all([
+      const [playersRes, teamsRes, gamesRes] = await Promise.all([
         fetch('/api/players'),
-        fetch('/api/teams')
+        fetch('/api/teams'),
+        fetch('/api/games')
       ]);
-      const [playersData, teamsData] = await Promise.all([
+      const [playersData, teamsData, gamesData] = await Promise.all([
         playersRes.json(),
-        teamsRes.json()
+        teamsRes.json(),
+        gamesRes.json()
       ]);
       setPlayers(playersData);
       setTeams(teamsData);
+      setGames(gamesData);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -56,17 +60,80 @@ export default function StatsPage() {
     return team || null;
   };
 
-  const getStatValue = (player: any, stat: StatCategory) => {
-    if (statMode === 'totals') {
-      return player.stats[stat] * player.stats.gamesPlayed;
+  // Calculate per-season stats from gameStats
+  const getPlayerSeasonStats = (player: any) => {
+    if (selectedSeason === 'All-Time' || !player.gameStats || player.gameStats.length === 0) {
+      // Return cumulative stats for All-Time
+      return {
+        ...player.stats,
+        gamesPlayed: player.stats.gamesPlayed
+      };
     }
-    return player.stats[stat];
+
+    // Filter gameStats by games in the selected season
+    const seasonGames = games.filter(g => g.season === selectedSeason);
+    const seasonGameIds = new Set(seasonGames.map(g => g.id));
+    const seasonGameStats = player.gameStats.filter((gs: any) => seasonGameIds.has(gs.gameId));
+
+    if (seasonGameStats.length === 0) {
+      // No games in this season
+      return {
+        gamesPlayed: 0,
+        points: 0,
+        rebounds: 0,
+        assists: 0,
+        steals: 0,
+        blocks: 0,
+        turnovers: 0
+      };
+    }
+
+    // Calculate averages from season game stats
+    const gamesPlayed = seasonGameStats.length;
+    const totals = seasonGameStats.reduce((acc: any, gs: any) => ({
+      points: acc.points + (gs.points || 0),
+      rebounds: acc.rebounds + (gs.rebounds || 0),
+      assists: acc.assists + (gs.assists || 0),
+      steals: acc.steals + (gs.steals || 0),
+      blocks: acc.blocks + (gs.blocks || 0),
+      turnovers: acc.turnovers + (gs.turnovers || 0),
+    }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0 });
+
+    return {
+      gamesPlayed,
+      points: totals.points / gamesPlayed,
+      rebounds: totals.rebounds / gamesPlayed,
+      assists: totals.assists / gamesPlayed,
+      steals: totals.steals / gamesPlayed,
+      blocks: totals.blocks / gamesPlayed,
+      turnovers: totals.turnovers / gamesPlayed,
+    };
+  };
+
+  const getStatValue = (player: any, stat: StatCategory) => {
+    const seasonStats = getPlayerSeasonStats(player);
+    if (statMode === 'totals') {
+      return seasonStats[stat] * seasonStats.gamesPlayed;
+    }
+    return seasonStats[stat];
   };
 
   const getLeaders = (stat: StatCategory) => {
     return [...players]
-      .filter(p => p.stats.gamesPlayed > 0)
-      .sort((a, b) => getStatValue(b, stat) - getStatValue(a, stat));
+      .map(p => ({
+        ...p,
+        seasonStats: getPlayerSeasonStats(p)
+      }))
+      .filter(p => p.seasonStats.gamesPlayed > 0)
+      .sort((a, b) => {
+        const aValue = statMode === 'totals' 
+          ? a.seasonStats[stat] * a.seasonStats.gamesPlayed
+          : a.seasonStats[stat];
+        const bValue = statMode === 'totals'
+          ? b.seasonStats[stat] * b.seasonStats.gamesPlayed
+          : b.seasonStats[stat];
+        return bValue - aValue;
+      });
   };
 
   const allLeaders = getLeaders(selectedStat);
@@ -296,37 +363,49 @@ export default function StatsPage() {
                       })()}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-center text-gray-900 dark:text-white">
-                      {player.stats.gamesPlayed}
+                      {player.seasonStats.gamesPlayed}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'points' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {getStatValue(player, 'points').toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? player.seasonStats.points * player.seasonStats.gamesPlayed 
+                        : player.seasonStats.points).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'rebounds' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {getStatValue(player, 'rebounds').toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? player.seasonStats.rebounds * player.seasonStats.gamesPlayed 
+                        : player.seasonStats.rebounds).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'assists' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {getStatValue(player, 'assists').toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? player.seasonStats.assists * player.seasonStats.gamesPlayed 
+                        : player.seasonStats.assists).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'steals' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {getStatValue(player, 'steals').toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? player.seasonStats.steals * player.seasonStats.gamesPlayed 
+                        : player.seasonStats.steals).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'blocks' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {getStatValue(player, 'blocks').toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? player.seasonStats.blocks * player.seasonStats.gamesPlayed 
+                        : player.seasonStats.blocks).toFixed(1)}
                     </td>
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'turnovers' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {getStatValue(player, 'turnovers').toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? player.seasonStats.turnovers * player.seasonStats.gamesPlayed 
+                        : player.seasonStats.turnovers).toFixed(1)}
                     </td>
                   </tr>
                 );
