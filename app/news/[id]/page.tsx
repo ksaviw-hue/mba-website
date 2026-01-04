@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 import Link from 'next/link';
+import ArticleSocial from '@/components/ArticleSocial';
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const [article, setArticle] = useState<any>(null);
@@ -102,6 +103,9 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
             {article.content}
           </div>
         </div>
+
+        {/* Social Features (Likes & Comments) */}
+        <ArticleSocial articleId={article.id} />
       </article>
     </div>
   );

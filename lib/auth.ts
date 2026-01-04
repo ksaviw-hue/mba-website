@@ -79,11 +79,32 @@ export const authOptions: NextAuthOptions = {
   debug: true,
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Discord admin authentication
+      // Discord admin authentication OR Discord linking
       if (account?.provider === "discord") {
         const discordId = account.providerAccountId;
+        const discordUsername = (user.name || (profile as any)?.username) + "#" + (profile as any)?.discriminator;
+        
         console.log("Attempting sign in with Discord ID:", discordId);
         console.log("Is admin?", ADMIN_DISCORD_IDS.includes(discordId));
+        
+        // Check if this is a Discord linking attempt (user has an existing Roblox account)
+        const { data: existingPlayer } = await supabaseAdmin
+          .from("players")
+          .select("id, user_id")
+          .eq("user_id", user.id)
+          .single();
+        
+        if (existingPlayer) {
+          // User is linking their Discord to their existing Roblox account
+          console.log("[DISCORD LINK] Linking Discord to player:", existingPlayer.id);
+          await supabaseAdmin
+            .from("players")
+            .update({ discord_username: discordUsername })
+            .eq("id", existingPlayer.id);
+          return true; // Allow the linking
+        }
+        
+        // Otherwise, this must be an admin login
         return ADMIN_DISCORD_IDS.includes(discordId);
       }
       

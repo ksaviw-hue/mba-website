@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, Users, Trophy, TrendingUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LEAGUE_CONFIG } from '@/lib/config';
+import TeamWall from '@/components/TeamWall';
 
 export default function TeamPage({ params }: { params: { id: string } }) {
   const [team, setTeam] = useState<any>(null);
@@ -553,6 +554,11 @@ export default function TeamPage({ params }: { params: { id: string } }) {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Team Wall Section */}
+        <div className="mt-8">
+          <TeamWall teamId={team.id} />
         </div>
       </div>
     </main>
