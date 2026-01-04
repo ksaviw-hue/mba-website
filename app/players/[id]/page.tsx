@@ -7,7 +7,6 @@ import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import EditProfile from '@/components/EditProfile';
-import DiscordLinkButton from '@/components/DiscordLinkButton';
 
 export default function PlayerProfilePage({ params }: { params: { id: string } }) {
   const [player, setPlayer] = useState<any>(null);
@@ -217,23 +216,12 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
               ))}
             </div>
 
-            {/* Discord */}
-            {player.discordUsername && (
-              <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                Discord: <span className="text-gray-900 dark:text-white">{player.discordUsername}</span>
-              </div>
-            )}
           </div>
         </div>
 
         {/* Edit Profile Button */}
         {isOwnProfile && (
-          <div className="mt-6 flex flex-col md:flex-row gap-3 justify-center md:justify-end">
-            <DiscordLinkButton
-              player={player}
-              isOwnProfile={isOwnProfile}
-              onUpdate={handleProfileUpdate}
-            />
+          <div className="mt-6 flex justify-center md:justify-end">
             <EditProfile
               player={player}
               isOwnProfile={isOwnProfile}
