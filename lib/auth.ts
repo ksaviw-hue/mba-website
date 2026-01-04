@@ -119,24 +119,20 @@ export const authOptions: NextAuthOptions = {
             console.log("[ROBLOX AUTH] Creating new Free Agent player");
             // Create new player as Free Agent
             const { data: newPlayer, error: insertError } = await supabaseAdmin.from("players").insert({
-              name: robloxUsername,
+              display_name: robloxUsername,
               roblox_username: robloxUsername,
               roblox_user_id: robloxId,
               user_id: user.id,
               team_id: null, // Free Agent - not on a team
-              position: "Free Agent",
-              jersey_number: null,
-              height: "",
-              weight: "",
-              year: "",
-              hometown: "",
-              high_school: "",
-              bio: "",
+              roles: ["Player"],
               profile_picture: robloxAvatar,
             }).select().single();
             
             if (insertError) {
               console.error("[ROBLOX AUTH] Error creating player:", insertError);
+              console.error("[ROBLOX AUTH] Full insert error:", JSON.stringify(insertError));
+              // Still allow sign in even if player creation fails
+              return true;
             } else {
               console.log("[ROBLOX AUTH] Created new player:", newPlayer?.id);
             }
