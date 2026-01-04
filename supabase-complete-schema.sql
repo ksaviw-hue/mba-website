@@ -324,26 +324,33 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- Apply triggers
-CREATE TRIGGER IF NOT EXISTS update_teams_updated_at BEFORE UPDATE ON teams
+-- Apply triggers (drop first to avoid errors)
+DROP TRIGGER IF EXISTS update_teams_updated_at ON teams;
+CREATE TRIGGER update_teams_updated_at BEFORE UPDATE ON teams
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_users_updated_at BEFORE UPDATE ON users
+DROP TRIGGER IF EXISTS update_users_updated_at ON users;
+CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_games_updated_at BEFORE UPDATE ON games
+DROP TRIGGER IF EXISTS update_games_updated_at ON games;
+CREATE TRIGGER update_games_updated_at BEFORE UPDATE ON games
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_player_season_stats_updated_at BEFORE UPDATE ON player_season_stats
+DROP TRIGGER IF EXISTS update_player_season_stats_updated_at ON player_season_stats;
+CREATE TRIGGER update_player_season_stats_updated_at BEFORE UPDATE ON player_season_stats
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_articles_updated_at BEFORE UPDATE ON articles
+DROP TRIGGER IF EXISTS update_articles_updated_at ON articles;
+CREATE TRIGGER update_articles_updated_at BEFORE UPDATE ON articles
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_article_comments_updated_at BEFORE UPDATE ON article_comments
+DROP TRIGGER IF EXISTS update_article_comments_updated_at ON article_comments;
+CREATE TRIGGER update_article_comments_updated_at BEFORE UPDATE ON article_comments
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER IF NOT EXISTS update_team_wall_posts_updated_at BEFORE UPDATE ON team_wall_posts
+DROP TRIGGER IF EXISTS update_team_wall_posts_updated_at ON team_wall_posts;
+CREATE TRIGGER update_team_wall_posts_updated_at BEFORE UPDATE ON team_wall_posts
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================
