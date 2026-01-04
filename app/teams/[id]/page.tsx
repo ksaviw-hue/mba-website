@@ -66,7 +66,9 @@ export default function TeamPage({ params }: { params: { id: string } }) {
 
   if (!team) {
     notFound();
-  }Filter games by season
+  }
+
+  // Filter games by season
   const filteredGamesBySeason = selectedSeason === 'All-Time' 
     ? teamGames 
     : teamGames.filter(game => game.season === selectedSeason);
