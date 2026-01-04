@@ -1,13 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Shield, UserPlus, Users, Calendar, FileText, LogOut, TrendingUp, Briefcase } from 'lucide-react';
+import { Shield, UserPlus, Users, Calendar, FileText, LogOut, TrendingUp, Briefcase, Settings } from 'lucide-react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { PlayersAdmin, TeamsAdmin, GamesAdmin, ArticlesAdmin, GameStatsAdmin, StaffAdmin } from '@/components/admin';
+import SeasonsAdmin from '@/components/admin/SeasonsAdmin';
 
 export default function AdminPage() {
   const { data: session, status } = useSession();
-  const [activeTab, setActiveTab] = useState<'players' | 'teams' | 'games' | 'articles' | 'gamestats' | 'staff'>('players');
+  const [activeTab, setActiveTab] = useState<'players' | 'teams' | 'games' | 'articles' | 'gamestats' | 'staff' | 'seasons'>('players');
 
   // Show loading state while checking authentication
   if (status === 'loading') {
@@ -153,6 +154,17 @@ export default function AdminPage() {
           <Briefcase className="w-5 h-5" />
           <span>Staff</span>
         </button>
+        <button
+          onClick={() => setActiveTab('seasons')}
+          className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+            activeTab === 'seasons'
+              ? 'bg-eba-blue text-white'
+              : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+          }`}
+        >
+          <Settings className="w-5 h-5" />
+          <span>Seasons</span>
+        </button>
       </div>
 
       {/* Content */}
@@ -163,6 +175,7 @@ export default function AdminPage() {
         {activeTab === 'articles' && <ArticlesAdmin />}
         {activeTab === 'gamestats' && <GameStatsAdmin />}
         {activeTab === 'staff' && <StaffAdmin />}
+        {activeTab === 'seasons' && <SeasonsAdmin />}
       </div>
     </div>
   );

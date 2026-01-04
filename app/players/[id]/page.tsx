@@ -474,9 +474,10 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
               .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
               .slice(0, 10)
               .map((game: any) => (
-                <div
+                <Link
                   key={game.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                  href={`/games/${game.gameId}`}
+                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center space-x-4">
                     <div className={`px-3 py-1 rounded font-bold ${
@@ -513,13 +514,13 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
                       <div className="text-xs text-gray-500">BLK</div>
                     </div>
                     <div>
-                      <div className="text-sm text-gray-900 dark:text-white">
+                      <div className="text-lg font-bold text-gray-900 dark:text-white">
                         {game.fieldGoalsMade}/{game.fieldGoalsAttempted}
                       </div>
                       <div className="text-xs text-gray-500">FG</div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
           </div>
         </div>

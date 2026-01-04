@@ -1,28 +1,56 @@
 /**
  * Global League Configuration
  * 
- * Update these values at the start of each new season to automatically
- * update season numbers across the entire website.
+ * Seasons are now managed dynamically through the admin panel.
+ * Use the helper functions below to fetch season data.
  */
 
 export const LEAGUE_CONFIG = {
-  // Current Season (for default dropdown selection)
-  CURRENT_SEASON: 0, // 0 = Preseason 1, 1 = Season 1, 2 = Season 2, 3 = Season 3
-  
-  // Season Display Name (used in dropdowns and displays)
-  CURRENT_SEASON_NAME: 'Preseason 1',
-  
-  // Available Seasons (for stats filtering)
-  AVAILABLE_SEASONS: ['Preseason 1', 'Season 1', 'Season 2', 'Season 3', 'All-Time'],
-  
   // League Info
   LEAGUE_NAME: 'Elite Basketball Association',
   LEAGUE_SHORT_NAME: 'EBA',
-  
-  // Season Dates (optional)
-  SEASON_START_DATE: '2024-12-01',
-  SEASON_END_DATE: '2025-06-30',
 } as const;
+
+/**
+ * Fetch all available seasons from the database
+ */
+export async function getAvailableSeasons(): Promise<string[]> {
+  try {
+    const res = await fetch('/api/seasons', { cache: 'no-store' });
+    if (!res.ok) return ['All-Time']; // Fallback
+    
+    const seasons = await res.json();
+    const seasonNames = seasons.map((s: any) => s.name);
+    
+    // Always include All-Time at the end
+    if (!seasonNames.includes('All-Time')) {
+      seasonNames.push('All-Time');
+    }
+    
+    return seasonNames;
+  } catch (error) {
+    console.error('Error fetching seasons:', error);
+    return ['All-Time']; // Fallback
+  }
+}
+
+/**
+ * Fetch the current season name from the database
+ */
+export async function getCurrentSeasonName(): Promise<string> {
+  try {
+    const res = await fetch('/api/seasons', { cache: 'no-store' });
+    if (!res.ok) return 'All-Time'; // Fallback
+    
+    const seasons = await res.json();
+    const currentSeason = seasons.find((s: any) => s.isCurrent);
+    
+    return currentSeason?.name || 'All-Time';
+  } catch (error) {
+    console.error('Error fetching current season:', error);
+    return 'All-Time'; // Fallback
+  }
+}
 
 /**
  * Helper function to get season display text
@@ -41,6 +69,8 @@ export function getSeasonValue(seasonName: string): string {
 /**
  * Helper function to check if a season is current
  */
-export function isCurrentSeason(seasonName: string): boolean {
-  return seasonName === LEAGUE_CONFIG.CURRENT_SEASON_NAME;
+export async function isCurrentSeason(seasonName: string): Promise<boolean> {
+  const current = await getCurrentSeasonName();
+  return seasonName === current;
 }
+

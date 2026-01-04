@@ -4,7 +4,6 @@ import { Trophy, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { LEAGUE_CONFIG } from '@/lib/config';
 
 type StatCategory = 'points' | 'rebounds' | 'assists' | 'steals' | 'blocks' | 'turnovers' | 'minutesPlayed' | 'efficiency';
 type StatMode = 'averages' | 'totals';
@@ -23,7 +22,8 @@ const statCategories = [
 export default function StatsPage() {
   const [selectedStat, setSelectedStat] = useState<StatCategory>('points');
   const [statMode, setStatMode] = useState<StatMode>('averages');
-  const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
+  const [selectedSeason, setSelectedSeason] = useState<string>('All-Time');
+  const [availableSeasons, setAvailableSeasons] = useState<string[]>(['All-Time']);
   const [players, setPlayers] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
   const [games, setGames] = useState<any[]>([]);
@@ -33,7 +33,33 @@ export default function StatsPage() {
 
   useEffect(() => {
     fetchData();
+    fetchSeasons();
   }, []);
+
+  const fetchSeasons = async () => {
+    try {
+      const res = await fetch('/api/seasons');
+      if (res.ok) {
+        const seasons = await res.json();
+        const seasonNames = seasons.map((s: any) => s.name);
+        
+        // Always include All-Time
+        if (!seasonNames.includes('All-Time')) {
+          seasonNames.push('All-Time');
+        }
+        
+        setAvailableSeasons(seasonNames);
+        
+        // Set current season as default
+        const currentSeason = seasons.find((s: any) => s.isCurrent);
+        if (currentSeason) {
+          setSelectedSeason(currentSeason.name);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching seasons:', error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -73,7 +99,7 @@ export default function StatsPage() {
       const efficiency = stats.gamesPlayed > 0 
         ? ((stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - missedFG - missedFT - (stats.turnovers || 0)) / stats.gamesPlayed
         : 0;
-      const totalEfficiency = (stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - missedFG - missedFT - (stats.turnovers || 0);
+      const totalEfficiency = efficiency;
       
       return {
         gamesPlayed: stats.gamesPlayed || 0,
@@ -130,7 +156,7 @@ export default function StatsPage() {
     const missedFG = totals.fieldGoalsAttempted - totals.fieldGoalsMade;
     const missedFT = totals.freeThrowsAttempted - totals.freeThrowsMade;
     const efficiency = gamesPlayed > 0 ? (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers) / gamesPlayed : 0;
-    const totalEfficiency = totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers;
+    const totalEfficiency = efficiency;
 
     return {
       gamesPlayed,
@@ -207,7 +233,7 @@ export default function StatsPage() {
             onChange={(e) => setSelectedSeason(e.target.value)}
             className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:border-eba-blue"
           >
-            {LEAGUE_CONFIG.AVAILABLE_SEASONS.map(season => (
+            {availableSeasons.map(season => (
               <option key={season} value={season}>{season}</option>
             ))}
           </select>
