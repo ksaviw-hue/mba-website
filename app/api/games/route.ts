@@ -102,13 +102,19 @@ export async function PUT(request: Request) {
       .from('games')
       .update(updateData)
       .eq('id', id)
-      .select()
-      .single();
+      .select();
     
-    if (error || !data) {
+    if (error) {
       console.error('Game update error:', error);
       return NextResponse.json(
-        { error: error?.message || 'Game not found' },
+        { error: error.message },
+        { status: 500 }
+      );
+    }
+    
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { error: 'Game not found' },
         { status: 404 }
       );
     }
@@ -116,7 +122,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({
       success: true,
       message: 'Game updated successfully',
-      game: { id: data.id }
+      game: { id: data[0].id }
     });
   } catch (error: any) {
     console.error('Game update exception:', error);
