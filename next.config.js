@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    domains: ['aehtarohptmtrgksxhll.supabase.co', 'crafatar.com'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,7 +25,15 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'aehtarohptmtrgksxhll.supabase.co',
+      },
+      {
+        protocol: 'https',
         hostname: 'apis.roblox.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'crafatar.com',
       },
     ],
   },
