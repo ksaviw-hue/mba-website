@@ -25,6 +25,11 @@ export default function Navigation() {
   const { theme, toggleTheme } = useTheme();
   const { data: session, status } = useSession();
 
+  // Debug logging
+  console.log('[NAV DEBUG] Status:', status);
+  console.log('[NAV DEBUG] Session:', session);
+  console.log('[NAV DEBUG] Player ID:', session?.user?.playerId);
+
   return (
     <nav className="bg-white dark:bg-eba-dark border-b border-gray-200 dark:border-gray-800 shadow-sm">
       <div className="max-w-full mx-auto px-2 sm:px-4 lg:px-8">

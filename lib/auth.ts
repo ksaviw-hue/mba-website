@@ -179,10 +179,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
-  pages: {
-    signIn: '/admin', // Redirect to admin page for sign in
-    error: '/admin',   // Redirect to admin page on error
-  },
 };
 
 // Helper function to check if a Discord ID has admin access
