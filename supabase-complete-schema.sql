@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ============================================
 -- TEAMS TABLE (Shared by Bot + Website)
 -- ============================================
-CREATE TABLE teams (
+CREATE TABLE IF NOT EXISTS teams (
   id TEXT PRIMARY KEY,  -- Use TEXT for bot compatibility
   guild_id TEXT,  -- Discord server ID (for bot)
   name TEXT NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE teams (
 -- ============================================
 -- This is the main user table used by the bot
 -- ID format: 'discord-{discord_id}'
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,  -- Format: 'discord-{discord_id}'
   username TEXT NOT NULL,
   email TEXT,
@@ -55,7 +55,7 @@ CREATE TABLE users (
 -- ============================================
 -- SEASONS TABLE (Bot Managed)
 -- ============================================
-CREATE TABLE seasons (
+CREATE TABLE IF NOT EXISTS seasons (
   id BIGSERIAL PRIMARY KEY,
   guild_id TEXT NOT NULL,
   season_name TEXT NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE seasons (
 -- ============================================
 -- GAMES TABLE (Bot + Website)
 -- ============================================
-CREATE TABLE games (
+CREATE TABLE IF NOT EXISTS games (
   id BIGSERIAL PRIMARY KEY,
   guild_id TEXT,  -- Bot field
   season_id BIGINT REFERENCES seasons(id) ON DELETE CASCADE,  -- Bot field
@@ -102,7 +102,7 @@ CREATE TABLE games (
 -- PLAYER SEASON STATS (Bot Managed - Aggregated)
 -- ============================================
 -- The bot automatically aggregates stats per season
-CREATE TABLE player_season_stats (
+CREATE TABLE IF NOT EXISTS player_season_stats (
   id BIGSERIAL PRIMARY KEY,
   player_id TEXT NOT NULL,  -- Format: 'discord-{discord_id}'
   season_id BIGINT REFERENCES seasons(id) ON DELETE CASCADE,
@@ -122,7 +122,7 @@ CREATE TABLE player_season_stats (
 -- ============================================
 -- PLAYER GAME STATS (Individual Game Performance)
 -- ============================================
-CREATE TABLE player_game_stats (
+CREATE TABLE IF NOT EXISTS player_game_stats (
   id BIGSERIAL PRIMARY KEY,
   game_id BIGINT REFERENCES games(id) ON DELETE CASCADE,
   player_id TEXT NOT NULL,  -- Format: 'discord-{discord_id}'
@@ -148,7 +148,7 @@ CREATE TABLE player_game_stats (
 -- ============================================
 -- TRANSACTION HISTORY (Bot Managed)
 -- ============================================
-CREATE TABLE transaction_history (
+CREATE TABLE IF NOT EXISTS transaction_history (
   id BIGSERIAL PRIMARY KEY,
   guild_id TEXT NOT NULL,
   transaction_type TEXT NOT NULL,  -- 'sign', 'release', 'trade', 'demand'
@@ -163,7 +163,7 @@ CREATE TABLE transaction_history (
 -- ============================================
 -- ACCOLADES (Player Awards)
 -- ============================================
-CREATE TABLE accolades (
+CREATE TABLE IF NOT EXISTS accolades (
   id BIGSERIAL PRIMARY KEY,
   guild_id TEXT NOT NULL,
   player_id TEXT NOT NULL,  -- Format: 'discord-{discord_id}'
@@ -176,7 +176,7 @@ CREATE TABLE accolades (
 -- ============================================
 -- ARTICLES (Website Content)
 -- ============================================
-CREATE TABLE articles (
+CREATE TABLE IF NOT EXISTS articles (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   title TEXT NOT NULL,
   content TEXT NOT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE articles (
 -- ============================================
 -- STAFF TABLE (Website - Team Staff Roles)
 -- ============================================
-CREATE TABLE staff (
+CREATE TABLE IF NOT EXISTS staff (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   player_id TEXT NOT NULL,  -- References users.id
   role TEXT NOT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE staff (
 -- ============================================
 -- LIVE STREAM TABLE (Website Feature)
 -- ============================================
-CREATE TABLE live_stream (
+CREATE TABLE IF NOT EXISTS live_stream (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   title TEXT NOT NULL,
   twitch_channel TEXT NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE live_stream (
 -- ============================================
 
 -- Article Likes
-CREATE TABLE article_likes (
+CREATE TABLE IF NOT EXISTS article_likes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   article_id UUID NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
   player_id TEXT NOT NULL,  -- References users.id
@@ -224,7 +224,7 @@ CREATE TABLE article_likes (
 );
 
 -- Article Comments
-CREATE TABLE article_comments (
+CREATE TABLE IF NOT EXISTS article_comments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   article_id UUID NOT NULL REFERENCES articles(id) ON DELETE CASCADE,
   player_id TEXT NOT NULL,  -- References users.id
@@ -234,7 +234,7 @@ CREATE TABLE article_comments (
 );
 
 -- Comment Likes
-CREATE TABLE comment_likes (
+CREATE TABLE IF NOT EXISTS comment_likes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   comment_id UUID NOT NULL REFERENCES article_comments(id) ON DELETE CASCADE,
   player_id TEXT NOT NULL,  -- References users.id
@@ -243,7 +243,7 @@ CREATE TABLE comment_likes (
 );
 
 -- Team Wall Posts
-CREATE TABLE team_wall_posts (
+CREATE TABLE IF NOT EXISTS team_wall_posts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   team_id TEXT NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
   player_id TEXT NOT NULL,  -- References users.id
@@ -512,3 +512,4 @@ COMMENT ON TABLE live_stream IS 'Active live streams (website feature)';
 -- 3. Have bot create a team and sign players
 -- 4. Verify data appears on website
 -- ============================================
+
