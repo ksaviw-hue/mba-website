@@ -1,8 +1,8 @@
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const { data: games, error } = await supabase
+  const { data: games, error } = await supabaseAdmin
     .from('games')
     .select('*')
     .order('scheduled_date', { ascending: false });
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('games')
       .insert({
         home_team_id: body.homeTeamId,
@@ -79,6 +79,10 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    // Check if service role key is configured
+    const hasServiceKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+    console.log('Service role key configured:', hasServiceKey);
+    
     const body = await request.json();
     const { id, ...updates } = body;
 
@@ -104,7 +108,7 @@ export async function PUT(request: Request) {
 
     console.log('Update data:', updateData);
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('games')
       .update(updateData)
       .eq('id', id)
@@ -153,7 +157,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('games')
       .delete()
       .eq('id', id);

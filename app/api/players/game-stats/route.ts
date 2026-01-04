@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 
 // GET all game stats
 export async function GET(request: NextRequest) {
   try {
-    const { data: gameStats, error } = await supabase
+    const { data: gameStats, error } = await supabaseAdmin
       .from('game_stats')
       .select('*')
       .order('date', { ascending: false });
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     const gameStats = await request.json();
     
     // Insert the game stats
-    const { data: newGameStats, error: insertError } = await supabase
+    const { data: newGameStats, error: insertError } = await supabaseAdmin
       .from('game_stats')
       .insert({
         player_id: gameStats.playerId,
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get all game stats for this player to recalculate averages
-    const { data: allGameStats, error: fetchError } = await supabase
+    const { data: allGameStats, error: fetchError } = await supabaseAdmin
       .from('game_stats')
       .select('*')
       .eq('player_id', gameStats.playerId);
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Update player stats
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseAdmin
       .from('players')
       .update(updatedStats)
       .eq('id', gameStats.playerId);
@@ -169,14 +169,14 @@ function calculateRatio(numerator: number, denominator: number): number {
 
 // Helper function to recalculate player stats
 async function recalculatePlayerStats(playerId: string) {
-  const { data: allGameStats, error: fetchError } = await supabase
+  const { data: allGameStats, error: fetchError } = await supabaseAdmin
     .from('game_stats')
     .select('*')
     .eq('player_id', playerId);
 
   if (fetchError || !allGameStats || allGameStats.length === 0) {
     // No game stats, reset player stats
-    await supabase
+    await supabaseAdmin
       .from('players')
       .update({
         games_played: 0,
@@ -235,7 +235,7 @@ async function recalculatePlayerStats(playerId: string) {
     ),
   };
 
-  await supabase
+  await supabaseAdmin
     .from('players')
     .update(updatedStats)
     .eq('id', playerId);
@@ -253,7 +253,7 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseAdmin
       .from('game_stats')
       .update({
         player_id: gameStats.playerId,
@@ -314,7 +314,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Get the player ID before deleting
-    const { data: stat } = await supabase
+    const { data: stat } = await supabaseAdmin
       .from('game_stats')
       .select('player_id')
       .eq('id', id)
@@ -330,7 +330,7 @@ export async function DELETE(request: NextRequest) {
     const playerId = stat.player_id;
 
     // Delete the game stats
-    const { error: deleteError } = await supabase
+    const { error: deleteError } = await supabaseAdmin
       .from('game_stats')
       .delete()
       .eq('id', id);

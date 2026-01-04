@@ -1,8 +1,8 @@
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const { data: players, error } = await supabase
+  const { data: players, error } = await supabaseAdmin
     .from('players')
     .select('*, game_stats(*)')
     .order('display_name');
@@ -127,7 +127,7 @@ export async function POST(request: Request) {
       }
 
       const stats = body.stats || {};
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('players')
         .insert({
           display_name: displayName,
@@ -218,7 +218,7 @@ export async function PUT(request: Request) {
       if (stats.efficiency !== undefined) updateData.efficiency = stats.efficiency;
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('players')
       .update(updateData)
       .eq('id', id)
@@ -257,7 +257,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('players')
       .delete()
       .eq('id', id);

@@ -1,8 +1,8 @@
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const { data: teams, error } = await supabase
+  const { data: teams, error } = await supabaseAdmin
     .from('teams')
     .select('*')
     .order('name');
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('teams')
       .insert({
         name: body.name,
@@ -115,7 +115,7 @@ export async function PUT(request: Request) {
     if (updates.primaryColor !== undefined) updateData.primary_color = updates.primaryColor;
     if (updates.secondaryColor !== undefined) updateData.secondary_color = updates.secondaryColor;
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('teams')
       .update(updateData)
       .eq('id', id)
@@ -169,7 +169,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('teams')
       .delete()
       .eq('id', id);

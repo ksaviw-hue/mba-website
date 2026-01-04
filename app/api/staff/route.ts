@@ -1,15 +1,10 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { supabaseAdmin } from '@/lib/supabase';
 
 // Get all staff
 export async function GET() {
   try {
-    const { data: staff, error } = await supabase
+    const { data: staff, error } = await supabaseAdmin
       .from('staff')
       .select('*')
       .order('created_at', { ascending: true });
@@ -33,7 +28,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Player ID and role are required' }, { status: 400 });
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('staff')
       .insert([{ player_id: playerId, role }])
       .select();
@@ -57,7 +52,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Staff ID is required' }, { status: 400 });
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('staff')
       .delete()
       .eq('id', id);

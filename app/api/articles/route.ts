@@ -1,8 +1,8 @@
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const { data: articles, error } = await supabase
+  const { data: articles, error } = await supabaseAdmin
     .from('articles')
     .select('*')
     .order('published_date', { ascending: false });
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('articles')
       .insert({
         title: body.title,
@@ -95,7 +95,7 @@ export async function PUT(request: Request) {
     if (updates.excerpt !== undefined) updateData.excerpt = updates.excerpt;
     // Ignore published and category as they're not in the database
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('articles')
       .update(updateData)
       .eq('id', id)
@@ -134,7 +134,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('articles')
       .delete()
       .eq('id', id);
