@@ -206,10 +206,10 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                         {post.players?.display_name}
                       </span>
                       {post.players?.roles?.includes("Franchise Owner") && (
-                        <Crown className="w-4 h-4 text-yellow-500" title="Franchise Owner" />
+                        <Crown className="w-4 h-4 text-yellow-500" />
                       )}
                       {post.is_pinned && (
-                        <Pin className="w-4 h-4 text-eba-blue" title="Pinned" />
+                        <Pin className="w-4 h-4 text-eba-blue" />
                       )}
                     </div>
                     <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -226,7 +226,6 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                             ? "text-eba-blue hover:text-blue-700"
                             : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                         }`}
-                        title={post.is_pinned ? "Unpin" : "Pin"}
                       >
                         <Pin className="w-4 h-4" />
                       </button>
@@ -235,7 +234,6 @@ export default function TeamWall({ teamId }: TeamWallProps) {
                       <button
                         onClick={() => handleDeletePost(post.id)}
                         className="p-1 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-                        title="Delete"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
