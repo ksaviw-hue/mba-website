@@ -21,8 +21,8 @@ export default function AdminPage() {
     );
   }
 
-  // Show login screen if not authenticated
-  if (!session) {
+  // Show login screen if not authenticated OR not a Discord admin
+  if (!session || !session.user.isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-eba-light to-gray-100 dark:from-eba-dark dark:to-gray-900">
         <div className="max-w-md w-full mx-4">
@@ -30,7 +30,7 @@ export default function AdminPage() {
             <Shield className="w-20 h-20 mx-auto mb-6 text-eba-blue" />
             <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Admin Access Required</h1>
             <p className="text-gray-600 dark:text-gray-400 mb-8">
-              Sign in with Discord to access the admin dashboard
+              {session && !session.user.isAdmin ? 'You do not have admin access. Please sign in with an authorized Discord account.' : 'Sign in with Discord to access the admin dashboard'}
             </p>
             <button
               onClick={() => signIn('discord')}

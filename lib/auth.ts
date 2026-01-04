@@ -173,14 +173,17 @@ export const authOptions: NextAuthOptions = {
       
       return session;
     },
-    async jwt({ token, account, user }) {
+    async jwt({ token, account, user, trigger }) {
+      console.log("[JWT] Called with:", { provider: account?.provider, userId: user?.id, trigger, hasPlayerId: !!token.playerId });
+      
       // Store Discord ID in token
       if (account?.provider === "discord") {
         token.discordId = account.providerAccountId;
       }
       
       // Store player data in token for Roblox users
-      if (account?.provider === "roblox" && user) {
+      // Fetch on initial sign in or when explicitly requested
+      if ((account?.provider === "roblox" || trigger === "update") && user && !token.playerId) {
         console.log("[JWT] Fetching player data for user:", user.id);
         try {
           const { data: player, error: playerError } = await supabaseAdmin
@@ -191,6 +194,7 @@ export const authOptions: NextAuthOptions = {
 
           if (playerError) {
             console.error("[JWT] Error fetching player:", playerError);
+            console.error("[JWT] Error details:", JSON.stringify(playerError));
           } else if (player) {
             console.log("[JWT] Found player:", player.id, player.name);
             token.playerId = player.id;
@@ -203,6 +207,8 @@ export const authOptions: NextAuthOptions = {
         } catch (error) {
           console.error("[JWT] Error fetching player data:", error);
         }
+      } else if (token.playerId) {
+        console.log("[JWT] Player data already in token:", token.playerId);
       }
       
       return token;
