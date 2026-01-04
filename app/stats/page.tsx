@@ -73,6 +73,7 @@ export default function StatsPage() {
       const efficiency = stats.gamesPlayed > 0 
         ? ((stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - missedFG - missedFT - (stats.turnovers || 0)) / stats.gamesPlayed
         : 0;
+      const totalEfficiency = (stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - missedFG - missedFT - (stats.turnovers || 0);
       
       return {
         gamesPlayed: stats.gamesPlayed || 0,
@@ -83,7 +84,8 @@ export default function StatsPage() {
         blocks: stats.blocks || 0,
         turnovers: stats.turnovers || 0,
         minutesPlayed: stats.minutesPlayed || 0,
-        efficiency: stats.efficiency || efficiency
+        efficiency: stats.efficiency || efficiency,
+        totalEfficiency
       };
     }
 
@@ -103,7 +105,8 @@ export default function StatsPage() {
         blocks: 0,
         turnovers: 0,
         minutesPlayed: 0,
-        efficiency: 0
+        efficiency: 0,
+        totalEfficiency: 0
       };
     }
 
@@ -127,6 +130,7 @@ export default function StatsPage() {
     const missedFG = totals.fieldGoalsAttempted - totals.fieldGoalsMade;
     const missedFT = totals.freeThrowsAttempted - totals.freeThrowsMade;
     const efficiency = gamesPlayed > 0 ? (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers) / gamesPlayed : 0;
+    const totalEfficiency = totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers;
 
     return {
       gamesPlayed,
@@ -138,6 +142,7 @@ export default function StatsPage() {
       turnovers: gamesPlayed > 0 ? totals.turnovers / gamesPlayed : 0,
       minutesPlayed: gamesPlayed > 0 ? totals.minutesPlayed / gamesPlayed : 0,
       efficiency,
+      totalEfficiency,
     };
   };
 
@@ -454,7 +459,9 @@ export default function StatsPage() {
                     <td className={`px-4 py-4 whitespace-nowrap text-center ${
                       selectedStat === 'efficiency' ? 'font-bold text-eba-blue' : 'text-gray-900 dark:text-white'
                     }`}>
-                      {(player.seasonStats.efficiency || 0).toFixed(1)}
+                      {(statMode === 'totals' 
+                        ? (player.seasonStats.totalEfficiency || 0)
+                        : (player.seasonStats.efficiency || 0)).toFixed(1)}
                     </td>
                   </tr>
                 );
