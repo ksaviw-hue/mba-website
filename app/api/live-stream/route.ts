@@ -15,16 +15,18 @@ export async function GET() {
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        // No active stream
+      if (error.code === 'PGRST116' || error.code === '42P01') {
+        // No active stream or table doesn't exist
         return NextResponse.json({ stream: null });
       }
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error('Live stream error:', error);
+      return NextResponse.json({ stream: null });
     }
 
     return NextResponse.json({ stream: data });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Live stream error:', error);
+    return NextResponse.json({ stream: null });
   }
 }
 
