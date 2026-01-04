@@ -17,7 +17,7 @@ export async function GET() {
     content: article.content,
     author: article.author,
     publishedDate: article.published_date,
-    coverImage: article.cover_image,
+    image: article.cover_image,
     excerpt: article.excerpt,
     category: 'news', // Default since not in DB
     published: true, // Default since not in DB
