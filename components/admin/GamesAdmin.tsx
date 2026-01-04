@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Calendar } from 'lucide-react';
-import { LEAGUE_CONFIG } from '@/lib/config';
 
 export default function GamesAdmin() {
   const [showForm, setShowForm] = useState(false);
   const [editingGame, setEditingGame] = useState<any>(null);
   const [games, setGames] = useState<any[]>([]);
   const [teams, setTeams] = useState<any[]>([]);
+  const [availableSeasons, setAvailableSeasons] = useState<string[]>([]);
+  const [currentSeasonName, setCurrentSeasonName] = useState<string>('Preseason 1');
   const [loading, setLoading] = useState(false);
 
   // Form state
@@ -18,7 +19,7 @@ export default function GamesAdmin() {
   const [status, setStatus] = useState<'scheduled' | 'completed' | 'live'>('scheduled');
   const [homeScore, setHomeScore] = useState<number | string>(0);
   const [awayScore, setAwayScore] = useState<number | string>(0);
-  const [season, setSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
+  const [season, setSeason] = useState<string>('Preseason 1');
   const [isForfeit, setIsForfeit] = useState(false);
   const [forfeitWinner, setForfeitWinner] = useState<'home' | 'away'>('home');
   
@@ -26,6 +27,30 @@ export default function GamesAdmin() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'scheduled' | 'completed' | 'live'>('all');
   const [seasonFilter, setSeasonFilter] = useState<string>('all');
+
+  // Fetch seasons
+  useEffect(() => {
+    fetchSeasons();
+  }, []);
+
+  const fetchSeasons = async () => {
+    try {
+      const res = await fetch('/api/seasons');
+      if (res.ok) {
+        const seasons = await res.json();
+        const seasonNames = seasons.map((s: any) => s.name);
+        setAvailableSeasons(seasonNames);
+        
+        const currentSeason = seasons.find((s: any) => s.isCurrent);
+        if (currentSeason) {
+          setCurrentSeasonName(currentSeason.name);
+          setSeason(currentSeason.name);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching seasons:', error);
+    }
+  };
 
   // Fetch games and teams on mount
   useEffect(() => {
@@ -166,7 +191,7 @@ export default function GamesAdmin() {
     setStatus('scheduled');
     setHomeScore('');
     setAwayScore('');
-    setSeason(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
+    setSeason(currentSeasonName);
     setIsForfeit(false);
     setForfeitWinner('home');
     setShowForm(false);
@@ -188,7 +213,7 @@ export default function GamesAdmin() {
     setStatus(game.status);
     setHomeScore(game.homeScore?.toString() || '');
     setAwayScore(game.awayScore?.toString() || '');
-    setSeason(game.season || LEAGUE_CONFIG.CURRENT_SEASON_NAME);
+    setSeason(game.season || currentSeasonName);
     setIsForfeit(game.isForfeit || false);
     setForfeitWinner(game.forfeitWinner || 'home');
     setShowForm(true);
@@ -302,7 +327,7 @@ export default function GamesAdmin() {
                 onChange={(e) => setSeason(e.target.value)}
                 className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
               >
-                {LEAGUE_CONFIG.AVAILABLE_SEASONS.filter(s => s !== 'All-Time').map((seasonName) => (
+                {availableSeasons.map((seasonName) => (
                   <option key={seasonName} value={seasonName}>
                     {seasonName}
                   </option>
@@ -419,7 +444,7 @@ export default function GamesAdmin() {
             className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
           >
             <option value="all">All Seasons</option>
-            {LEAGUE_CONFIG.AVAILABLE_SEASONS.filter(s => s !== 'All-Time').map(season => (
+            {availableSeasons.map(season => (
               <option key={season} value={season}>{season}</option>
             ))}
           </select>

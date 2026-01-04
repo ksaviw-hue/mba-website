@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Trophy, TrendingUp, TrendingDown } from 'lucide-react';
-import { LEAGUE_CONFIG } from '@/lib/config';
 
 type ViewMode = 'overall' | 'eastern' | 'western';
 type RecordType = 'overall' | 'conference';
@@ -23,14 +22,41 @@ interface TeamStanding {
 export default function StandingsPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('overall');
   const [recordType, setRecordType] = useState<RecordType>('overall');
-  const [selectedSeason, setSelectedSeason] = useState<string>(LEAGUE_CONFIG.CURRENT_SEASON_NAME);
+  const [selectedSeason, setSelectedSeason] = useState<string>('All-Time');
+  const [availableSeasons, setAvailableSeasons] = useState<string[]>(['All-Time']);
   const [teams, setTeams] = useState<any[]>([]);
   const [games, setGames] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
+    fetchSeasons();
   }, []);
+
+  const fetchSeasons = async () => {
+    try {
+      const res = await fetch('/api/seasons');
+      if (res.ok) {
+        const seasons = await res.json();
+        const seasonNames = seasons.map((s: any) => s.name);
+        
+        // Always include All-Time
+        if (!seasonNames.includes('All-Time')) {
+          seasonNames.push('All-Time');
+        }
+        
+        setAvailableSeasons(seasonNames);
+        
+        // Set current season as default
+        const currentSeason = seasons.find((s: any) => s.isCurrent);
+        if (currentSeason) {
+          setSelectedSeason(currentSeason.name);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching seasons:', error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -201,7 +227,7 @@ export default function StandingsPage() {
               onChange={(e) => setSelectedSeason(e.target.value)}
               className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white shadow-sm"
             >
-              {LEAGUE_CONFIG.AVAILABLE_SEASONS.map((season) => (
+              {availableSeasons.map((season) => (
                 <option key={season} value={season}>
                   {season}
                 </option>
