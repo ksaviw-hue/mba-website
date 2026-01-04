@@ -9,14 +9,18 @@ export async function GET() {
     const { data, error } = await supabaseAdmin
       .from('seasons')
       .select('*')
-      .order('displayOrder', { ascending: true });
+      .order('created_at', { ascending: false });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Error fetching seasons:', error);
+      // Return empty array if table doesn't exist
+      return NextResponse.json([]);
+    }
 
     return NextResponse.json(data || []);
   } catch (error) {
     console.error('Error fetching seasons:', error);
-    return NextResponse.json({ error: 'Failed to fetch seasons' }, { status: 500 });
+    return NextResponse.json([]);
   }
 }
 
