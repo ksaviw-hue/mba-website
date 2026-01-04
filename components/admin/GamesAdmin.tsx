@@ -111,12 +111,19 @@ export default function GamesAdmin() {
 
       const data = await response.json();
       
+      if (!response.ok) {
+        console.error('Game save error:', data);
+        alert('Error: ' + (data.error || data.message || 'Unknown error'));
+        setLoading(false);
+        return;
+      }
+      
       if (data.success) {
         alert(editingGame ? 'Game updated successfully!' : 'Game scheduled successfully!');
         await fetchGames();
         resetForm();
       } else {
-        alert('Error: ' + data.message);
+        alert('Error: ' + (data.error || data.message || 'Unknown error'));
       }
     } catch (error) {
       console.error('Failed to save game:', error);
