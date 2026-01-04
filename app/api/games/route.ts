@@ -118,7 +118,6 @@ export async function PUT(request: Request) {
       message: 'Game updated successfully',
       game: { id: data.id }
     });
-    });
   } catch (error: any) {
     console.error('Game update exception:', error);
     return NextResponse.json(
