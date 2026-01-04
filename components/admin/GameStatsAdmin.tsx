@@ -13,7 +13,7 @@ export default function GameStatsAdmin() {
   const [playerSearch, setPlayerSearch] = useState('');
   const [selectedGameFilter, setSelectedGameFilter] = useState('');
   const [expandedGames, setExpandedGames] = useState<Set<string>>(new Set());
-  const [gameSearch, setGameSearch] = useState('');
+  const [gameSearchInput, setGameSearchInput] = useState('');
   const [formData, setFormData] = useState({
     playerId: '',
     gameId: '',
@@ -345,29 +345,91 @@ export default function GameStatsAdmin() {
             {/* Game Selection with Teams */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Game (Optional - auto-fills date, opponent, result)
+                Game {formData.gameId && <span className="text-green-600">✓ Selected</span>}
               </label>
-              <select
-                name="gameId"
-                value={formData.gameId}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
-              >
-                <option value="">Select Game (or enter manually below)</option>
-                {games
-                  .sort((a, b) => new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime())
-                  .map((game) => {
+              <div className="relative mb-2">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search games by date, teams, or score..."
+                  value={gameSearchInput}
+                  onChange={(e) => setGameSearchInput(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:border-eba-blue text-gray-900 dark:text-white"
+                />
+              </div>
+              <div className="max-h-64 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-lg">
+                {(() => {
+                  const selectedPlayer = players.find(p => p.id === formData.playerId);
+                  const playerTeamId = selectedPlayer?.teamId;
+                  
+                  // Filter games to only show player's team games
+                  let filteredGames = games.filter(g => 
+                    playerTeamId && (g.homeTeamId === playerTeamId || g.awayTeamId === playerTeamId)
+                  );
+                  
+                  // Apply search filter
+                  if (gameSearchInput) {
+                    filteredGames = filteredGames.filter(game => {
+                      const homeTeam = getTeamName(game.homeTeamId).toLowerCase();
+                      const awayTeam = getTeamName(game.awayTeamId).toLowerCase();
+                      const date = new Date(game.scheduledDate).toLocaleDateString().toLowerCase();
+                      const searchLower = gameSearchInput.toLowerCase();
+                      return homeTeam.includes(searchLower) || 
+                             awayTeam.includes(searchLower) || 
+                             date.includes(searchLower);
+                    });
+                  }
+                  
+                  // Sort by date (most recent first)
+                  filteredGames.sort((a, b) => new Date(b.scheduledDate).getTime() - new Date(a.scheduledDate).getTime());
+                  
+                  if (!formData.playerId) {
+                    return <div className="p-4 text-center text-gray-500 dark:text-gray-400">Select a player first</div>;
+                  }
+                  
+                  if (filteredGames.length === 0) {
+                    return <div className="p-4 text-center text-gray-500 dark:text-gray-400">No games found for this player's team</div>;
+                  }
+                  
+                  return filteredGames.map((game) => {
                     const homeTeam = getTeamAbbr(game.homeTeamId);
                     const awayTeam = getTeamAbbr(game.awayTeamId);
+                    const homeTeamFull = getTeamName(game.homeTeamId);
+                    const awayTeamFull = getTeamName(game.awayTeamId);
                     const date = new Date(game.scheduledDate).toLocaleDateString();
-                    const score = game.status === 'completed' ? ` (${game.homeScore}-${game.awayScore})` : '';
+                    const score = game.status === 'completed' ? ` ${game.awayScore}-${game.homeScore}` : '';
+                    
                     return (
-                      <option key={game.id} value={game.id}>
-                        {date}: {awayTeam} @ {homeTeam}{score} - {game.status}
-                      </option>
+                      <button
+                        key={game.id}
+                        type="button"
+                        onClick={() => {
+                          handleChange({ 
+                            target: { name: 'gameId', value: game.id } 
+                          } as any);
+                        }}
+                        className={`w-full px-4 py-3 text-left hover:bg-blue-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-200 dark:border-gray-700 last:border-b-0 ${
+                          formData.gameId === game.id
+                            ? 'bg-eba-blue text-white hover:bg-blue-600'
+                            : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white'
+                        }`}
+                      >
+                        <div className="font-medium">{date}: {awayTeam} @ {homeTeam}{score}</div>
+                        <div className={`text-sm ${
+                          formData.gameId === game.id
+                            ? 'text-blue-100'
+                            : 'text-gray-500 dark:text-gray-400'
+                        }`}>
+                          {awayTeamFull} at {homeTeamFull} • {game.status}
+                        </div>
+                      </button>
                     );
-                  })}
-              </select>
+                  });
+                })()}
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Optional - auto-fills date, opponent, result • Click to select
+              </p>
             </div>
 
             {/* Date */}
