@@ -68,19 +68,19 @@ export default function AuthErrorPage() {
             </div>
           )}
 
-          <div className="space-y-3">"}
-              className="block w-full text-center bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
+          <div className="space-y-3">
+            <Link
+              href="/api/auth/signin"
+              className="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg"
             >
-              Try Signing InssName="block w-full text-center bg-mba-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-lg"
+              Try Signing In
+            </Link>
+            <Link
+              href="/"
+              className="block w-full text-center bg-mba-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
             >
               Go to Homepage
             </Link>
-            <button
-              onClick={() => window.location.href = "/api/auth/signin/roblox"}
-              className="block w-full text-center bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200"
-            >
-              Try Again
-            </button>
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
