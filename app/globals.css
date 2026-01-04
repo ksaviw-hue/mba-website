@@ -2,9 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Minecraft font styling - Better readability */
-h1, h2, h3, h4, h5, h6, .font-minecraft {
-  font-family: var(--font-minecraft), monospace;
+/* Apply Minecraft font globally to ALL text */
+* {
+  font-family: var(--font-minecraft), monospace !important;
+}
+
+/* Better readability with proper spacing */
+body, p, span, div, a, button, input, textarea, select, label {
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* Headings get extra spacing */
+h1, h2, h3, h4, h5, h6 {
   line-height: 1.8;
   letter-spacing: 0.05em;
   font-weight: 400 !important;
@@ -29,12 +39,6 @@ h3 {
 h4, h5, h6 {
   font-size: 1rem;
   line-height: 1.8;
-}
-
-/* Better spacing for Minecraft font text */
-.font-minecraft {
-  line-height: 1.8;
-  letter-spacing: 0.05em;
 }
 
 :root {

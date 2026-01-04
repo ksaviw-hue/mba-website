@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Press_Start_2P } from 'next/font/google';
+import localFont from 'next/font/local';
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const minecraftFont = Press_Start_2P({ 
-  weight: '400',
-  subsets: ['latin'],
+const minecraftFont = localFont({ 
+  src: '../public/fonts/Minecraft.ttf',
   variable: '--font-minecraft',
   display: 'swap',
 });
