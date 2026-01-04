@@ -68,8 +68,10 @@ export default function StatsPage() {
       // Return cumulative stats for All-Time
       // Calculate efficiency from stats if not present
       const stats = player.stats || {};
+      const missedFG = (stats.fieldGoalsAttempted || 0) - (stats.fieldGoalsMade || 0);
+      const missedFT = (stats.freeThrowsAttempted || 0) - (stats.freeThrowsMade || 0);
       const efficiency = stats.gamesPlayed > 0 
-        ? ((stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - (stats.turnovers || 0)) / stats.gamesPlayed
+        ? ((stats.points || 0) + (stats.rebounds || 0) + (stats.assists || 0) + (stats.steals || 0) + (stats.blocks || 0) - missedFG - missedFT - (stats.turnovers || 0)) / stats.gamesPlayed
         : 0;
       
       return {
@@ -115,10 +117,16 @@ export default function StatsPage() {
       blocks: acc.blocks + (gs.blocks || 0),
       turnovers: acc.turnovers + (gs.turnovers || 0),
       minutesPlayed: acc.minutesPlayed + (gs.minutesPlayed || 0),
-    }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0, minutesPlayed: 0 });
+      fieldGoalsMade: acc.fieldGoalsMade + (gs.fieldGoalsMade || 0),
+      fieldGoalsAttempted: acc.fieldGoalsAttempted + (gs.fieldGoalsAttempted || 0),
+      freeThrowsMade: acc.freeThrowsMade + (gs.freeThrowsMade || 0),
+      freeThrowsAttempted: acc.freeThrowsAttempted + (gs.freeThrowsAttempted || 0),
+    }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0, minutesPlayed: 0, fieldGoalsMade: 0, fieldGoalsAttempted: 0, freeThrowsMade: 0, freeThrowsAttempted: 0 });
 
-    // Calculate efficiency: (PTS + REB + AST + STL + BLK - TOV) / GP
-    const efficiency = gamesPlayed > 0 ? (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - totals.turnovers) / gamesPlayed : 0;
+    // Calculate efficiency: (PTS + REB + AST + STL + BLK - Missed FG - Missed FT - TOV) / GP
+    const missedFG = totals.fieldGoalsAttempted - totals.fieldGoalsMade;
+    const missedFT = totals.freeThrowsAttempted - totals.freeThrowsMade;
+    const efficiency = gamesPlayed > 0 ? (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers) / gamesPlayed : 0;
 
     return {
       gamesPlayed,

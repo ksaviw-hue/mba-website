@@ -140,9 +140,15 @@ export default function TeamPage({ params }: { params: { id: string } }) {
           assists: acc.assists + (gs.assists || 0),
           steals: acc.steals + (gs.steals || 0),
           blocks: acc.blocks + (gs.blocks || 0),
-          turnovers: acc.turnovers + (gs.turnovers || 0)
-        }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0 });
-        return (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - totals.turnovers) / p.gameStats.length;
+          turnovers: acc.turnovers + (gs.turnovers || 0),
+          fieldGoalsMade: acc.fieldGoalsMade + (gs.fieldGoalsMade || 0),
+          fieldGoalsAttempted: acc.fieldGoalsAttempted + (gs.fieldGoalsAttempted || 0),
+          freeThrowsMade: acc.freeThrowsMade + (gs.freeThrowsMade || 0),
+          freeThrowsAttempted: acc.freeThrowsAttempted + (gs.freeThrowsAttempted || 0)
+        }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0, fieldGoalsMade: 0, fieldGoalsAttempted: 0, freeThrowsMade: 0, freeThrowsAttempted: 0 });
+        const missedFG = totals.fieldGoalsAttempted - totals.fieldGoalsMade;
+        const missedFT = totals.freeThrowsAttempted - totals.freeThrowsMade;
+        return (totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers) / p.gameStats.length;
       };
       return calculateEfficiency(player) > calculateEfficiency(leader) ? player : leader;
     });
@@ -418,9 +424,15 @@ export default function TeamPage({ params }: { params: { id: string } }) {
                             assists: acc.assists + (gs.assists || 0),
                             steals: acc.steals + (gs.steals || 0),
                             blocks: acc.blocks + (gs.blocks || 0),
-                            turnovers: acc.turnovers + (gs.turnovers || 0)
-                          }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0 });
-                          return ((totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - totals.turnovers) / efficiencyLeader.gameStats.length).toFixed(1);
+                            turnovers: acc.turnovers + (gs.turnovers || 0),
+                            fieldGoalsMade: acc.fieldGoalsMade + (gs.fieldGoalsMade || 0),
+                            fieldGoalsAttempted: acc.fieldGoalsAttempted + (gs.fieldGoalsAttempted || 0),
+                            freeThrowsMade: acc.freeThrowsMade + (gs.freeThrowsMade || 0),
+                            freeThrowsAttempted: acc.freeThrowsAttempted + (gs.freeThrowsAttempted || 0)
+                          }), { points: 0, rebounds: 0, assists: 0, steals: 0, blocks: 0, turnovers: 0, fieldGoalsMade: 0, fieldGoalsAttempted: 0, freeThrowsMade: 0, freeThrowsAttempted: 0 });
+                          const missedFG = totals.fieldGoalsAttempted - totals.fieldGoalsMade;
+                          const missedFT = totals.freeThrowsAttempted - totals.freeThrowsMade;
+                          return ((totals.points + totals.rebounds + totals.assists + totals.steals + totals.blocks - missedFG - missedFT - totals.turnovers) / efficiencyLeader.gameStats.length).toFixed(1);
                         })()}
                       </div>
                     </div>
