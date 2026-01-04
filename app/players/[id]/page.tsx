@@ -182,8 +182,8 @@ export default function PlayerProfilePage({ params }: { params: { id: string } }
 
           {/* Player Info */}
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">{player.displayName}</h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-3">@{player.minecraftUsername}</p>
+            <h1 className="text-3xl font-minecraft mb-3 text-gray-900 dark:text-white leading-relaxed">{player.displayName}</h1>
+            <p className="text-sm font-minecraft text-gray-600 dark:text-gray-400 mb-3">@{player.minecraftUsername}</p>
             
             {player.description && (
               <p className="text-gray-700 dark:text-gray-300 mb-4">{player.description}</p>

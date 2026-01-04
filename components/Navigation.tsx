@@ -46,7 +46,7 @@ export default function Navigation() {
                   priority
                 />
               </div>
-              <span className="font-bold text-xl text-gray-900 dark:text-white hidden sm:block">Minecraft Basketball Association</span>
+              <span className="font-minecraft text-sm text-gray-900 dark:text-white hidden sm:block">MBA</span>
             </Link>
           </div>
           
@@ -73,26 +73,30 @@ export default function Navigation() {
               })}
             </div>
             
-            {/* Profile Button - Only show if Minecraft account is verified */}
-            {status === "authenticated" && session?.user?.playerId && session?.user?.minecraftUsername ? (
+            {/* User Profile/Login Section */}
+            {status === "authenticated" && session?.user ? (
               <Link
-                href={`/players/${session.user.playerId}`}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-mba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2"
+                href={session.user.playerId && session.user.minecraftUsername ? `/players/${session.user.playerId}` : '#'}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ml-2"
               >
                 {session.user.profilePicture ? (
                   <img
                     src={session.user.profilePicture}
-                    alt="Profile"
-                    className="w-6 h-6 rounded-full object-cover"
+                    alt={session.user.playerName || session.user.name || 'User'}
+                    className="w-8 h-8 rounded-lg object-cover border-2 border-gray-300 dark:border-gray-600"
                   />
                 ) : (
-                  <User className="w-4 h-4" />
+                  <div className="w-8 h-8 rounded-lg bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
+                    <User className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                  </div>
                 )}
-                <span className="whitespace-nowrap">Profile</span>
+                <span className="font-minecraft text-xs text-gray-900 dark:text-white max-w-[150px] truncate">
+                  {session.user.minecraftUsername || session.user.playerName || session.user.name || 'User'}
+                </span>
               </Link>
             ) : (
               <button
-                onClick={() => signIn("roblox", { callbackUrl: '/' })}
+                onClick={() => signIn("discord", { callbackUrl: '/' })}
                 disabled={status === "loading"}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-mba-blue text-white hover:bg-blue-700 transition-colors shadow-sm ml-2 disabled:opacity-50"
               >

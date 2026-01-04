@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Apply Minecraft font to headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-minecraft), monospace;
+  line-height: 1.6;
+}
+
 :root {
   --background: #F5F5F5;
   --foreground: #0A0E27;
